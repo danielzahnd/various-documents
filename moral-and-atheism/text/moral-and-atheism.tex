@@ -1,0 +1,501 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[english, german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{multicol}
+\usepackage{amsthm}
+\usepackage{nicefrac}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{cite}
+\usepackage{fvextra}
+\usepackage{tabularx}
+\usepackage{tikz-cd}
+\usepackage{framed}
+\usepackage{subcaption}
+\usepackage{xfrac}
+\usepackage{verbatimbox}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{longtable}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[left=25mm,right=25mm,bottom=25mm,top=25mm]{geometry} %left, right, bottom ,top, includeheadfoot
+\usepackage{caption}
+%\usepackage{multicol}
+\usepackage{nameref}
+\usepackage{placeins} %Put command \floatbarrier in front of textpassage or other items, in front of which the desired content (i.e. images) shall be placed.
+\usepackage{titlesec}
+\usepackage[inline]{enumitem}
+% \usepackage[parfill]{parskip}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{color, colortbl}
+\usepackage{blindtext}
+\usepackage{hyperref} %To make document linked within.
+\numberwithin{equation}{section}
+\captionsetup{font=footnotesize,labelfont=bf}
+
+
+\newtheorem{tn}{Satz}[subsection]
+\newtheorem{tnplus}{Theorem}[subsection]
+\newtheorem{dn}{Definition}[subsection]
+
+\definecolor{Gray}{gray}{0.9}
+
+%\DeclareSIUnit\roundsperminute{rpm}
+%\newmdenv[backgroundcolor = white,linewidth = 1pt,roundcorner = 0pt]{important}
+
+
+\renewcommand{\theenumi}{(\arabic{enumi})}
+\renewcommand\labelenumi{\theenumi} % Change enumerate style from 1. to (1) etc.
+\renewcommand{\theenumiii}{(\arabic{enumiii})}
+\renewcommand\labelenumiii{\theenumiii} % Change enumerate style from 1. to (1) etc.
+\setlist{itemsep = 0.2pt}
+
+\newenvironment{packed_enum}{
+	\begin{enumerate}
+		\setlength{\itemsep}{1pt}
+		\setlength{\parskip}{0pt}
+		\setlength{\parsep}{0pt}
+	}{\end{enumerate}}
+
+
+
+ \title{\vspace{1cm}\includegraphics[width=0.2\textwidth]{figures/unibe_logo.png} \\ \vspace{2cm} \Huge Moral und (A)-Theismus\\ \vspace{0.5cm} \large Über die Deutung von moralischen Begriffen im Rahmen eines materialistisch-naturalistischen Weltbildes und deren Implikationen betreffend der Existenzplausibilität eines göttlichen Wesens\vspace{2cm}}
+\author{Universität Bern \\ \vspace{0.5cm}\\ \normalsize \textit{Daniel Zahnd} \\ \footnotesize Matrikelnummer: 18-101-915 \\ \footnotesize \href{mailto:zahnddaniel@gmail.com}{zahnddaniel@gmail.com}  \vspace{1cm}\\ \footnotesize Eingereicht bei\\ \normalsize Dr.~Jonas Werner\\ \vspace{1cm}  \footnotesize Abgabedatum: 22.01.2022}
+\date{22. Januar 2022}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+
+\pagenumbering{roman}
+\begin{abstract}
+Moralische Urteile, Werte und Pflichten scheinen bestimmend für das Leben vieler Menschen zu sein. In der vorliegenden Arbeit wird deshalb untersucht, inwiefern sich moralische Fakten als objektiv oder subjektiv bewerten lassen und ferner, welche Konsequenzen eine postulierte Objektivität moralischer Fakten betreffend der möglichen Existenz einer göttlichen - und damit notwendigen - Entität als Fundament moralischer Sachverhalte aufweist. Hierzu werden der Naturalismus und der Theismus als approximativ komplementäre Weltsichten betrachtet, wobei in einem ersten Schritt ein Argument für die Implausibilität eines Naturalismus materialistischer Ausprägung geführt wird. Darauf aufbauend wird versucht, ein überzeugendes Argument für die Plausibilität eines theistischen Weltbildes zur Verfügung zu stellen.
+\end{abstract}
+
+
+\begin{otherlanguage}{english}
+\begin{abstract}
+Moral judgements, values and duties seem to be determinant for the life of many people. The present thesis is therefore concerned with the question, in what way moral facts may be classified as objective or subjective and furthermore, how and to what extent a postulated objectivity of moral facts might stand in relation to a possible godlike - and thus necessary - entity, which would be regarded as a foundation for the objectivity of those facts. Hereunto naturalism and theism are considered as approximatively complementary worldviews, whereat in a first step it is argued for the implausibility of truth to naturalism, understood in a materialistic manner. Thereupon as a second step an attempt to provide a compelling case for the plausibility of a theistic wordview is made.
+\end{abstract}
+\end{otherlanguage}
+
+%\thispagestyle{empty}
+\newpage
+
+
+\tableofcontents %Optional für Inhaltsverzeichnis
+
+\FloatBarrier
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Einleitung}
+Die Bewertung von Sachverhalten durch moralische Begrifflichkeiten scheint für die meisten Menschen eine Selbstverständlichkeit zu sein. Es sind hierbei Gegebenheiten denkbar, deren moralische Bewertung durch eine Mehrheit an Personen als zugunsten oder zuwider des Prädikats \flqq gut\frqq\  tendierend zu erwarten ist. So scheint es sowohl für den Autor, wie vermutlich auch für die meisten Menschen offensichtlich zu sein, dass beispielsweise Folter von unschuldigen Kindern eine böse und ungerechte Tat konstituiert. 
+
+Eine derart mehrheitsfähige Beurteilung eines Sachverhalts wirft die Frage nach der Existenz eines objektiv gültigen Werte- und Pflichtensystems auf, namentlich die Frage nach objektiven moralischen Fakten. Könnte gezeigt oder plausibilisiert werden, dass kein objektiv gültiges Moralsystem existiert, dann wären Beurteilungen wie die obig erwähnte Folter von unschuldigen Kindern ohne Basis - das heisst, diese Handlung könnte weder als \flqq gut\frqq\ noch als \flqq böse\frqq\ beurteilt werden, überdies wäre sogar der Unschuld eines Kindes keine fassbare Bedeutung zuzuordnen. 
+
+In den Augen vieler Menschen dürfte diese Schlussfolgerung jedoch absurd erscheinen, weswegen sich als Ausflucht von dieser Konklusion die Annahme einer objektiv gültigen Moral anbietet. Bei einer tatsächlichen Existenz eines objektiv gültigen Moralsystems würde sich allerdings bereits eine weitere Frage aufdrängen, nämlich die Frage nach einem geeigneten Gesetzgeber\footnote{Der an dieser Stelle angesprochene Gesetzgeber ist zunächst mit einer abstrakten Entität zu identifizieren. Beispielsweise können a priori sowohl der Zufall als nichtphysischer und Naturgesetze hervorbringender Mechanismus, als auch ein physisches oder nichtphysisches und schöpferisch tätiges Wesen als Gesetzgeber fungieren.}, beziehungsweise nach einer Entität, deren Existenz die hypothetisch bestehende objektive Moral für jede andere Entität bindend macht. 
+
+Die vorliegende Arbeit soll diese Thematik aufgreifen. Es soll untersucht werden, inwiefern die Moral, verstanden als Kategorisierung von Sachverhalten anhand der Fragen \flqq was ist gut\frqq\ und \flqq was ist böse\frqq,\ in Relation zur möglichen Existenz eines göttlichen Wesen steht. Zudem soll erörtert werden, ob und wie sich moralische Begrifflichkeiten im Rahmen eines naturalistischen Weltbildes deuten lassen. Die Hauptfragestellung der Arbeit besteht schliesslich in der Evaluierung, ob sich hierauf ein plausibles Argument für die Existenz eines göttlichen Wesens konstruieren lässt, oder zumindest eines, dass den Theismus, verstanden als einzige Alternative zum Atheismus, durch eine Deplausibilisierung des Atheismus und eines hierdurch implizierten naturalistischen Weltbildes plausibilisiert.
+
+\section{Präliminarien}
+Zu Beginn der Betrachtung seien einige Begrifflichkeiten erörtert und umrissen, die in der folgenden Diskussion vorausgesetzt und benutzt werden.
+
+\subsection{Zufallsprozesse}
+Mit dem Begriff des Zufallsprozesses seien hernach Vorgänge bezeichnet, die nichtteleologischer Natur sind. Das heisst, derart definierte Zufallsprozesse finden ohne Zielgerichtetheit statt, sind also betreffend ihrer Ursache und Wirkung \flqq blind\frqq.\ Mit Zufallsprozessen seien ferner auch Ereignisse charakterisiert, die sich entsprechend statistischen Wahrscheinlichkeiten verhalten, wie etwa die quantenmechanische räumliche Aufenthaltswahrscheinlichkeit\footnote{Die räumliche Aufenthaltswahrscheinlichkeit $P(V)$ eines durch die Wellenfunktion $\Psi(\vec{x},t) \in \mathbb{C}$ beschriebenen quantenmechanischen Teilchens in einem Volumen $V$ ist durch die Integration von $|\Psi(\vec{x},t)|^2$ über das Volumen $V$ gegeben: $P(V) = \int_V |\Psi(\vec{x},t)|^2\,\mathrm{d}^3x.$} eines Elektrons im Wasserstoffatom, oder dem Zeitpunkt des spontanen radioaktiven Zerfalls eines Atomkernes. Derartige statistische Zufallsereignisse sollen jedoch in dieser Arbeit als determiniert hinsichtlich ihrer zeitlichen Entwicklung entsprechend den Naturgesetzen verstanden werden.
+
+\subsection{Evolutionärer Naturalismus}\label{defevnat}
+Der evolutionäre Naturalismus wird von Mark D. Linville als eine Weltanschauung definiert, welche im Allgemeinen naturalistischer Natur ist und im Speziellen auf darwinistische Phänomene zurückgreift, um die Existenz von kohlenstoffbasierten Lebensformen zu erklären \cite[S. 394]{Linville2009-LINTMA-2}. Der Naturalismus scheint hierbei bei Linville in einer materialistisch-physikalistischen Ausprägung verstanden zu werden, das heisst, dass sich alle existierenden Entitäten und Phänomene im Universum fundamental auf die Materie und deren physikalischen Gesetzmässigkeiten zurückführen lassen \cite[S. 393]{Linville2009-LINTMA-2}. Da die Postulierung einer göttlichen, nichtmateriellen Entität unter der Voraussetzung eines nichtmaterielle Phänomene inkorporierenden Naturalismus bereits a priori plausibel erscheint, soll in dieser Arbeit ein Naturalismus materialistischer Ausprägung angenommen werden. Eine Argumentation für die Existenz eines göttlichen Wesens würde sich sonst erübrigen. Im Folgenden soll ferner axiomatisch davon ausgegangen werden, dass der allgemeine - wie auch der spezielle, evolutionäre Naturalismus - eine deterministische Weltsicht implizieren. Dies, weil die Natur per Definition des materialistisch-physikalistischen Naturalismus ausschliesslich auf materieller Basis besteht, woraus folgt, dass Vorgänge in der Natur ausschliesslich durch materielle Ursachen verursacht werden können und deren zeitliche Evolution nach ihrer Verursachung entsprechend den die Materie beherrschenden Gesetzmässigkeiten gegeben ist. Im Folgenden soll deshalb sowohl der allgemeine Naturalismus, wie auch der evolutionäre Naturalismus (EN) in einer materialistisch-deterministischen Ausprägung begriffen werden.
+
+\subsection{Darwinistische Mechanismen}
+Die obige Definition des evolutionären Naturalismus macht Gebrauch von darwinistischen Phänomenen, um eine Erklärung für die Existenz von (kohlenstoffbasiertem) Leben liefern zu können. Implizit wird im evolutionären Naturalismus die zufällige Entstehung von Materie, sowie die zufällige Kombination von Materiebausteinen zu komplexen, für kohlenstoffbasiertes Leben essentiellen Molekülen und Zellbestandteilen vorausgesetzt. Sobald derartige Zufallsprozesse eine funktionierende Zelle\footnote{Hierbei ist an eine Zelle im Sinne der kleinsten autonomen Einheit von kohlenstoffbasierten Organismen gedacht.} hervorbringen, wirken die darwinistischen Mechanismen auf sie. Diese Mechanismen werden bei Martin Lüscher, Max Schneider und Andrea Grigoleit durch \begin{enumerate}
+\item zufällige Mutationen\footnote{Mutationen sind an dieser Stelle Veränderungen von genetischer Information in Lebewesen, die infolge von Zufallsprozessen auf molekularer Ebene oder sogenannten Mutagenen entstehen \cite[S. 73]{Luscher.}.} im Erbgut des Organismus sowie \label{darwmech1}
+\item natürliche Selektion der aufgrund Mechanismus \ref{darwmech1} besser an die Umweltbedingungen angepassten Lebewesen \label{darwmech2}
+\end{enumerate}  definiert, wobei Martin Lüscher et. al. noch die Rekombination\footnote{Als Rekombination wird die Neuanordnung von Erbgut infolge der geschlechtlichen Fortpflanzung von Lebewesen bezeichnet\cite[S. 76]{Luscher.}.} und die Gendrift\footnote{Unter Gendrift versteht man die zufällige Veränderung der Frequenz eines bestimmten Allels innerhalb einer Population \cite[S. 92]{Luscher.}. Allele sind verschiedene Varianten eines Gens, welche für dasselbe Merkmal eines Lebewesens verantwortlich sind \cite[S. 193]{Luscher.}.} hinzunehmen \cite[S. 94]{Luscher.}. Rekombination und Gendrift sollen im Folgenden der Einfachheit halber aber als in Mechanismus \ref{darwmech1} enthalten verstanden werden.
+Es sei bemerkt, dass Mechanismus \ref{darwmech1} ausschliesslich durch Zufallsprozesse gesteuert ist. Deshalb sind auch die darwinistischen Mechanismen insgesamt zufallsgesteuert, da der Mechanismus \ref{darwmech2} erst nach einem erfolgten Zufallsprozess, einer Mutation im Erbgut des betrachteten Lebewesens, wirksam wird.
+
+\subsection{Objektive und subjektive moralische Fakten}\label{defobjsubjmorfakt}
+Moralische Fakten sind normative wie deskriptive Aussagen\footnote{Normative Propositionen beschreiben den Soll-Zustand eines Sachverhalts, deskriptive Propositionen den Ist-Zustand.}, welche Wertvorstellungen oder -Urteile betreffend des philosophischen Teilgebietes der Ethik enthalten, wobei diese  einer Wert- oder Pflichtnatur zugehörig sein können \cite[S. 68-73]{Ruffing.2006}. So sind beispielsweise die Aussagen \flqq es ist richtig, wenn sich Menschen an das Zivilgesetzbuch halten\frqq\ und \flqq es ist die Pflicht einer Mutter, gut für ihr Kind zu sorgen\frqq\ beide der Kategorie der moralischen Fakten zuzuordnen. Objektive moralische Fakten, wie sie Linville definiert, sind hierbei moralische Fakten, deren Wahrheitwert(e) subjektunabhängig sind \cite[S. 395]{Linville2009-LINTMA-2}. Das heisst, objektive moralische Fakten sind wahr oder falsch unabhängig davon, ob ein denkendes Subjekt sie als wahr oder falsch erachtet. Im Gegenzug hierzu ist der Wahrheitswert subjektiver moralischer Fakten subjektabhängig. Präziser sei die Definition von Linville erweitert, indem mit dem Terminus \flqq objektiver Fakt\frqq\ ein Sachverhalt beschrieben werden soll, der in Bezug auf kontingente Entitäten subjektunabhängig ist, wohl aber von einer notwendigen Entität abhängig - da heisst betreffend dieser Entität kontingent - , beziehungsweise durch deren Wesensart definiert sein kann.
+
+\subsection{Gott}
+Mit dem Begriff einer göttlichen Entität, kurz \flqq Gott\frqq,\ soll im Sinne des Philosophen René Descartes auf ein metaphysisch notwendiges Wesen verwiesen sein, dessen Essenz nichtmaterieller Art ist \cite[S. 18]{Nagasawa.2011}. Dieses Wesen kann sodann als Fundament objektiver moralischer Fakten verstanden werden, indem die Objektivität jener moralischen Fakten in dessen Wesensart gegründet wird. Die Qualitäten Gottes, die aufgrund seiner Notwendigkeit ebenfalls notwendig sind und moralische Fakten umfassen, verleihen folglich letzteren ihren objektiven Charakter. In diesem Sinne sind objektive moralische Fakten als notwendig zu betrachten, da sie aufgrund der Notwendigkeit Gottes ebenfalls notwendig existieren. Somit würden, gegeben ein göttliches Wesen existiert, objektive moralische Fakten in jeder möglichen Welt existieren, da Gott - und damit auch seine Qualitäten - aufgrund seiner Notwendigkeit in jeder möglichen Welt existieren würden.
+
+\section{Moralisches Argument \textit{contra} Naturalismus}
+Damit ein plausibles moralisches Argument für die Existenz eines göttlichen Wesens konstruiert werden kann, ist es hilfreich, zunächst argumentativ den evolutionären Naturalismus, wie dieser in Abschnitt \ref{defevnat} definiert wurde, zu deplausibilisieren. Inspiriert durch die Werke von C. S. Lewis liefert Linville mit seinem \flqq Argument from Evolutionary Naturalism\frqq\ einen Ansatz, der im Folgenden betrachtet und ausgeführt werden soll \cite[S. 393-417]{Linville2009-LINTMA-2}.
+
+\subsection{Kernargument}\label{Kernargument}
+Die durch Linville eingeführte Argumentation lässt sich wie folgt in übersetzter und paraphrasierter Form anführen \cite[S. 394]{Linville2009-LINTMA-2}:
+\begin{enumerate}
+\item Wenn der evolutionäre Naturalismus wahr ist, dann sind moralische Fakten Produkte der natürlichen Selektion.
+\item Wenn moralische Fakten Produkte der natürlichen Selektion sind, dann existieren keine objektiven moralischen Fakten.
+\item Es existieren objektive moralische Fakten.
+\item \textsc{Aus \ref{MCN1}, \ref{MCN2} und \ref{MCN3} folgt}: Der evolutionäre Naturalismus ist falsch.
+\end{enumerate}
+Dieses Argument soll im Folgenden \flqq moralisches Argument \textit{contra} Naturalismus\frqq\ (MCN) genannt werden.
+
+\subsubsection{Formale Struktur und Gültigkeit}\label{formstruktgueltmcn}
+Im Sinne der klassischen Aussagenlogik lässt sich das moralische Argument \textit{contra} Naturalismus formalisieren, indem die Basispropositionen $E$, $M$ und $N$ wie folgt definiert werden:
+\begin{align*}
+E &\doteq \text{Der evolutionäre Naturalismus ist wahr.} \\
+M &\doteq \text{Es existieren objektive moralische Fakten.} \\
+N &\doteq \text{Moralische Fakten sind Produkte des evolutionären Naturalismus.}
+\end{align*}
+Formal kann das in Abschnitt \ref{Kernargument} präsentierte Argument nun als  \begin{enumerate}
+\item $p_1 \doteq E \rightarrow N,$ \label{MCN1}
+\item $p_2 \doteq N \rightarrow \neg M,$ \label{MCN2}
+\item $p_3 \doteq M \leftrightarrow \top,$ \label{MCN3}
+\item $c_4 \doteq \underbrace{p_1 \land p_2 \land p_3}_{\doteq p_4} \rightarrow \neg E = (E \rightarrow N) \land (N \rightarrow \neg M) \land (M \leftrightarrow \top) \rightarrow \neg E,$\label{MCNK}
+\end{enumerate} geschrieben werden. Die Prämissen \ref{MCN1}, \ref{MCN2} und \ref{MCN3} können sodann mitsamt der Konklusion \ref{MCNK} in eine Wahrheitstabelle überführt werden, was in Tabelle \ref{ProofMA1} realisiert ist. Die formallogische Gültigkeit des MCN ist nun daran zu erkennen, dass die Wahrheitstabelle für alle möglichen Belegungen der dem Argument zugrundeliegenden Basispropositionen $E$, $M$ und $N$ in der grau hinterlegten Spalte nur Wahrheitswerte $1$ enthält. Das heisst, dass die Schlussfolgerung \begin{equation}
+c_4 = p_1 \land p_2 \land p_3 \rightarrow \neg E = (E \rightarrow N) \land (N \rightarrow \neg M) \land (M \leftrightarrow \top) \rightarrow \neg E
+\end{equation} im System der klassischen Aussagenlogik korrekt sein muss. Wenn also die Prämissen $p_1, p_2$ und $p_3$ wahr sind, dann folgt hieraus logisch zwingend die Wahrheit von Konklusion $c_4$, die Falschheit des evolutionären Naturalismus.
+
+\newcolumntype{g}{>{\columncolor{Gray}}c}
+
+\begin{table}[ht]
+\footnotesize
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|g|}
+\hline
+$E$ & $M$& $N$ & $p_1 = E \rightarrow N$ & $p_2 = N \rightarrow \neg M$ & $p_3 = M \leftrightarrow \top$ & $p_4 = p_1 \land p_2 \land p_3$ & $c_4 = p_4 \rightarrow \neg E$ \\
+\hline\hline
+0 & 0 & 0 & 1 & 1 & 0 & 0 & 1\\
+\hline
+0 & 0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\hline
+0 & 1 & 0 & 1 & 1 & 1 & 1 & 1\\
+\hline
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 1\\
+\hline
+0 & 1 & 1 & 1 & 0 & 1 & 0 & 1\\
+\hline
+1 & 1 & 0 & 0 & 1 & 1 & 0 & 1\\
+\hline
+1 & 0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\hline
+1 & 1 & 1 & 1 & 0 & 1 & 0 & 1\\
+\hline
+\end{tabular}
+\caption{Wahrheitstabelle zum moralischen Argument \textit{contra} Naturalismus.}
+\label{ProofMA1}
+\normalsize
+\end{table}
+
+\subsection{Allgemeine Bemerkungen und Einwände}
+Zunächst ist gegen das MCN einzuwenden, dass bei Wahrheit aller Prämissen \ref{MCN1}, \ref{MCN2} und \ref{MCN3} lediglich die Falscheit des evolutionären Naturalismus folgt, nicht jedoch die Unwahrheit des allgemeinen Naturalismus. Eine naturalistische Weltsicht ist nach Linville durchaus auch ohne die Bezugnahme auf eine darwinistische Evolutionshypothese zur Erklärung der Existenz von Leben denkbar \cite[S. 394]{Linville2009-LINTMA-2}. Daher kann die eventuelle Wahrheit des Naturalismus selbst bei Wahrheit aller Prämissen im MCN nicht ausgeschlossen werden. Allerdings scheint ein Naturalismus, entkoppelt von der darwinistischen Theorie zur Entwicklung von Leben durch zufällige Mutation von Erbgut in Kombination mit natürlicher Selektion aufgrund von Umweltfaktoren, a priori unwahrscheinlich zu sein. Gegeben eines naturalistisch-materialistischen Weltbildes muss angenommen werden, dass Vorgänge in der Natur ausschliesslich mittels den von der Natur hervorgebrachten, beziehungsweise den die Materie beherrschenden Gesetzmässigkeiten erklärt werden können. Folglich können prinzipiell nur kausale Wirksamkeiten erfasst werden, die wiederum einer materiellen Ursache bedingen. Im Rahmen der statistischen Physik, deren hauptsächliches Axiom die Annahme von statistischen Zufallsprozessen im mikroskopischen Bereich sind, woraus sodann das makroskopische Verhalten von Materie beschrieben wird, bilden also insbesondere Zufallsprozesse die Ausgangspunkte von Kausalketten im bestehenden und beobachtbaren Universum. Da neben Zufallsprozessen keine anderen Mechanismen bekannt sind, die zur Entstehung komplexer Moleküle, bis hin zu den Grundbestandteilen lebender Organismen führen könnten, kann das nachfolgende induktive Argument als glaubhaft betrachtet werden:
+\begin{enumerate}
+\item In einer naturalistisch-materialistischen Weltsicht beherrschen Zufallsprozesse das physikalische Geschehen im Sinne davon, dass Kausalketten durch Zufallsprozesse gestartet werden und sich danach entsprechend den die Materie-Materie-Interaktionen beschreibenden physikalischen Gesetzmässigkeiten entwickeln.\label{Indevnat1}
+\item Bis dato sind mit Ausnahme der prinzipiell möglichen Entwicklung und/oder Weiterentwicklung von Leben durch zufällige Mutation und natürliche Selektion keine im Rahmen des Naturalismus denkbaren Mechanismen zur Entstehung von Leben bekannt, welche dem Zufallsprinzip \ref{Indevnat1} der Natur gerecht werden.\label{Indevnat2}
+\item  \textsc{Aus \ref{Indevnat1} und \ref{Indevnat2} folgt induktiv}: Es ist daher naheliegend, dass sich jede Form des Naturalismus zur Erklärung der Existenz von Leben der darwinistischen Mechanismen bedienen muss.\label{Indevnat3}
+\end{enumerate}
+Dennoch beschränkt Linville seine Argumentation auf den evolutionären Naturalismus, was auch in der folgenden Arbeit getan werden soll \cite[S. 394-395]{Linville2009-LINTMA-2}. Aufgrund des oben gegebenen induktiven Argumentes scheint es aber vertretbar, die Ergebnisse des MCN auch auf den allgemeinen Naturalismus auszudehnen.
+
+
+\subsection{Diskussion von Prämisse \ref{MCN1}}
+
+Linville berichtet, dass der evolutionäre Naturalist nur dann den in Abschnitt \ref{fehldep} diskutierten möglichen Zusammenhang zwischen Adaption eines Individuums an seine Umweltbedingungen und den Wahrheitswerten der hierdurch entwickelten Moralprinzipien erklären muss, wenn er Prämisse \ref{MCN1} akzeptiert \cite[S. 398]{Linville2009-LINTMA-2}. Daher ist eine glaubhafte Argumentation für die Wahrheit von Prämisse \ref{MCN1} entscheidend für die Überzeugungskraft des MCN. Um eine Solche erfolgreich zu verteidigen, muss begreiflich dargelegt werden, dass die Entstehung moralischer Fakten durch andere Mittel als die natürliche Selektion unwahrscheinlich ist, wenn die Wahrheit des evolutionären Naturalismus vorausgesetzt wird.
+
+Daniel C. Dennett wirft Verteidigern der Prämisse \ref{MCN1} vor, einen sogenannten \flqq Greedy Reductionism\frqq\ zu begehen, also moralisches Verhalten von Menschen auf deren Gendisposition zurückzuführen \cite[S. 82]{Dennett.1995}. Um diesen Kritikpunkt zu verdeutlichen, benutzt Dennett folgende Überlegung:
+\begin{quote}
+\flqq So far as I know, in every culture known to 
+anthropologists, the hunters throw their spears pointy-end-first, but this 
+obviously doesn't establish that there is a pointy-end-first gene that 
+approaches fixation in our species\frqq.\ \cite[S. 486]{Dennett.1995}
+\end{quote}
+Dennets Kritik setzt also daran an, dass Handlungs- und Denkweisen im Allgemeinen, sowie hierdurch auch Moralvorstellungen im Speziellen, nicht auf die \flqq Hardware\frqq\ eines Menschen, seine Gendisposition, zurückzuführen sei, da dies zu intuitiv absurden Konsequenzen führe.
+Dem im Zitat vorgebrachten Gedanken scheint zunächst zuzustimmen zu sein, wodurch die Plausibilität von Prämisse \ref{MCN1} vernichtend klein wird, denn jene Prämisse bedient sich einer Form der Rückführung des Verhaltens von Menschen auf deren genetischen Beschaffenheiten. Jedoch soll unter Beachtung des in der Prämisse \ref{MCN1} vorausgesetzten materialistisch-naturalistischen Weltbildes dafür argumentiert werden, dass der \flqq Greedy Reductionism\frqq\ trotz seiner intuitiven Implausibilität die beste Erklärung für moralisches Verhalten von Menschen zu sein scheint. Eine solche Argumentation wird in den nachfolgenden Abschnitten zur Verfügung gestellt.
+
+Lebewesen, die aufgrund ihrer genetischen Beschaffenheit relativ zu anderen Lebewesen am besten an die gegebenen Umweltfaktoren angepasst sind, werden durch die Letzteren \flqq selektiert\frqq.\ Das heisst, es reproduzieren tendenziell die besser an die Umweltbedingungen angepassten Organismen, was über längere Zeit eine Homogenisierung des das überleben begünstigenden Erbgutes der betrachteten Lebewesen bewirkt. Die Anpassungsmerkmale der Lebewesen an deren Umweltbedingungen können hierbei sowohl geistiger, als auch physischer Natur sein. 
+
+Sind die Anpassungsmerkmale geistiger Essenz, so müssen diese psychischen Phänomene im Rahmen des materialistischen Naturalismus evaluiert werden. Psychische Entitäten müssen per Definition des Materialismus auf Materie reduziert werden können. Dabei bleibt jedoch kein Freiraum zu einem nicht determinierten Eingriff vom psychischen auf das physische, da Materie nur durch Materie beeinflusst werden kann und diese Beeinflussung entsprechend Naturgesetzen erfolgt. Sind $M_1$ und $M_3$ materielle Ereignisse und $G_2$ eine geistiges Phänomen, wobei $M_1$ das Ereignis $M_3$ verursache, so lässt sich dieser Sachverhalt schematisch durch $$\begin{tikzcd}[sep=small]
+M_1 \arrow[rd] \arrow[r] & M_3 \\
+& G_2
+\end{tikzcd}$$ darstellen, nicht etwa durch $M_1 \rightarrow G_2 \rightarrow M_3$, da der materialistische Naturalismus die Kausation $G_2 \rightarrow M_3$ aufgrund der Geistigkeit von $G_2$ verbietet. Geistige Ursachen können also unter den genannten Voraussetzungen als impotent in Bezug auf ein mögliches Einwirken auf Materie betrachtet werden. Aus obigem Kausationsschema wird deutlich, dass die Wirkung $G_2$, also das Psychische, aufgrund des deterministischen Charakters von $M_1$ als dessen verursachende Instanz ebenfalls als determiniert angenommen werden muss. In diesem Sinne sind auch geistige Moralvorstellungen von Menschen und Lebewesen im Allgemeinen durch Materie determiniert und von ihr emergent, was den \flqq Greedy Reductionism\frqq\ plausibilisiert.
+
+Sind die Anpassungsmerkmale hingegen physischer Qualität, so folgt aufgrund der Determiniertheit der Natur unmittelbar die Plausibilität des \flqq Greedy Reductionism\frqq,\ wie dies in obigem Abschnitt bereits für die auf physische Vorgänge und Beziehungen reduzierten geistigen Phänomene gezeigt wurde.
+
+Es bleibt dafür zu argumentieren, dass die natürliche Selektion Anpassungsmerkmale hervorbringt, die als Moralvorstellungen zu klassifizieren sind. Hierzu können einige Beispiele herangezogen werden, um eine induktive Begründung führen zu können. Viele Moralvorstellungen beim Menschen können dahingehend interpretiert werden, dass diese zur erfolgreichen und nachhaltigen Vermehrung der eigenen Spezies und damit zur Durchsetzung der sie hervorbringenden Genkonstellationen in einer Population förderlich sind. Einer menschlichen Population, welche arbiträre Tötungen von anderen Menschen als moralisch verwerflich beurteilt, ist eine höhere Durchsetzungswahrscheinlichkeit der diese Moralwerte hervorbringenden Gendispositionen mittels natürlicher Selektion zuzuordnen, als einer, welche keine Moralwerte hat. Ein weiteres Exempel für eine einen Selektionsvorteil bedeutende Moralvorstellung ist beispielsweise der beinahe irresistible Drang einer Mutter, ihr Kind zu ernähren und zu pflegen \cite[S. 401]{Linville2009-LINTMA-2}. 
+
+Dass Moralvorstellungen einen Selektionsvorteil bedeuten, kann mittels des Bayes'schen Theorems glaubhaft gemacht werden. Hierzu sei die Proposition \flqq Population $P$ hat Moralvorstellungen\frqq\ mit $V$ notiert und die Proposition \flqq $P$ hat einen Selektionsvorteil\frqq\ mit $S$ angeschrieben. Das Bayes-Theorem \eqref{bayesodds} lautet dann \begin{equation}\label{bayesprem1}
+\frac{P(S|V)}{P(\neg S|V)}
+= \frac{P(S)}{P(\neg S)}\frac{P(V|S)}{P(V|\neg S)}\end{equation} schreiben. Gezeigt werden soll, dass $\nicefrac{P(S|V)}{P(\neg S | V)} > 1$ gilt, dass also existerende Moralvorstellungen für $P$ mit grösserer Wahrscheinlichkeit einen Selektionsvorteil bedeuten, als dass sie keinen Selektionsvorteil mit sich bringen. Das a-priori Wahrscheinlichkeitsverhältnis $\nicefrac{P(S)}{P(\neg S)}$ ist intuitiv zunächst mit $1$ zu besetzen. Koexistieren jedoch mehrere Populationen\footnote{Verschiedene Populationen meinen hierbei sich in ihrer Gendisposition unterscheidende Gruppen innerhalb einer Spezies.} miteinander - was in der Praxis nahezu immer der Fall sein dürfte - so ist die Wahrscheinlichkeit dafür, dass eine Population $P_b$ besser an die Umweltbedingungen angepasst ist als eine Population $P_w$ nahezu $1$, also ein fast sicheres Ereignis. Geht man davon aus, dass durchschnittlich lokal zwei Populationen einer Spezies koexistieren, so ist die Legitimation für die Veranschlagung $\nicefrac{P(S)}{P(\neg S)}=1$ erbracht, da Population $P$ als eine Population von Zweien mit einer Wahrscheinlichkeit von $\nicefrac{1}{2}$ jene mit dem Selektionsvorteil $S$ ist. Im Allgemeinen ist jedoch damit zu rechnen, dass mehr als zwei Populationen konkurrieren, was zu $\nicefrac{P(S)}{P(\neg S)} < 1$ führt. Betreffend des Bruches $\nicefrac{P(V|S)}{P(V|\neg S)}$ sei die folgende Erwägung getätigt: Man gehe davon aus, dass Moralvorstellungen fast immer dazu dienen, der über sie verfügenden Population $P$ gegenüber einer über keine oder weniger Moralvorstellungen verfügenden Population einen Selektionsvorteil einzuräumen. Umgekehrt heisst das, dass um ein vielfaches wahrscheinlicher zu sein scheint, dass $P$ über Moralvorstellungen verfügt, wenn $P$ einen Selektionsvorteil innehat, als wenn $P$ über keinen Selektionsvorteil verfügt. Daher ist $\nicefrac{P(V|S)}{P(V|\neg S)} \gg 1$ zu schliessen. Eingesetzt in obige Gleichung \eqref{bayesprem1} ergibt sich somit \begin{equation}\label{premiss1tempresodds}
+\frac{P(S|V)}{P(\neg S|V)} = \underbrace{\frac{P(S)}{P(\neg S)}}_{< 1}\underbrace{\frac{P(V|S)}{P(V|\neg S)}}_{\gg 1} > 1,
+\end{equation} quod erat demonstrandum. Die induktive Schlussfolgerung, dass moralische Fakten, beziehungsweise Moralvorstellungen einen Selektionsvorteil für die sie habenden Organismen bedeuten, ist somit gerechtfertigt. 
+
+Um der Prämisse \ref{MCN1} aber Legitimation zu erbringen, muss noch gezeigt werden, dass die natürliche Selektion gemäss einem materialistisch-naturalistischen Weltbild mit einer Wahrscheinlichkeit grösser $\nicefrac{1}{2}$ Moralvorstellungen -  das heisst moralische Fakten - hervorbringen kann. Dies wird wiederum mittels des Bayes'schen Gesetzes \eqref{bayesodds} erreicht, indem das Wahrscheinlichkeitsverhältnis \begin{equation}\label{premiss1bayesfinal}
+\frac{P(V|S)}{P(\neg V|S)}
+= \frac{P(V)}{P(\neg V)}\frac{P(S|V)}{P(S|\neg V)}
+\end{equation} abgeschätzt wird. Der Bruch $\nicefrac{P(V)}{P(\neg V)}$ beschreibt eine a-priori Wahrscheinlichkeit, wobei unklar ist, welcher Variable $P(V)$ oder $P(\neg V)$ a priori die grössere Wahrscheinlichkeit zugeordnet werden sollte. Deshalb scheint es eine gerechtfertigte Annahme zu sein, von $\nicefrac{P(V)}{P(\neg V)} \approx 1$ auszugehen, da ferner davon ausgegangen werden kann, dass die Existenz von Moralvorstellungen in einer Population durch Zufallsprozesse bestimmt wird und daher die Annahme einer Gleichverteilung für die zwei möglichen Zufallswerte $P(V)$ und $P(\neg V)$ eine faire Approximation ist. Das Verhältnis $\nicefrac{P(S|V)}{P(S|\neg V)}$ sodann gibt an, ob die Wahrscheinlichkeit, dass $P$ einen Selektionsvorteil hat, wenn $P$ zugleich über Moralvorstellungen verfügt, grösser oder kleiner ist als die Wahrscheinlichkeit, dass $P$ einen Selektionsvorteil hat, wenn $P$ zugleich über keine Moralvorstellungen verfügt. Das oben formulierte Beispiel des beinahe irresistiblen Versorgungsdranges einer Mutter ihrem Kind gegenüber kann dabei als Grundlage der Induktion verwendet werden. Dieses Exempel legt die Konklusion nahe, der über die Moralvorstellung \flqq es ist gut, das eigene Kind gut zu versorgen\frqq\ verfügenden Person mit grösserer Konfidenz einen Selektionsvorteil zuzuordnen, als ihr keinen Selektionsvorteil zuzuschreiben. Denn wenn diese Moralvorstellung aus oben dargelegten Gründen in die Gene der sie besitzenden Person codiert ist, wird sie auch einem Kind jener Person weitergegeben. Dies führt letztendlich dazu, dass die hierdurch begründete Population einen entscheidenden komparativen Überlebensvorteil gegenüber anderen Gruppen innehat, welche diesen Moralsatz nicht kennen und lediglich durch den Zufall begründet eventuell für ein mögliches Kind sorgen. Durch Induktion über allfällige weitere Beispiele für derartige Situationen ergibt sich die Vermutung, dass $\nicefrac{P(S|V)}{P(S|\neg V)} > 1$ gilt, was in \eqref{premiss1bayesfinal} eingesetzt \begin{equation}
+\frac{P(V|S)}{P(\neg V|S)}
+= \underbrace{\frac{P(V)}{P(\neg V)}}_{\approx 1}\underbrace{\frac{P(S|V)}{P(S|\neg V)}}_{> 1} > 1
+\end{equation} ergibt. Die natürliche Selektion bringt also gemäss einem materialistisch-naturalistischen Weltbild mit einer Wahrscheinlichkeit grösser $\nicefrac{1}{2}$ moralische Fakten hervor. Somit ist eine Legitimation der Prämisse \ref{MCN1} als erbracht zu erachten.
+
+
+\subsection{Diskussion von Prämisse \ref{MCN2}}\label{fehldep} 
+%\subsubsection{Der genetische Fehlschluss}
+Eine Erörterung der Plausibilität von Prämisse \ref{MCN2} erfordert zunächst eine Diskussion des sogenannten \flqq genetischen Fehlschlusses\frqq.\ Hierzu seien zur Verdeutlichung dieses Begriffes $A$ und $B$ zwei Propositionen gegeben, welche ferner durch die Implikation $A \rightarrow B$ verknüpft seien. Basierend ausschliesslich auf diesem implikativen Zusammenhang lässt sich keine zuverlässige Aussage über den Wahrheitswert von $B$ treffen, denn wie in Tabelle \ref{W_Konnektive} ersichtlich ist, existiert eine Belegung $V$ der Propositionen $A$ und $B$, sodass $V(A) \neq V(B)$ gilt, also insbesondere auch $V(A) = 1$ und $V(B) = 0$. Der genetische Fehlschluss wird daher durch Linville als die ungültige Inferenz vom Implikativen Zusammenhang von $A$ und $B$ auf die Wahrheit oder Falschheit von $B$ definiert \cite[S. 395]{Linville2009-LINTMA-2}. In einfacheren, durch Linville inspirierten Worten: Wenn ein Glaube $B$ Produkt eines Prozesses $C$ ist, dann ist durch das Produkt-Edukt Verhältnis von $B$ und $C$ keine Aussage über den Wahrheitswert des Glaubens $B$ möglich \cite[S. 395]{Linville2009-LINTMA-2}.
+
+Da nun die Prämisse \ref{MCN2} exakt die Struktur einer Implikation hat, nämlich $N \rightarrow \neg M$, greift hier der Einwand des genetischen Fehlschlusses.  Die Verteidigung der Prämisse \ref{MCN2} erfordert also erstens eine plausible Argumentation für den implikativen Zusammenhang von $N$ und $M$, beziehungsweise $N$ und $\neg M$, sowie zweitens eine Begründung, weshalb der implikative Zusammenhang durch $N \rightarrow \neg M$ gegeben sein soll und nicht etwa durch $N \rightarrow M$.
+
+Als Legitimation des Implikativen Zusammenhanges $N \rightarrow \neg M$, der in Worten zu \flqq wenn moralische Fakten Produkte der natürlichen Selektion sind, dann existieren keine objektiven moralischen Fakten\frqq\ wiedergegeben werden kann, führt \cite[S. 395]{Linville2009-LINTMA-2} die \flqq Independence Thesis\frqq\ ein, die besagt, dass die Wahrheitswerte von moralischen Glaubenssätzen unabhängig von ihrem Entstehungsprozess sind. Diese These sei nachfolgend die Independenz-These (IT) genannt. Als Veranschaulichung der Implikationen einer solchen These zitiert Linville Elliott Sober, der ein Hilfreiches Gedankenexperiment schildert \cite[S. 93-113]{Sober.1994}: Man betrachte Ben, den Kollegen Sober's, der etwas exzentrisch ist und glaubt, dass 73 Studenten seine Vorlesungen besuchen, weil er die Zahl 73 aus einer Urne gefüllt mit Papierschnipseln der Zahlen 1 bis 100 gezogen hat. Es ist davon auszugehen, dass kein epistemischer\footnote{Das Adjektiv \textit{epistemisch} verweist hier auf den Bezug zur Epistemologie, der Erkenntnistheorie.} Zusammenhang zwischen Ben's zufälliger Ziehung einer Zahl aus der Urne und der tatsächlichen Besucherzahl seiner Vorlesungen besteht. Der Glaube Ben's, dass in seiner Klasse tatsächlich 73 Studenten sitzen ist also epistemisch unabhängig vom Wahrheitswert der Proposition, dass 73 Studenten in seiner Klasse sitzen. Eine erschöpfende Argumentation für eine Independenz-These in Bezug auf eine postulierte epistemische Unabhängigkeit der Wahrheitswerte der hypothetisch durch natürliche Selektion entstandenen moralischen Fakten verlangt gemäss Linville nach einer substanziellen Arbeit im Gebiet der Metaethik, weswegen an dieser Stelle keine abschliessende Diskussion der IT gegeben werden soll \cite[S. 396]{Linville2009-LINTMA-2}. Könnte aber gezeigt werden, dass durch natürliche Selektion entstandene moralische Fakten epistemisch unabhängig von ihren Wahrheitswerten sind, so ist die Schlussfolgerung naheliegend, dass selbige moralische Fakten analog obigem Beispiel falsch zu sein scheinen. Mithilfe des Bayesianischen Wahrscheinlichkeitskalküls sei nun ein induktives Argument zur Plausibilisierung der Implikation $N \rightarrow \neg M$ gegeben. Dazu sei an die Propositionen $N$ \flqq moralische Fakten sind Produkte des evolutionären Naturalismus\frqq\ und $M$ \flqq es existieren objektive moralische Fakten\frqq\ aus Abschnitt \ref{Kernargument} erinnert. Das Bayes-Theorem in Odds-Form \eqref{bayesodds} lässt sich für die Propositionen $N$ und $M$ durch \begin{equation}
+\frac{P(M|N)}{P(\neg M|N)}
+= \frac{P(M)}{P(\neg M)}\frac{P(N|M)}{P(N|\neg M)}\end{equation} schreiben. Gezeigt werden soll, dass $\nicefrac{P(M|N)}{P(\neg M | N)} < 1$ gilt. A priori scheint die Wahrscheinlichkeit $P(M)$ der Existenz objektiver moralischer Fakten plausibler oder zumindest identisch plausibel wie deren Nichtexistenz $P(\neg M)$ zu sein, daher sei $\nicefrac{P(M)}{P(\neg M)} \gg 1$ angenommen. Man denke hierbei etwa daran, dass viele Menschen die Taten Adolf Hitlers an jüdischen Menschen im Zweiten Weltkrieg als objektiv böse oder objektiv falsch bezeichnen würden, somit scheint a priori die Existenz objektiver moralischer Fakten plausibler als deren Negation zu sein. Die Wahrscheinlichkeit $P(N|M)$, welche Auskunft über die Wahrscheinlichkeit der eventuellen Wahrheit der Proposition \flqq gegeben objektiver moralischer Fakten sind selbige Produkte der evolutionären Mechanismen \frqq\ gibt, scheint als gering einzustufen zu sein, also $P(N|M) \ll 1$. Dies, weil unklar ist, welcher ungerichtete Zufallsprozess zur Entstehung objektiver moralischer Fakten führen könnte. Die Wahrscheinlichkeit $P(N|\neg M)$ hingegen scheint über eine beträchtlich höhere a-priori Plausibilität zu verfügen, da die evolutionäre Entstehung moralischer Fakten vor dem Hintergrund der Nichtobjektivität dieser Fakten beinahe trivialerweise sehr wahrscheinlich zu sein scheint. Es ist durchaus denkbar, dass darwinistische Mechanismen zu einer Art von \flqq Überlebensmoral\frqq\ führen, welche diejenigen Handlungen als richtig beurteilt, welche das Überleben eines Individuums begünstigen und umgekehrt. Deshalb kann $P(N|\neg M)$ zu $P(N|\neg M) > 1$ abgeschätzt werden. Summa summarum ergibt sich infolge obiger Überlegungen das Ergebnis \begin{equation}
+\frac{P(M|N)}{P(\neg M|N)} = \underbrace{\frac{P(M)}{P(\neg M)}}_{\gg 1}\underbrace{\frac{P(N|M)}{P(N|\neg M)}}_{\lll 1} < 1,
+\end{equation} womit der Prämisse $p_2 = N \rightarrow \neg M$ Legitimation erbracht wurde. Damit ist auch gezeigt, weshalb die Prämisse \ref{MCN2} basierend auf obiger Argumentation durch $N \rightarrow \neg M$ formuliert werden sollte, in Opposition zur Formulierung $N \rightarrow M$.
+
+%\subsubsection{Fehlende Dependenz}
+Um Prämisse \ref{MCN2} ferner zu plausibilisieren, muss nach Linville weder für die Falschheit moralischer Glaubenssätze ($\neg M$) argumentiert, noch die Independenz-These bewiesen werden. Es reiche bereits zu zeigen, dass kein Anlass zur Postulierung einer Dependenzrelation zwischen naturalistisch entstandenen moralischen Fakten und deren Wahrheitswerten besteht \cite[S. 396]{Linville2009-LINTMA-2}. Nach Linville besteht nämlich nur dann Grund zur Annahme des Bestehens einer solchen Dependenzrelation, wenn die beste Erklärung moralischer Fakten deren Wahrheitswert(e) involviert \cite[S. 396]{Linville2009-LINTMA-2}. Es gilt also zu untersuchen, inwiefern die evolutionären darwinistischen Mechanismen und hierdurch hypothetisch entstehende moralische Glaubenssätze im Zusammenhang mit der Wahrheit oder Falschheit Letzterer stehen.
+
+Hierzu führt Linville vor dem Hintergrund darwinistischer Mechanismen an, dass gewisse Verhaltensmuster der Menschen adaptiv seien, wie etwa das Fliehen vor Raubtieren oder das Füttern von Neugeborenen Menschen, andere jedoch nicht, wie die Negationen obiger Beispiele \cite[S. 396]{Linville2009-LINTMA-2}. Adaptiv scheint dabei bei Linville als Eigenschaft verstanden zu werden, welche die natürliche Selektion positiv im Sinne einer Steigerung der Überlebensfähigkeit des adaptierenden Individuums beeinflusst. Eine Veranlagung also, welche die Wahrscheinlichkeit eines adaptiven Verhaltens erhöht, ist durch die natürliche Selektion begünstigt. Das macht die These glaubhaft, wonach die Entwicklung moralischer Glaubenssätze den sie entwickelnden Individuen einen Selektionsvorteil gegenüber jenen anderen Individuen erbringt, die sich nicht entsprechend moralischer Prinzipien verhalten. Daher beantwortet Richard Joyce die Frage, ob es für die Vorfahren heutiger Menschen wohl Vorteile erbrachte, moralische Prinzipien zu entwickeln, mit \flqq quite possibly\frqq\ \cite[S. 183]{Joyce.2006}. Es fehlt hierbei jedoch eine rationale Grundlage zu Glauben, dass derart entwickelte moralische Prinzipien mit der Wahrheit im objektiven Sinne korrelieren sollten. 
+
+Dies soll durch folgendes Gedankenexperiment verdeutlicht werden: Es seien zwei Paare\footnote{Hierbei sind menschliche Paare bestehend aus einem männlichen und einem weiblichen Menschen gemeint.} $A$ und $B$ ohne Kinder gegeben. Paar $A$ lebe in Umweltbedingungen $U_A$, Paar $B$ in Umweltbedingungen $U_B$, wobei $U_A$ und $U_B$ beide zu unterschiedlichen Bereichen der tatsächlichen, beobachtbaren Welt gehören sollen. Für Paar $A$ in ihrer durch $U_A$ gegebenen Umwelt sei es hypothetisch von selektivem Vorteil, wenn sie jedes allfällige Kind abtreiben oder töten, da $U_A$ derart sei, dass Nahrungsmittelknappheit herrsche. Für Paar $B$ hingegen sei es aufgrund der Natur ihrer Umweltbedingungen $U_B$ ein selektiver Vorteil, wenn sie möglichst viele Kinder haben und grossziehen. Aufgrund dieser Begebenheiten ist nun zu erwarten, dass sich die moralischen Prinzipien $M_A$ des Paares $B$ dahingehend entwickeln, dass Mord von Kindern durchaus legitim und moralisch richtig ist, während dies den mutmasslichen moralischen Prinzipien $M_B$ von Paar $B$ diametral widerspricht. Es können nicht sowohl $M_A$ als auch $M_B$ objektiver Natur sein, da eine Objektivität der moralischen Fakten $M_A$ oder $M_B$ deren Wahrheit in allen möglichen Welten verlangen würde, was aber aufgrund der Disjunktivität von $M_A$ und $M_B$ und der Zugehörigkeit von $U_A$ und $U_B$ zu derselben Welt nicht möglich ist. Wahrheit wird dabei im Sinne einer in einer möglichen Welt gültigen Zuordnung des Wahrheitswertes $1$ zu der zu untersuchenden Proposition $P$ verstanden. Da nun entweder $M_A$ oder $M_B$, oder gar keine der beiden Ansammlungen moralischer Prinzipien wahr sein können, gibt es innerhalb des Gedankenexperiments keinen rationalen Grund, jedwelche moralischen Prinzipien eines beliebigen Individuums als objektiv zu bezeichnen. Es ist sodann naheliegend, den Inhalt des Gedankenexperiments auf die bestehenden, tatsächlichen moralischen Glaubenssätze der Menschheit zu übertragen. Daraus folgt, dass der These der Absenz einer Dependenzrelation zwischen darwinistischen Mechanismen und den Wahrheitswerten von hierdurch hypothetisch entstehenden moralischen Glaubenssätzen Legitimation verliehen wurde.
+
+\subsection{Diskussion von Prämisse \ref{MCN3}}
+Da die meisten Menschen sich in ihrem praktischen Handeln und Denken einer objektiven Sicht moralischer Fakten entsprechend verhalten\footnote{Diese Aussage ist spekulativer, wenn auch der Erfahrung des Autors entsprechender Natur.} und äussern, sollen in der vorliegenden Arbeit in Bezug auf Prämisse \ref{MCN3} moralischer Realismus und die Objektivität moralischer Fakten als gegeben angenommen werden. Rigoros für eine philosophische Position des moralischen Realismus zu argumentieren, würde den Rahmen der vorliegenden Erörterung sprengen, daher seien zwecks einer minimalen Plausibilisierung von Prämisse \ref{MCN3} lediglich die folgende Überlegung in Form einer Bemerkung getätigt. 
+
+Zu bemerken ist nämlich, dass bereits die subjektive Beurteilung eines einzigen moralischen Faktums als objektiv \flqq richtig\frqq\ oder objektiv \flqq falsch\frqq\ ausreicht, um die Wahrheit von Prämisse \ref{MCN3} zu belegen. Findet man also auch nur ein einziges objektives moralisches Faktum, impliziert dies die Wahrheit von Prämisse \ref{MCN3}. Die Konstruktion eines entsprechend als moralisch objektiv einzustufenden Faktums dürfte hierbei beispielsweise durch das einleitend erwähnte Fallbeispiel des unschuldig gefolterten Kindes gegeben sein, wobei die meisten Menschen die dort beschriebene Tat wohl mittels den Prädikaten \flqq objektiv böse\frqq\ und/oder \flqq objektiv falsch\frqq\ beurteilen würden.
+
+Die obige Überlegung, wie auch Prämisse \ref{MCN3} insgesamt, können durch die Annahme des moralischen Antirealismus oder eines moralischen Relativismus trivial zurückgewiesen werden. Aus diesem Grunde sei, wie bereits bemerkt, in dieser Arbeit die Position des moralischen Realismus als grundlegende Annahme vorausgesetzt.
+
+\section{Moralisches Argument \textit{pro} Theismus}
+Das MCN kann durch die Hinzufügung einer weiteren Prämisse zum moralischen Argument \textit{pro} Theismus (MPT) erweitert werden. Die Zusatzprämisse ist motiviert durch die sogenannte \flqq Divine Command Theory\frqq\ der Ethik. Diese Sicht der Ethik besagt, dass moralische Fakten in den Befehlen und Geboten einer göttlichen Entität, oder gar in deren Wesensart wurzeln.
+\subsection{Kernargument}
+Das Kernargument besteht aus der Erweiterung des in Abschnitt \ref{Kernargument} gegebenen Raisonnements durch Prämisse \ref{MPT5}, die durch das moralische Argument von William L. Craig inspiriert ist \cite[S. 172]{Craig.2009}. Das volle Argument für den Theismus kann dann wie folgt wiedergegeben werden:
+\begin{enumerate}
+\item Wenn der evolutionäre Naturalismus wahr ist, dann sind moralische Fakten Produkte der natürlichen Selektion.
+\item Wenn moralische Fakten Produkte der natürlichen Selektion sind, dann existieren keine objektiven moralischen Fakten.
+\item Es existieren objektive moralische Fakten.
+\item \textsc{Aus \ref{MCN1}, \ref{MCN2} und \ref{MCN3} folgt}: Der evolutionäre Naturalismus ist falsch.
+\item Existiert kein göttliches Wesen, so ist der evolutionäre Naturalismus wahr.\label{MPT5}
+\item \textsc{Aus \ref{MCNK} und \ref{MPT5} folgt}: Es existiert ein göttliches Wesen.\label{MPTK}
+\end{enumerate}
+Dieses Argument soll im Folgenden \flqq moralisches Argument \textit{pro} Theismus\frqq\ (MPT) genannt werden.
+
+\subsubsection{Formale Struktur und Gültigkeit}
+Im Sinne der klassischen Aussagenlogik lässt sich das moralische Argument \textit{pro} Theismus formalisieren, indem zusätzlich zu den in Abschnitt \ref{Kernargument} definierten Basispropositionen $E$, $M$ und $N$ eine weitere Basisproposition $G$ wie folgt definiert wird:
+\begin{align*}
+G &\doteq \text{Ein göttliches Wesen existiert.}
+\end{align*}
+In der Sprache der klassischen Aussagenlogik kann das oben in Worten wiedergegebene MPT nun durch  \begin{enumerate}
+\item $p_1 = E \rightarrow N,$
+\item $p_2 = N \rightarrow \neg M,$
+\item $p_3 = M \leftrightarrow \top,$
+\item $c_4 = p_1 \land p_2 \land p_3 \rightarrow \neg E,$
+\item $p_5 \doteq \neg G \rightarrow E,$
+\item $c_6 \doteq \underbrace{p_1 \land p_2 \land p_3 \land p_5}_{\doteq p_6} \rightarrow G = (E \rightarrow N) \land (N \rightarrow \neg M) \land (M \leftrightarrow \top) \land (\neg G \rightarrow E) \rightarrow G,$
+\end{enumerate} formuliert werden. Um eine formale Auswertung vorzunehmen, muss die Konklusionsprämisse $c_6$ für alle Belegungen der Elementarpropositionen $E$, $M$, $N$ und $G$ mittels einer Wahrheitstabelle auf ihre Wahrheitswerte untersucht werden. Die entsprechende Wahrheitstabelle hat $16$ Zeilen, da es $2^4 = 16$ verschiedene Belegungen der vier Basispropositionen gibt. 
+\begin{table}[ht]
+\centering
+\tiny
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|g|}
+\hline
+$E$ & $M$ & $N$ & $G$ & $p_1 = E \rightarrow N$ & $p_2 = N \rightarrow \neg M$ & $p_3 = M \leftrightarrow \top$ & $p_5 = \neg G \rightarrow E$ & $p_6 = p_1 \land p_2 \land p_3 \land p_5$ & $c_6 = p_6 \rightarrow G$ \\
+\hline
+0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 1 \\
+\hline
+0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0 & 1 \\
+\hline
+0 & 0 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 1 \\
+\hline
+0 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 \\
+\hline
+1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 \\
+\hline
+0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 1\\
+\hline
+0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 \\
+\hline
+1 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 \\
+\hline
+1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+\hline
+0 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 \\
+\hline
+0 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+\hline
+1 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 1 \\
+\hline
+1 & 1 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 1 \\
+\hline
+1 & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+\hline
+\end{tabular}
+\caption{Wahrheitstabelle zum moralischen Argument \textit{pro} Theismus.}
+\label{ProofMA2}
+\normalsize
+\end{table}
+Kann gezeigt werden, dass die Formel, beziehungsweise Konklusionsprämisse $c_6$ für jede Belegung der $E$, $M$, $N$ und $G$ wahr ist, so folgt aus der Wahrheit von Prämissen \ref{MCN1}, \ref{MCN2}, \ref{MCN3} und \ref{MPT5} logisch zwingend die Wahrheit der Schlussfolgerung \ref{MPTK}, dass ein göttliches Wesen existiert. Tatsächlich kann die logische Gültigkeit von $c_6$ gezeigt werden, was sich in Tabelle \ref{ProofMA2} 
+manifestiert. Das heisst, dass die Konklusion \begin{equation}
+c_6 = p_1 \land p_2 \land p_3 \land p_5 \rightarrow G = (E \rightarrow N) \land (N \rightarrow \neg M) \land (M \leftrightarrow \top) \land (\neg G \rightarrow E) \rightarrow G
+\end{equation} im System der klassischen Aussagenlogik gültig ist.
+
+\subsection{Allgemeine Bemerkungen und Einwände}
+Da es sich beim moralischen Argument \textit{pro} Theismus lediglich um eine Erweiterung des moralischen Arguments \textit{contra} Naturalismus handelt, kann hierfür die Diskussion der Prämissen \ref{MCN1}, \ref{MCN2} und \ref{MCN3} des MCN übernommen werden. Lediglich die Prämisse \ref{MPT5} erfordert noch Legitimation oder Zurückweisung.
+
+Ein Einwand allgemeiner Natur, welcher die vom MPT getätigte Konklusion \flqq Gott existiert als Fundament objektiver Moral\frqq\ betrifft, liegt im sogenannten Eutyphro-Dilemma (ED) begründet. Das ED wirft nach Tim Mawson - unter der Voraussetzung, dass eine göttliche Existenz als Fundament einer objektiven Moral verstanden wird - die Frage auf, ob \begin{enumerate*}
+\item \label{euty_1} ein bestimmter Sachverhalt moralisch gut/wahr ist, weil Gott will, dass jener Sachverhalt gut/wahr ist, oder \item \label{euty_2} ob Gott gut/wahr ist, weil jener moralische Fakt gut/wahr ist \cite[S. 1034]{Mawson.2009}. \end{enumerate*} Geht man von \ref{euty_1} aus, so macht das die Moral scheinbar arbiträr, insofern dass Gottes Wille, der sich prinzipiell ändern könnte, potenziell willkürlichen Wendungen folgt. Dies würde die Akzeptanz von objektiven moralischen Fakten erschweren, wenn auch nicht unmöglich machen. Akzeptiert man aber die Möglichkeit \ref{euty_2} des ED, so führt das dazu, dass die göttliche Entität als betreffend objektiven moralischen Fakten kontingent zu betrachten wäre, während die Letzteren mit Notwendigkeit existieren würden. Auch diese Möglichkeit scheint also in ihrer Annahme unbefriedigend zu sein, daher konstituiert die Wahl einer der sich gegenseitig ausschliessenden Möglichkeiten \ref{euty_1} und \ref{euty_2} ein Dilemma, das wohl erstmals im Dialog \textit{Eutyphron} bei Platon beschrieben wurde, daher der Name. Eine Lösung des Dilemmas - die in vorliegender Arbeit aber nicht weiter ausgeführt werden kann - ergibt sich nach Craig durch die Postulierung der Proposition \flqq ein bestimmter Sachverhalt ist gut/wahr, weil Gott in seiner Wesensart gut/wahr ist\frqq,\ welche aus einer entsprechenden Formulierung der \flqq Divine Command Theory\frqq\ folgt \cite[S. 181-183]{Craig.2009}. 
+
+\subsection{Diskussion von Prämisse \ref{MPT5}}
+Prämissen \ref{MCN1}, \ref{MCN2} und \ref{MPT5} können zusammengefasst als Prämisse \flqq wenn kein göttliches Wesen existiert, dann gibt es keine objektiven moralischen Fakten\frqq\ verstanden werden, die in dieser Formulierung bei Craig verteidigt wird \cite[S. 172-183]{Craig.2009}. Diese Form, also $\neg G \rightarrow \neg M$, wurde jedoch in vorliegenden Art des moralischen Argumentes in drei Teilprämissen zerlegt, wobei aus der Gesamtheit der Prämissen die Implikation $\neg G \rightarrow \neg M$ folgt: Prämisse \ref{MPT5} behauptet $\neg G \rightarrow E$, Prämisse \ref{MCN1} $E \rightarrow N$ und Prämisse \ref{MCN2} $N \rightarrow \neg M$, hieraus folgt logisch die Verkettung $\neg G \rightarrow E \rightarrow N \rightarrow \neg M = \neg G \rightarrow \neg M$. Da die Argumentationen für die Implikationen $E \rightarrow N$ und $N \rightarrow \neg M$ bereits erbracht wurden, bleibt lediglich $\neg G \rightarrow E$ zu zeigen. Diese Implikation scheint zunächst trivial zu sein, da nach heutigen Stand des Wissens keine wirklichen Alternativen zum evolutionären Naturalismus existieren, gegeben dass Gott nicht existiert. Deswegen stimmen Alex Rosenberg - ein Naturalist - sowie Alvin Plantinga - ein Theist - darin überein, dass die biologische Evolutionstheorie als wesentlicher Bestandteil des evolutionären Naturalismus das \flqq only game in town\frqq\ sei \cite[S. 394]{Linville2009-LINTMA-2}. Um eine genauere Analyse zu Prämisse \ref{MPT5} auszuführen, ist es erneut hilfreich, sich das Bayes'sche Theorem zunutze zu machen. Gilt für das Wahrscheinlichkeitsverhältnis $\nicefrac{P(E|G)}{P(E|\neg G)} \approx 0 \lll 1$, so ist die Postulierung der Implikation $\neg G \rightarrow E$ als hochgradig plausibel zu betrachten. Der Odds-Form des Bayes'schen Theorems \eqref{bayesodds} folgend gilt \begin{equation}\label{bayespremiss5state}
+\frac{P(G|E)}{P(\neg G|E)}=\frac{P(G)}{P(\neg G)}\frac{P(E|G)}{P(E|\neg G)} \quad \Leftrightarrow \quad \frac{P(E|\ G)}{P(E|\neg G)}=\frac{P(\neg G)}{P(G)}\frac{P(G|E)}{P(\neg G|E)}.
+\end{equation} Eine Analyse des Bayes-Faktors $\nicefrac{P(\neg G)}{P(G)}$ ergibt aus atheistischer Perspektive, dass $\nicefrac{P(\neg G)}{P(G)} \ggg 1$ gelten müsste, da die atheistische Hypothese $\neg G$ für einen Atheisten a priori viel plausibler als dessen Negation $G$ sein sollte. Da die vorliegende Arbeit eine überzeugende\footnote{Wird a priori angenommen, dass die atheistische Hypothese $\neg G$ viel plausibler als die theistische Hypothese $G$ ist, so macht dies eine Argumentation für den Theismus - gegeben $\nicefrac{P(E|G)}{P(E|\neg G)} \approx 0 \lll 1$ - überzeugender, als wenn a priori $P(G) \geq P(\neg G)$ angenommen wird.} Argumentation für eine theistische Weltsicht geben möchte, sollen die a-priori Wahrscheinlichkeiten als die atheistische Hypothese $\neg G$ favorisierend angenommen werden, also $\nicefrac{P(\neg G)}{P(G)} \ggg 1$. Der Faktor $P(G|E)$ gibt die Wahrscheinlichkeit für die Hypothese \flqq Gott existiert\frqq\ an, gegeben der evolutionäre Naturalismus ist wahr. Jene bedingte Wahrscheinlichkeit ist als verschwindend klein zu erachten, da der evolutionäre Naturalismus in seiner allgemeinen Form die Existenz eines Göttlichen Wesens nicht a priori ausschliesst, diese jedoch unter Voraussetzung einer materialistischen Ausprägung des EN faktisch null zu sein scheint, weil der Materialismus die Existenz einer nicht auf Materie rückführbaren Entität verbietet. Setzt man eine allgemeine Form des Naturalismus voraus, kann noch immer damit argumentiert werden, dass es keine rationalen Gründe zur Annahme einer Gotteshypothese gibt, wenn die Existenz von kohlenstoffbasiertem Leben befriedigend durch die Wahrheit des allgemeinen Naturalismus erklärt werden kann. Die Approximation $P(G|E) \approx 0$ scheint also plausibel zu sein. Schliesslich ist noch der Faktor $P(\neg G|E)$ qualitativ abzuschätzen. Hierzu kann ähnlich wie oben argumentiert werden: Wenn eine Form des allgemeinen Naturalismus wahr ist, so besteht keine Ursache zur Annahme der Gotteshypothese. Ist der evolutionäre Naturalismus in materialistisch-deterministischer Form zutreffend, so folgt hieraus gar $P(\neg G|E) = 1$. Im Allgemeinen jedoch wird die Annahme $P(\neg G|E) \approx 1$ fair sein. Somit ergibt sich das Wahrscheinlichkeitsverhältnis $\nicefrac{P(G|E)}{P(\neg G|E)} \approx \nicefrac{0}{1} \approx 0$, wodurch mit \eqref{bayespremiss5state} \begin{equation}
+\frac{P(E| G)}{P(E|\neg G)}=\underbrace{\frac{P(\neg G)}{P(G)}}_{\ggg 1}\underbrace{\frac{P(G|E)}{P(\neg G|E)}}_{\approx 0} \approx 0
+\end{equation} folgt. Der erste Term rechts des Gleichheitszeichens nennt man dabei den A-priori-Term (APR), den zweiten den A-posteriori-Term (APO). In obiger Abschätzungen wurde implizit angenommen, dass sich der Exponentenbetrag des APR durch mehrere Grössenordnungen von jenem des APO unterscheidet. Wenn beispielhaft also der APR durch $10^{10}$ und der APO mit $10^{-20}$ angegeben werden können, unterscheiden sich die beiden Terme im Betrag ihres Exponenten um $10$ Zehnerpotenzen, da $||-20|-|10||=10$ gilt. Der APR sowie der APO geben mit einem wichtigen, noch zu nennenden Unterschied prinzipiell den Kehrwert voneinander an. Der Unterschied liegt jedoch darin, dass im APO noch zusätzliche Evidenz berücksichtigt wird - im vorliegenden Fall die Proposition $E$. Die Evidenz $E$ erhärtet generell den apriorischen Verdacht, dass Gott nicht existieren könnte, wobei sie ferner auch die a-priori Wahrscheinlichkeit seiner Existenz unplausibler zu machen scheint. Daher kann man $P(\neg G) \ll P(\neg G|E)$ sowie $P(G) \gg P(G|E)$ statuieren, was wiederum mit \eqref{bayespremiss5state} in \begin{equation}
+\frac{P(E|G)}{P(E|\neg G)}=\underbrace{\frac{P(\neg G)}{P(\neg G|E)}}_{\ll 1}\underbrace{\frac{P(G|E)}{P(G)}}_{\ll 1} \approx 0
+\end{equation} resultiert, womit eine plausible Legitimation für Prämisse \ref{MPT5} erbracht wurde.
+
+%Sodann verbleibt eine Abschätzung der Faktoren $P(G|E)$ und $P(G|\neg E)$ zu tätigen. Die Wahrheit des Naturalismus, verstanden in der erwähnten materialistisch-deterministischen Ausprägung, impliziert faktisch die Unmöglichkeit der Existenz Gottes, also $P(G|E) = 0$. Somit wäre auch $(\neg G|E)$ ein sicheres Ereignis, das heisst $P(\neg G| E) = 1$
+
+\section{Schlusswort}
+In einem ersten Schritt der vorliegenden Arbeit wurde ein moralisches Argument gegen die Wahrheit des evolutionären Naturalismus, basierend auf Linvilles Werk, verteidigt \cite[S. 391-448]{Linville2009-LINTMA-2}. Hierbei wurde vorwiegend vor dem Hintergrund eines materialistisch-deterministisch aufgefassten Naturalismus argumentiert, wobei überdies in Prämisse \ref{MCN3} moralischer Realismus vorausgesetzt wurde. Die Annahme des Letzteren kann vom Leser natürlich verworfen werden, indem ein moralischer Antirealismus oder moralischer Relativismus postuliert wird - tut man dies, so sind sowohl das moralische Argument \textit{contra} Naturalismus, wie auch das moralische Argument \textit{pro} Theismus, als widerlegt zu betrachten. Scheint dem Leser aber die Annahme des moralischen Realismus plausibel, so kann das MCN Ersterem zur Plausibilisierung einer möglichen Unwahrheit des evolutionären Naturalismus dienen. Ist der Leser insoweit mit der gegebenen Argumentation einverstanden, so wird er durch eine allfällige Akzeptanz von Prämisse \ref{MPT5} des MPT zur Konklusion \flqq Gott existiert\frqq\ hingeführt. Ist die gutachtende Person des Argumentes durch das MPT überzeugt, so bleibt zu prüfen, ob jenes durch das MPT gezeigte Gottesbild mit jenem einer der Weltreligionen übereinstimmt, was aber dem interessierten Leser überlassen sei.
+
+Als kraftvollste Einwände gegen das MPT und das MCN sind wohl die folgenden zwei zu betrachten: \begin{enumerate*} \item Das Eutyphro-Dilemma sowie \item die Ablehnung des moralischen Realismus.
+\end{enumerate*} Eine Ablehnung des moralischen Realismus dürfte für das Individuum unter Umständen verheerende Konsequenzen für das Denken und Handeln haben, da die Vorstellung inexistenter Moral der menschlichen Intuition und dem humanen Drang nach Sinnfindung zuwider läuft. Ferner sind - nach Ansicht des Autors plausible - Lösungsmöglichkeiten des ED verfügbar und dem interessierten Leser zugänglich.
+
+Aufgrund den in vorliegender Arbeit präsentierten Überlegungen schliesst die persönliche Abwägung des Autors betreffend der gegebenen Argumentationen mit der Konklusion \flqq Gott existiert\frqq.\
+
+\section{Anhang}
+\subsection{Bayesianisches Wahrscheinlichkeitskalkül}
+Eine Betrachtung des Bayesianischen Wahrscheinlichkeitskalküls setzt nach Ilya Molchanov die Definition des bedingten Wahrscheinlichkeitsraumes voraus \cite[S. 9]{Molchanov.2017}:
+\begin{dn}[Diskreter Wahrscheinlichkeitsraum]
+	Seien $\Omega$ eine abzählbare Menge und $P: \mathcal{P}(\Omega) \rightarrow [0,1]$ eine Funktion mit \begin{enumerate}
+		\item $P(\Omega)=1$ und
+		\item $\forall A_n \subseteq \Omega$ mit $A_i \cap A_j = \emptyset \;\; \forall i \neq j, \,n \in \mathbb{N} \quad  \Rightarrow \quad P(\bigcup\displaylimits_{n=1}^{\infty} A_n) = \sum_{n=1}^{\infty} P(A_n).$
+	\end{enumerate}
+Dann heisst das Paar $(\Omega, P)$ diskreter Wahrscheinlichkeitsraum, wobei $P$ ein Wahrscheinlichkeitsmass auf $\Omega$ darstellt.
+\end{dn}
+In obiger Definition stellt $\mathcal{P}(\Omega)$ die sogenannte Potenzmenge von $\Omega$ dar, also die Menge aller Teilmengen von $\Omega$. Auf obiger Definition aufbauend kann die bedingte Wahrscheinlichkeit definiert werden \cite[S. 16]{Molchanov.2017}: 
+\begin{dn}[Bedingte Wahrscheinlichkeit]
+	Seien $(\Omega,P)$ ein diskreter Wahrscheinlichkeitsraum und $B\subseteq \Omega$ mit $P(B) > 0$. Die bedingte Wahrscheinlichkeit von $A\subseteq \Omega$ gegeben $B$ ist definiert durch \begin{equation}P(A|B)=\frac{P(A \cap B)}{P(B)}.\end{equation}
+\end{dn}
+Mittels dieser zwei elementaren Definitionen der Wahrscheinlichkeitsrechnung ist es möglich, das Bayes'sche Theorem mittels des nachfolgend bewiesenen Satzes der totalen Wahrscheinlichkeit zu beweisen. Der Satz der totalen Wahrscheinlichkeit kann wie folgt formuliert werden \cite[S. 17]{Molchanov.2017}:
+\begin{tn}[Totale Wahrscheinlichkeit]\label{totwahr}
+Es seien $(\Omega, P)$ ein diskreter Wahrscheinlichkeitsraum und ferner $B_1,\dots,B_n \subseteq \Omega$ mit $n \in \mathbb{N}$ eine Partition von $\Omega$, das heisst $B_i \cap B_j = \emptyset \;\; \forall i \neq j$ und $\bigcup\displaylimits_{k=1}^{n}B_k = \Omega$ mit $P(B_i) > 0 \;\; \forall i \in \{1,\dots,n\}.$ Dann gilt für $A\subseteq \Omega$ \begin{equation}P(A) = \sum_{i=1}^{n}P(A|B_i)P(B_i).\end{equation}
+\end{tn}
+\begin{proof}
+	Es gelten die Beziehungen \begin{gather}
+		\sum_{i=1}^{n}P(A|B_i)P(B_i) = \sum_{i=1}^{n}\frac{P(A \cap B_i)}{P(B_i)}P(B_i) \nonumber \\ =\sum_{i=1}^{n} P(A \cap B_i) \overset{A \cap B_i \,\mathrm{disj.}}{=} P\left(\bigcup\displaylimits_{i=1}^{n}(A \cap B_i)\right) = P\left(A \cap \left[\bigcup\displaylimits_{i=1}^{n}B_i\right]\right) \nonumber \\ = P(A \cap \Omega) = P(A). \nonumber
+	\end{gather}
+\end{proof}
+Unter Verwendung dieses Satzes kann sodann das Theorem von Bayes bewiesen werden. Gemäss Ian Hacking und Molchanov lässt sich dieses durch Gleichung \eqref{bayestheorem} schreiben, wobei die Voraussetzungen an dessen Gültigkeit im nachfolgenden Theorem zusammengefasst sind \cite[S. 69-71, S. 19]{Hacking.2001, Molchanov.2017}.
+\begin{tnplus}[Bayes]
+	Es seien $(\Omega, P)$ ein diskreter Wahrscheinlichkeitsraum und ferner $B_1,\dots,B_n \subseteq \Omega$ mit $n \in \mathbb{N}$ eine Partition von $\Omega$, das heisst $B_i \cap B_j = \emptyset \;\; \forall i \neq j$ und $\bigcup\displaylimits_{k=1}^{n}B_k = \Omega$ mit $P(B_i) > 0 \;\; \forall i \in \{1,\dots,n\}.$ Für $A \subseteq \Omega$ mit $P(A) > 0$ gilt dann \begin{equation}\label{bayestheorem}
+		P(B_i|A) = \frac{P(B_i)P(A|B_i)}{\sum\displaylimits_{j=1}^{n}P(B_j)P(A|B_j)},\quad i \in \{1,\dots,n\}.
+	\end{equation}
+\end{tnplus}
+\begin{proof} Es sei $i \in \{1,\dots,n\}$ mit $n \in \mathbb{N}.$ Es gilt zunächst gemäss der Definition der bedingten Wahrscheinlichkeit
+	\begin{gather}\nonumber
+		P(B_i|A) \overset{\mathrm{Def.}}{=} \frac{P(B_i \cap A)}{P(A)}.
+	\end{gather} Berechnet man nun wiederum nach der Definition der bedingten Wahrscheinlichkeit die Wahrscheinlichkeit $P(A|B_i)$, so erhält man $$ P(A|B_i) = \frac{P(A \cap B_i)}{P(B_i)} \quad \Leftrightarrow \quad P(A \cap B_i) = P(A|B_i)P(B_i).$$ Setzt man dies in obige Gleichung für $P(A \cap B_i)$ ein und zieht Satz \ref{totwahr} hinzu, so ergibt sich \begin{gather}\nonumber
+	P(B_i|A) = \frac{P(A|B_i)P(B_i)}{P(A)} = \frac{P(B_i)P(A|B_i)}{\sum\displaylimits_{j=1}^{n}P(B_j)P(A|B_j)}.
+\end{gather}
+\end{proof}
+Definiert man mit $E$ eine partikuläre Evidenz, welche durch Hypothesen $T$ oder $\neg T$ zu erklären ist, so lässt sich das Bayes'sche Theorem in der Odds-Form schreiben, indem man das zunächst $P(T|E)$ sowie $P(\neg T |E)$ mithilfe von \eqref{bayestheorem} als \begin{align}
+P(T|E) &= \frac{P(T)P(E|T)}{P(T)P(E|T)+P(\neg T)P(E|\neg T)}, \\ P(\neg T|E) &= \frac{P(\neg T)P(E|\neg T)}{P(\neg T)P(E|\neg T)+P(T)P(E|T)} \end{align} formuliert und anschliessend dividiert, sodass
+\begin{equation}\label{bayesodds}
+\frac{P(T|E)}{P(\neg T|E)}
+= \frac{P(T)}{P(\neg T)}\frac{P(E|T)}{P(E|\neg T)}\end{equation} resultiert, was die Odds-Form des Bayes'schen Gesetzes genannt wird.
+
+
+\subsection{Klassische Aussagenlogik}\label{defklassausslogik}
+Mithilfe der Klassischen Aussagenlogik lassen sich viele alltägliche logische Schlussfolgerungen formalisieren. Die nachfolgende kurze Darstellung der in dieser Seminararbeit benutzten klassischen Aussagenlogik richtet sich nach einem Vorlesungsskript der Universität Bern über mathematische Logik und Modelltheorie \cite[S. 7-14]{GeorgeMetcalfe.2018}. Der klassischen Aussagenlogik zugrunde liegen die folgenden zwei Axiome: \begin{enumerate}
+\item \textit{Bivalenz: }Eine Proposition kann nur einer der beiden Wahrheitswerte Wahrheit oder Falschheit annehmen.
+\item \textit{Wahrheitsfunktionalität: }Der Wahrheitswert einer Proposition ist ausschliesslich durch die Wahrheitswerte der in ihr vorkommenden atomaren Basispropositionen bestimmt.
+\end{enumerate} Atomare Propositionen oder Basispropositionen sind hierbei elementare Sachverhalte, denen ein Wahrheitswert $\top$ oder $\bot$ durch eine sogenannte Belegung zugeordnet werden kann. Basispropositionen werden sodann durch Konnektive zu komplexen Propositionen, kurz Propositionen, verknüpft. Die klassische Aussagenlogik besteht im Wesentlichen aus den folgenden Elementen: \begin{enumerate}
+\item \textit{Syntax: }Regelwerk, wie aus formalen Zeichen ein Sachverhalt beschreibbar gemacht wird.
+\item \textit{Semantik: }Bedeutungslehre der syntaktischen Zeichen und deren Verknüpfungen.
+\item \textit{Beweismethodik: }Lehre zur Ableitung von Gültigen Schlussfolgerungen aus der Kombination von Syntax und Semantik eines Logikkalküls.
+\end{enumerate}
+
+\subsubsection{Syntax}
+Die syntaktischen Basiselemente der klassischen Aussagenlogik sind atomare Propositionen $$
+\{p_i\, | \,i \in \mathbb{N}\},$$  wobei beliebige andere Variablen $A, B, C, \dots$ anstelle der $p_i$ verwendet werden können. Ferner verfügt die Aussagenlogik über die Konnektive $\{\top, \bot, \neg, \land, \lor, \rightarrow\}$, welche wie folgt definiert sind:
+\begin{itemize}
+\item $\top$ \textit{Wahrheit} und $\bot$ \textit{Falschheit}, wobei diese Konnektive Arität $0$ haben.
+\item $\neg$ \textit{Negation}, wobei dieses Konnektiv Arität $1$ hat.
+\item $\land$ \textit{Konjunktion}, $\lor$ \textit{Disjunktion} sowie $\rightarrow$ \textit{Implikation}, wobei diese Konnektive Arität $2$ haben.
+\end{itemize} Die Arität gibt an, wie viele Propositionen durch das entsprechende Konnektiv verknüpft werden können. Basispropositionen können durch die obigen Konnektive zu \textit{Formeln} verknüpft werden, deren Bedeutung durch die Semantik festgelegt wird. Die obigen Konnektive $\{\neg, \land, \lor, \rightarrow, \leftrightarrow, \top, \bot\}$ können durch Wahrheitstabellen wie Tabelle \ref{W_Konnektive} ersichtlich definiert werden, wobei $A$ und $B$ beliebige Basispropositionen seien.
+
+\begin{table}
+\centering
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$A$ & $B$ & $\neg A$ & $A \land B$ & $A \lor B$ & $A \rightarrow B$ & $\neg A \lor B$ & $A \leftrightarrow B$ & $\top$ & $\bot$ \\
+\hline\hline
+0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+\hline
+0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 0 \\
+\hline
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+\hline
+1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+\hline
+\end{tabular}
+\caption{Wahrheitstabellen zu den Konnektiven $\neg$, $\land$, $\lor$, $\rightarrow$, $\leftrightarrow$, $\top$ und $\bot$.}
+\label{W_Konnektive}
+\normalsize
+\end{table}
+Die Biimplikation $\leftrightarrow$ kann dabei auch durch $$ A \leftrightarrow B = (A \rightarrow B) \land (B \rightarrow A) = (\neg A \lor B) \land (\neg B \lor A)$$ ausgedrückt werden, wobei die mittels Wahrheitstabelle \ref{W_Konnektive} bewiesene Identität $A \rightarrow B = \neg A \lor B$ benutzt wurde.
+
+
+\subsubsection{Semantik}
+Das Grundelemente der Semantik sind die Belegungen. Eine Belegung ist eine Funktion, welche den Basispropositionen einer Proposition oder Formel Wahrheitswerte $0$ für Falschheit oder $1$ für Wahrheit zuordnet. Formal also gilt für eine Belegung $V$ und jede in einer Formel enthaltenen Basisproposition $p_i,\, i \in \mathbb{N}$ also $$V(p_i) = \begin{cases}
+0, \quad p_i \leftrightarrow \bot \\
+1, \quad p_i \leftrightarrow \top
+\end{cases},$$ wodurch durch die in einer Formel verwendeten Konnektive der resultierende Wahrheitswert einer durch die atomaren Propositionen $p_i$ konstituierten Formel folgt.
+
+\subsubsection{Beweismethodik}
+Eine einfache und zugängliche Beweismethode der klassischen Aussagenlogik ist jene der Wahrheitstabellen. In einer Wahrheitstabelle werden alle möglichen Belegungskombinationen der Basispropositionen zeilenweise aufgeschrieben. Danach wird die Formel für alle Belegungen gemäss den Definitionen der Konnektive $\{\top,\bot,\neg,\land,\lor,\rightarrow,\leftrightarrow\}$ überprüft. Hat die untersuchte Formel für alle Belegungen der in ihr enthaltenen Basispropositionen den Wahrheitswert $1$, so ist die Formel \textit{gültig}, das heisst, der durch sie abgebildete logische Schluss ist korrekt. Die Gültigkeit einer Formel ist dadurch ersichtlich, dass die Spalte der Formel in einer Wahrheitstabelle ausschliesslich die Wahrheitswerte $1$ enthält, das heisst, dass die Formel für alle möglichen Belegungen der Basispropositionen den Wahrheitswert $1$ hat.
+
+\subsection{Notwendigkeit, Möglichkeit und Kontingenz}
+Metaphysische Notwendigkeit, Möglichkeit und Kontingenz sind Begrifflichkeiten der Modallogik, beziehungsweise der Metaphysik. Die Modallogik beschäftigt sich nach George Metcalfe mit Sachverhalten, die zusätzlich zu den Wahrheitswerten \flqq wahr\frqq\ und \flqq falsch\frqq\ der klassischen Logik auch die Modalitäten \flqq notwendig\frqq\ oder \flqq möglich\frqq\ annehmen können \cite[S. 27]{GeorgeMetcalfe.2018}. Hieraus kann schliesslich die Modalität \flqq kontingent\frqq\ konstruiert werden. Die Modalitäten \flqq notwendig\frqq,\ \flqq möglich\frqq,\ \flqq unmöglich\frqq\ sowie \flqq kontingent\frqq\ können in der Sprache der Mögliche-Welten-Semantik formuliert werden, wobei eine mögliche Welt in Anlehnung an Detel wie folgt gegeben ist \cite[S. 46]{WolfgangDetel.2014}:
+\begin{dn}[Mögliche Welt]
+Eine mögliche Welt ist eine unter Beachtung der Kompatibilität mit elementaren logischen Grundsätzen hypothetisch denkbare Beschaffenheit einer Welt. Die aktuale Welt ist eine von potentiell unendlich vielen möglichen Welten.
+\end{dn}
+Mittels dieser Definition lassen sich die formalen Definitionen der Modalitäten nach Detel in die Mögliche-Welten-Semantik überführen \cite[S. 47]{WolfgangDetel.2014}:
+\begin{dn}[Notwendigkeit]
+Eine Proposition $P$ ist notwendig genau dann, wenn $P$ in jeder möglichen Welt gilt.
+\end{dn}
+\begin{dn}[Möglichkeit]
+Eine Proposition $P$ ist möglich genau dann, wenn $P$ in mindestens einer möglichen Welt gilt.
+\end{dn}
+\begin{dn}[Unmöglichkeit]
+Eine Proposition $P$ ist unmöglich genau dann, wenn $P$ in keiner möglichen Welt gilt.
+\end{dn}
+\begin{dn}[Kontingenz]
+Eine Proposition $P$ ist kontingent genau dann, wenn $P$ in mindestens einer möglichen Welt gilt und in mindestens einer möglichen Welt nicht gilt. Anders formuliert: $P$ ist kontingent genau dann, wenn $P$ weder notwendig noch unmöglich ist.
+\end{dn}
+
+%To-Do:
+%- Materie erklären, was ist das --> Materialismus?
+%- Schlusswort verfassen, kurz auf mögliche Einwände eingehen, verweisen auf Eutyphro-Dilemma, kurz Lösung nennen.
+%- Abstract schreiben
+%- Korrekturlesen, Formulierungen verbessern + Abgeben.
+
+
+
+\bibliographystyle{apalike}
+%\footnotesize
+\bibliography{references}
+
+
+
+
+
+\end{document}

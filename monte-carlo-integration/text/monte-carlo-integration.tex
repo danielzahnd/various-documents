@@ -1,0 +1,421 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{bbm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+\usepackage{longtable}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[left=25mm,right=25mm,bottom=25mm,top=25mm]{geometry} %left, right, bottom ,top, includeheadfoot
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{nameref}
+\usepackage{placeins} %Put command \floatbarrier in front of textpassage or other items, in front of which the desired content (i.e. images) shall be placed.
+\usepackage{titlesec}
+\usepackage[inline]{enumitem}
+% \usepackage[parfill]{parskip}
+%\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{blindtext}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{hyperref} %To make document linked within.
+%\numberwithin{equation}{subsection}
+\captionsetup{font=footnotesize,labelfont=bf}
+
+
+% \newmdtheoremenv[backgroundcolor = lightgray!40, roundcorner = 10pt, linewidth = 0pt]{tn}{Satz}[section]
+
+% \newmdtheoremenv[backgroundcolor = blue!20, roundcorner = 10pt, linewidth = 0pt]{dn}{Definition}[section]
+
+\newmdtheoremenv{tn}{Satz}[section]
+
+\newmdtheoremenv{dn}{Definition}[section]
+
+% \newmdenv[<MDFRAMED OPTIONS>]{Name of the environment}
+% \newmdtheoremenv[<mdframed−options>]{<envname>}%
+% [<numberedlike>]{<caption>}[<within>]
+
+
+
+\renewcommand{\theenumi}{(\arabic{enumi})}
+\renewcommand\labelenumi{\theenumi} % Change enumerate style from 1. to (1) etc.
+\renewcommand{\theenumiii}{(\arabic{enumiii})}
+\renewcommand\labelenumiii{\theenumiii} % Change enumerate style from 1. to (1) etc.
+\setlist{itemsep = 0.2pt}
+
+\title{Monte-Carlo-Integration \\ \vspace{0.3cm} \small Mathematische Herleitung}
+\author{Daniel Zahnd}
+\date{13. Dezember 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Einleitung}
+Die meisten reelle physikalische Probleme beschreibenden Integrale sind nicht analytisch lösbar. Deswegen benötigt man numerische Verfahren, um solche Integrale dennoch lösen zu können. Dabei gibt es streng \flqq geometrische\frqq\ Verfahren, aber auch statistische Möglichkeiten. Die Monte-Carlo-Integrationsmethode gehört zu letzteren Verfahren und hat den Vorteil gegenüber rein geometrischen Lösungsaltorithmen, dass sie bei hochdimensionalen Integrationen viel schneller ist. Demgegenüber konvergieren statistische Verfahren wie die Monte-Carlo-Integrationsmethode generell langsamer, weswegen für niedrigdimensionale Problemstellungen dennoch die geometrischen Verfahren günstiger sind.
+
+Das nachfolgend eingeführte wahrscheinlichkeitstheoretische Material stützt sich auf \cite{Molchanov.2017}.
+
+\section{Definitionen}
+Um die Monte-Carlo-Integrationsmethode mathematisch formal herleiten zu können, müssen zunächst einige Definitionen eingeführt werden.
+\begin{dn}[Indikatorfunktion]\label{Indikatorfunktion}
+Sei $\Omega$ eine beliebige Menge. Die Indikatorfunktion für eine Menge $A \subseteq \Omega$ auf $\Omega$ ist definiert durch \begin{equation} \mathbbm{1}_A = \Omega \rightarrow \{0,1\}, \, \omega \mapsto \begin{cases} 0&,\quad \mathrm{wenn}\, \omega \not\in A \\ 1&,\quad \mathrm{wenn}\, \omega \in A.\end{cases}\end{equation}
+\end{dn}
+
+Um Wahrscheinlichkeiten mathematisch zu formalisieren, muss ferner ein sogenannter Wahrscheinlichkeitsraum definiert werden. Dies geschieht nachfolgend in allgemeiner Weise, wobei bemerkt sei, dass in der Praxis häufig diskrete Wahrscheinlichkeitsräume auftreten, welche aber in der Definition der allgemeinen Wahrscheinlichkeitsräume enthalten sind.
+
+\begin{dn}[Allgemeiner Wahrscheinlichkeitsraum]\label{AllgemeinerWahrscheinlichkeitsraum}
+Es sein $\Omega \neq \emptyset$ eine Menge und $\mathcal{F}$ eine $\sigma$-Algebra für $\Omega$, das heisst \begin{enumerate} 	
+\item $\Omega \in \mathcal{F},$
+\item $A \in \mathcal{F} \Rightarrow A^c \in \mathcal{F},$
+\item $A_1,A_2,\dots \, \in \mathcal{F} \Rightarrow \bigcup\displaylimits_{i=1}^{\infty} A_i \in \mathcal{F},$
+\end{enumerate} ferner sei eine Abbildung auf $\mathcal{F}$ definiert durch $P:\,\mathcal{F} \rightarrow [0,1]$ mit den Eigenschaften \begin{enumerate}
+\renewcommand\theenumi{(\alph{enumi})}
+\renewcommand\labelenumi{\theenumi}
+\item $P(\Omega) = 1,$
+\item $A,B \, \in \mathcal{F}$ mit $A\cap B \neq \emptyset \Rightarrow P(A\cup B) = P(A) + P(B)$ und
+\item $(A_n)_{n \in \mathbb{N}} \subseteq \mathcal{F}$ mit $A_m \cap A_n \neq \emptyset \, \forall m \neq n \Rightarrow P(\bigcup\displaylimits_{n \in \mathbb{N}}) = \sum_{n=1}^{\infty}P(A_n),$
+\end{enumerate} wobei $P$ Wahrscheinlichkeitsfunktion oder Wahrscheinlichkeitsmass heisst.
+\end{dn}
+
+Eine Zufallsvariable nun, welcher eine bestimmte Wahrscheinlichkeit $P(A)$ des Eintreffens eines darin enthaltenen Ereignisses $A \in X=X(\Omega)$ zugeordnet werden kann, wird mathematisch durch folgende Defintion erfasst:
+
+\begin{dn}[Allgemeine Zufallsvariable]\label{AllgemeineZufallsvariable}
+Sei $(\Omega,\mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum. Eine Funktion \begin{equation}X:\,\Omega \rightarrow \mathbb{R}, \quad \{\omega \in \Omega\,|\,X(\omega) \leq t\} \in \mathcal{F}\;\; \forall t \in \mathbb{R}\end{equation} heisst allgemeine Zufallsvariable.
+\end{dn}
+
+Wiederum sei bemerkt, dass in der Praxis häufig sogenannte diskrete Zufallsvariablen auftreten, die etwa einen Würfelwurf mit der Augenzahl $i \in \{1,\dots,6\}$ beschreiben. Wird das Konzept der allgemeinen Zufallsvariable auf mehr als eine Dimension ausgedehnt, so ergibt sich die Definition einer allgemeinen mehrdimensionalen Zufallsvariable, beziehungsweise eines allgemeinen Zufallsvektors. Dessen Definition sei nachfolgend gegeben:
+
+\begin{dn}[Allgemeine mehrdimensionale Zufallsvariable]\label{AllgemeinmehrdimensionaleZufallsvariable}
+	Seien $(\Omega,\mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum sowie $X_1,\dots,X_n$ allgemeine Zufallsvariablen $X_i:\,\Omega \rightarrow \mathbb{R}$ für $i \in \{1,\dots,n\},\, n \in \mathbb{N}$ nach Definition \ref{AllgemeineZufallsvariable}. Eine allgemeine mehrdimensionale Zufallsvariable, auch allgemeiner Zufallsvektor genannt, ist sodann definiert durch \begin{equation}
+		X:\, \Omega \rightarrow \mathbb{R}^n, \, X = (X_1,\dots,X_n).
+	\end{equation}
+\end{dn}
+
+Zufallsvariablen, beziehungsweise Zufallsvektoren werden üblicherweise in Grossbuchstaben notiert, während deren Realisierungen, also partikuläre Zufallswerte des entsprechenden Zufallsvektors oder der entsprechenden Zufallsvariable, in Kleinbuchstaben geschrieben werden. Nachfolgend werden die Begriffe 'Zufallsvariable' und 'Zufallsvektor' Synonym verwendet, wobei, wo relevant und für das Verständnis hilfreich, explizit der exakte Begriff verwendet wird. Das Satzwerk jedoch gilt sowohl für Zufallsvariablen, als auch für Zufallsvektoren.
+
+Das Konzept der Zufallsvariablen an einem Beispiel verdeutlicht. Es werde ein Münzwurfexperiment mit einem passenden Wahrscheinlichkeitsraum $(\Omega, \mathcal{F},P)$ ausgeführt. Die Grundmenge $\Omega$, also die Menge aller möglichen Ergebnisse des Experimentes, ist mit $\Omega = {\mathrm{Kopf}, \mathrm{Zahl}}$ zu bezeichnen. Das Zufallsexperiment bestehe darin, dass beim Erscheinen von 'Kopf' ein Geldstück ausgezahlt wird, beim Erscheinen von 'Zahl' jedoch kein Geld fliesst. Die Zufallsvariable $X$, definiert durch \begin{equation}
+	X(\omega) \doteq \begin{cases}
+		0&,\quad \mathrm{falls}\;\; \omega=\mathrm{Zahl} \\
+		1&,\quad \mathrm{falls}\;\; \omega=\mathrm{Kopf,}
+	\end{cases}
+\end{equation} modelliert dieses Experiment. Es kann aber auch eine ganz andere Zufallsvariable $Z$ definiert werden, die ein anderes Zufallsexperiment beschreibt, welches sich der Elemente von $\Omega$ mit dem entsprechenden Wahrscheinlichkeitsraum $(\Omega, \mathcal{F},P)$ bedient.
+
+Überdies haben Zufallsvariablen eine bestimmte Struktur, die Verteilung, beziehungsweise Verteilungsfunktion genannt wird und wie folgt gegeben ist:
+
+\begin{dn}[Allgemeine Verteilungsfunktion]\label{AllgemeineVerteilungsfunktion}
+Seien $(\Omega,\mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum und $X$ eine allgemeine Zufallsvariable. Die verteilungsfunktion $F_X$ von $X$ ist gegeben durch \begin{gather}F_X:\,X(\Omega) \subseteq \mathbb{R} \rightarrow [0,1],\\ F_X(y) \doteq P(\{\omega \in \Omega \, |\,X(\omega) \leq y\}) \doteq P(X\leq y), \quad y \in \mathbb{R}.\end{gather}
+\end{dn}
+
+Einen Spezialfall bilden die absolut stetigen Verteilungsfunktionen, welche insbesondere für die Monte-Carlo-Integration relevant sind, wobei häufig angenommen wird, dass die  Dichtefunktion $f(x)$ einer betrachteten Zufallsvariable $X$ glatt ist, das heisst $f(x) \in C^{\infty}.$ Die Voraussetzungen dafür, dass eine Verteilungsfunktion $F$ einer Zufallsvariable $X$ mit einer Dichtefunktion $f$ absolut stetig ist, sind in nachfolgender Definition enthalten.
+
+\begin{dn}[Absolut stetige Verteilungsfunktion]\label{AbsolutstetigeVerteilungsfunktion}
+Seien $(\Omega,\mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum und $X$ eine allgemeine Zufallsvariable mit einer Verteilungsfunktion $F.$ Wenn $F$ die Stammfunktion von $f:\,\mathbb{R} \rightarrow [0,\infty)$ ist, d.h. \begin{equation}F(x) = \int\displaylimits_{-\infty}^{x} f(u) \,\mathrm{d}u,\end{equation} dann heisst $F$ absolut stetige Verteilungsfunktion. Die Funktion $f(x)$ heisst Wahrscheinlichkeitsdichtefunktion von $F$ und es müssen \begin{enumerate}
+	\renewcommand\theenumi{(\alph{enumi})}
+	\renewcommand\labelenumi{\theenumi}
+	\item $f(x) \geq 0 \;\; \forall x \in \mathbb{R}$ sowie
+	\item $\int_{-\infty}^{\infty} f(u)\,\mathrm{d}u = 1$
+\end{enumerate} gelten. Falls $f(x)$ stetig in $x \in \mathbb{R}$ ist, so gilt $F'(x) = \frac{\mathrm{d}F(x)}{\mathrm{d}x} = f(x).$ Für $a,b \in \mathbb{R}$ mit $a < b$ gilt \begin{equation} P(a\leq X \leq b) = P(a<X<b) = F(b) - F(a) = \int\displaylimits_{a}^{b} f(u)\,\mathrm{d}u.\end{equation}
+\end{dn}
+
+Oft interessiert es bei einem Zufallsexperiment mit einer oder mehreren involvierten Zufallsvariablen $X$, welches Resultat bei vielen Wiederholungen des Experimentes zu erwarten ist. Aufschluss hierüber gibt der Erwartungswert, der nachfolgend für diskrete Zufallsvariable defniert wird.
+
+\begin{dn}[Erwartungswert diskreter Zufallsvariablen]\label{ErwartungswertdiskreterZufallsvariablen}
+Sei $(\Omega,P)$ ein diskreter Wahrscheinlichkeitsraum und $X$ eine diskrete Zufallsvariable. Der Erwartungswert $E(X)$ der Zufallsvariable $X$ ist definiert durch \begin{equation}E(X) = \sum_{\omega \in \Omega} X(\omega)P(\{\omega\}) = \sum_{x \in X(\Omega)}xP(X=x),\end{equation} falls $E(|X|) < \infty.$
+\end{dn}
+
+Auch der Erwartungswert von Zufallsvariablen, welche eine absolut stetige Verteilungsfunktion besitzen, kann definiert und berechnet werden.
+
+\begin{dn}[Erwartungswert allgemeiner Zufallsvariablen mit absolut stetiger Verteilung]\label{ErwartungswertallgemeinerZufallsvariablenmit absolutstetigerVerteilung}
+Seien $(\Omega,\mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum, $X$ eine allgemeine Zufallsvariable mit einer absolut stetigen Verteilungsfunktion $F_X$ und $f_X(x)$ die Dichtefunktion von $F_X.$ Falls $E(|X|) < \infty$ ist der Erwartungswert von $X$ gegeben durch das Integral \begin{equation}E(X) = \int\displaylimits_{-\infty}^{\infty}x f_X(x)\,\mathrm{d}x.\end{equation} Ist $Y = g(X)$ eine weitere Zufallsvariable mit absolut stetiger Verteilungsfunktion $F_Y$ und Dichtefunktion $f_Y(x)$, so ist deren Erwartungswert gegeben durch \begin{equation}E(Y)= E(g(X)) = \int\displaylimits_{-\infty}^{\infty}g(x) f_Y(x)\,\mathrm{d}x.\end{equation}
+\end{dn}
+
+\section{Theoreme}
+Um das zu einer vollständigen Herleitung der Monte-Carlo-Integrationsmethodik nötige schwache Gesetz der grossen Zahlen zu beweisen, müssen zunächst zwei Ungleichungen statuiert und bewiesen werden, namentlich die Markov-Ungleichung und die Tschebycheff-Ungleichung. Mittels dieser beiden Ungleichungen, sowie elementarer Identitäten für die Rechnung mit Erwartungswerten und Varianzen, kann schliesslich das schwache Gesetz der grossen Zahlen gezeigt werden.
+
+\begin{tn}[Markov-Ungleichung]\label{Markov}
+		Es seien $(\Omega, \mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum, $X$ eine Zufallsvariable und $\epsilon > 0.$ Dann gilt \begin{equation}
+			P(|X|\geq \epsilon) \leq \frac{E(|X|)}{\epsilon}.
+		\end{equation}
+\end{tn}
+\begin{proof}
+	Es gilt $|X| \geq \mathbbm{1}_{\{|X|\,\geq \,\epsilon\}}|X| \geq \mathbbm{1}_{\{|X|\,\geq \,\epsilon\}}\epsilon.$ Dann ist ferner \begin{gather}
+		E(|X|) \geq E(\mathbbm{1}_{\{|X|\,\geq \,\epsilon\}}\epsilon) = \epsilon E(\mathbbm{1}_{\{|X|\,\geq \,\epsilon\}}) = \epsilon \int\displaylimits_{\omega \,\in \,\Omega} \mathbbm{1}_{\{|X|\,\geq \,\epsilon\}} \mathrm{d}P(\{\omega\}) \nonumber \\
+		= \epsilon \int\displaylimits_{\omega \,\in\, \Omega\,:\,|X(\omega)| \,\geq \,\epsilon} \mathrm{d}P(\{\omega\})= \epsilon P(|X|\geq \epsilon) \Leftrightarrow P(|X|\geq \epsilon) \leq \frac{E(|X|)}{\epsilon}.
+	\end{gather}
+\end{proof}
+
+Die Markov-Ungleichung wird daraufhin im Beweis der Tschebycheff-Ungleichung eingesetzt.
+
+\begin{tn}[Tschebycheff-Ungleichung]\label{Tschebycheff}
+	Es seien $(\Omega, \mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum, $X$ eine Zufallsvariable mit $E(X^2) < \infty$ und $\epsilon > 0$. Es gilt dann \begin{equation}
+		P(|X-E(X)|\geq \epsilon) \leq \frac{V(X)}{\epsilon^2}.
+	\end{equation} 
+\end{tn}
+\begin{proof}
+	Es gilt unter Verwendung der Markov-Ungleichung, dass \begin{gather}
+		P(|X-E(X)|\geq \epsilon) = P((X-E(X))^2\geq \epsilon^2) \nonumber \\ \leq \frac{E((X-E(X))^2)}{\epsilon^2} = \frac{V(X)}{\epsilon^2},	\end{gather} wobei die Definition der Varianz $V(X) = E((X-E(X))^2)$ im letzten Schritt angewandt wurde.
+\end{proof}
+
+Mithilfe der beiden obigen Ungleichungen kann man nun das Gesetz der grossen Zahlen beweisen, welches zur Plausibilisierung der Monte-Carlo-Methode für die Berechnung $d$-Dimensionalen Integralen verwendet werden kann.
+
+\begin{tn}[Schwaches Gesetz der grossen Zahlen]\label{SchwachesGesetzdergrossenZahlen}
+	Es seien $(\Omega, \mathcal{F},P)$ ein allgemeiner Wahrscheinlichkeitsraum, $(X_n){n \in \mathbb{N}}$ eine Folge von unabhängigen und identisch verteilten Zufallsvariablen- oder Vektoren mit $E(X_1^2) < \infty$. Es sei zudem \begin{equation}
+		\bar{X}_n \doteq \frac{1}{n}\sum_{i=1}^{n}X_i
+	\end{equation} für $n \in \mathbb{N}$. Dann gilt \begin{equation}
+	\lim\limits_{n \rightarrow \infty} P(|\bar{X}_n-E(X_1)| \geq \epsilon) = 0 \;\; \forall \epsilon > 0.
+\end{equation}
+\end{tn}
+\begin{proof}
+	Es gilt zunächst \begin{equation}
+		E(\bar{X}_n) = \frac{1}{n}\sum_{i=1}^{n}E(X_i) = \frac{1}{n}n E(X_1) = E(X_1).
+	\end{equation} Hierbei wurde die Definition der Zufallsvariable $\bar{X}_n$ in Kombination mit der Additivität und Linearität von Erwartungswerten verwendet. Darüber hinaus wurde die identischen Verteilungen der $X_i$ benutzt, was auch zur Berechnung der folgenden Varianz benutzt wird. Für die Varianz $V(\bar{X}_n)$ gilt ebenfalls nach Definition der Zufallsvariable $\bar{X}_n$, sowie wegen der Additivität unabhängiger Zufallsvariablen und der Skaliereigenschaft von Varianzen mit einer Konstante \begin{equation}
+	V(\bar{X}_n) = V(\frac{1}{n}\sum_{i=1}^{n}X_i) = \frac{1}{n^2}\sum_{i=1}^{n}V(X_i) = \frac{1}{n^2}nV(X_1) = \frac{V(X)}{n}.
+\end{equation} Gemäss der Tschebycheff-Ungleichung \ref{Tschebycheff} und obigen Resultaten gilt für $\epsilon >0:$ \begin{gather}\label{betrepsilon}
+P(|\bar{X}_n-E(\bar{X}_n)|\geq \epsilon) = P(|\bar{X}_n-E(X_1)|\geq \epsilon) \leq \frac{V(\bar{X}_n)}{\epsilon^2} \nonumber \\ = \frac{X_1}{\epsilon^2 n} \xrightarrow{n \rightarrow \infty} 0.
+\end{gather}
+\end{proof}
+
+\section{Herleitung}
+Mit den gegebenen Definitionen, Theoremen und Beweisen kann nun die eigentliche Monte-Carlo-Integration hergeleitet werden. Zunächst sei die Menge $D \doteq [a_1,b_1]\times \dots \times [a_d,b_d] \subseteq \mathbb{R}^d$ für $d \in \mathbb{N}$ definiert. Es seien ferner $X_1,\dots,X_n \subseteq D$ unabhängige, identisch und gleichverteilte Zufallsvektoren nach Definition \ref{AllgemeinmehrdimensionaleZufallsvariable} mit $n \in \mathbb{N}$ und glatten Dichtefunktionen \begin{equation}
+	f_{X_i}(x_i) = \begin{cases}
+		\frac{1}{b_{i_j}-a_{i_j}}&,\quad x_{i_j} \in [a_{i_j},b_{i_j}] \\ 0&,\quad \mathrm{sonst}
+	\end{cases}, \quad x_i = (x_{i_1},\dots,x_{i_d}), \quad i \in \{1,\dots,n\}
+\end{equation} gegeben. Ausserdem seien die Zufallsvektoren $X_i$ nur auf den Mengen $D_i \doteq [a_{i_1},b_{i_1}]\times \dots \times [a_{i_d},b_{i_d}]$ für $i \in \{1,\dots,n\}$ vom Nullvektor verschieden. Es gelte darüber hinaus, dass $a_j \doteq a_{i_j}$ und $b_j \doteq b_{i_j} \;\;\forall i \in \{1,\dots,n\},\,\forall j \in \{1,\dots,d\}.$ Folglich gilt $D_i = D \;\;\forall i \in \{1,\dots,n\}.$ Ein Zufallsvektor $X_i$ für ein $i \in \{1,\dots,n\}$ stellt also hierbei einen zufällig, beispielsweise durch ein Computerprogramm ausgewählten Punkt $p = (p_1,\dots,p_d) \in D$ dar. Ein Zufallsvektor $X_i$ ist entsprechend Definition \ref{AllgemeinmehrdimensionaleZufallsvariable} definiert durch $X_i:\, \Omega \rightarrow \mathbb{R}^d$ mit der Grundmenge $\Omega = D_i \subseteq \mathbb{R}^d.$ Im vorliegenden Fall kann die Zuordnungsvorschrift des Zufallsvektors $X_i:\,\Omega \rightarrow \mathbb{R}^d$ ferner durch $X_i = \mathrm{Id}_{X_i}$ mit der Identitätsabbildung $\mathrm{Id}$ angegeben werden, da $X_i$ gemäss Voraussetzung eine Gleichverteilung aufweist, was zur Identifikation der Zielmenge von $X_i$ mit $D_i = D$ führt, sodass sich $X_i:\,D_i \rightarrow D_i$ ergibt. Des Weiteren sei eine über den Integrationsbereich $D$ zu integrierende integrierbare Funktion \begin{equation}
+	\varphi :\,\mathbb{R}^d \rightarrow \mathbb{R},\quad x_i = (x_{i_1},\dots,x_{i_d}) \mapsto \varphi(x_{i_1},\dots,x_{i_d}) = \varphi(x_i)
+\end{equation} eingeführt. Das mit den Monte-Carlo-Methoden zu berechnende Integral ist lautet dabei \begin{equation}\label{tocalcintegral}
+I \doteq \int\displaylimits_{D} \varphi(u) \, \mathrm{d}u = \int\displaylimits_{a_1}^{b_1} \,\dots \, \int\displaylimits_{a_d}^{b_d} \varphi(u_1,\dots,u_d) \,\mathrm{d}u_1\dots \mathrm{d}u_d.
+\end{equation} Weil die Funktion $\varphi$ integrierbar ist, berechnet sich der Erwartungswert einer Zufallsvariable $Y_i \doteq \varphi(X_i)$ für ein $i \in \{1,\dots,n\}$ nach Definitionen \ref{AllgemeinmehrdimensionaleZufallsvariable} und \ref{ErwartungswertallgemeinerZufallsvariablenmit absolutstetigerVerteilung} zu \begin{gather}\label{integral1}
+E(Y_i)=E(\varphi(X_i)) = \int\displaylimits_{\mathbb{R}^d} \varphi(x_i)f_{X_i}(x_i) \,\mathrm{d}x_i  \nonumber \\ = \int\displaylimits_{-\infty}^{\infty} \, \dots \, \int\displaylimits_{-\infty}^{\infty} \varphi(x_{i_1},\dots,x_{i_d}) f_{X_i}(x_{i_1},\dots,x_{i_d}) \,\mathrm{d}x_{i_1}\dots \mathrm{d}x_{i_d} \nonumber \\  =  \frac{1}{(b_{i_1}-a_{i_1})\cdot\,\dots\,\cdot(b_{i_d}-a_{i_d})} \int\displaylimits_{a_{i_1}}^{b_{i_1}}\,\dots\,\int\displaylimits_{a_{i_d}}^{b_{i_d}} \varphi(x_{i_1},\dots,x_{i_d}) \,\mathrm{d}x_{i_1}\dots \mathrm{d}x_{i_d}\nonumber \\ = \frac{1}{\mathcal{V}_i}\int\displaylimits_{a_{i_1}}^{b_{i_1}}\,\dots\,\int\displaylimits_{a_{i_d}}^{b_{i_d}} \varphi(x_{i_1},\dots,x_{i_d}) \,\mathrm{d}x_{i_1}\dots \mathrm{d}x_{i_d} \overset{\eqref{tocalcintegral}}{=} \frac{I}{\mathcal{V}_i},
+\end{gather} wobei das Volumen $\mathcal{V}_i$ durch \begin{equation}
+\mathcal{V}_i \doteq (b_{i_1}-a_{i_1})\cdot \,\dots \,\cdot (b_{i_d}-a_{i_d})
+\end{equation} definiert wurde und per Definition der Intervallgrenzen $\mathcal{V}_i = \mathcal{V}_j \doteq \mathcal{V} \;\; \forall i,j \in \{1,\dots,n\}$ gilt. Gleichungen \eqref{tocalcintegral} und \eqref{integral1} ergeben zusammen die Gleichung \begin{equation}
+E(\varphi(X_i))\mathcal{V}_i = \int\displaylimits_{D} \varphi(u) \, \mathrm{d}u = \int\displaylimits_{a_1}^{b_1} \,\dots \, \int\displaylimits_{a_d}^{b_d} \varphi(u_1,\dots,u_d) \,\mathrm{d}u_1\dots \mathrm{d}u_d = I.
+\end{equation} Aus den Voraussetzungen, woraus obige Gleichung hergeleitet wurde, ergibt sich insbesondere die Relation $E(\varphi(X_i))\mathcal{V}_i = E(\varphi(X_j))\mathcal{V}_j \;\; \forall i,j \in \{1,\dots,n\}.$ Man definiere nun die Zufallsvariable \begin{equation}\label{defzvintegral}
+\bar{Y}_n \doteq \frac{1}{n}\sum_{i=1}^{n}Y_i = \frac{1}{n}\sum_{i=1}^{n}\varphi(X_i).
+\end{equation} Es sei alsdann $\epsilon > 0.$ Setzt man nun die in obiger Gleichung \eqref{defzvintegral} definierte Variable mit der weiter oben definierten Variable $Y_i = \varphi(X_i)$ im Gesetz der Grossen Zahlen nach Satz \ref{SchwachesGesetzdergrossenZahlen} ein, so erhält man für ein beliebiges $j \in \{1,\dots,n\}$ \begin{gather}
+\lim\limits_{n \rightarrow \infty}P(|\bar{Y}_n-E(Y_j)|\geq \epsilon) = P\left(\left|\frac{1}{n}\sum_{i=1}^{n}\varphi(X_i)-\frac{I}{\mathcal{V}_j}\right|\geq \epsilon\right) \nonumber \\ = P\left(\left|\frac{1}{n}\sum_{i=1}^{n}\varphi(X_i)-\frac{I}{\mathcal{V}}\right|\geq \epsilon\right) \xrightarrow[\mathrm{Satz}\, \ref{SchwachesGesetzdergrossenZahlen}]{n \rightarrow \infty} 0.
+\end{gather} Betrachtet man diese Gleichung danach heuristisch im Limit $\epsilon \rightarrow 0$, dann verschwindet die Wahrscheinlichkeit $P$ dafür, dass die Summe $\frac{1}{n}\sum_{i=1}^{n}\varphi(X_i)$ vom Wert des Integrals $I$ dividiert durch das Volumen $\mathcal{V}$ abweicht, daher gilt für ein 'genügend grosses' $n \in \mathbb{N}$ 
+\begin{mdframed}
+\begin{equation}\label{MonteCarlo}
+I = \int\displaylimits_{D} \varphi(u) \, \mathrm{d}u = \int\displaylimits_{a_1}^{b_1} \,\dots \, \int\displaylimits_{a_d}^{b_d} \varphi(u_1,\dots,u_d) \,\mathrm{d}u_1\dots \mathrm{d}u_d \approx \frac{\mathcal{V}}{n}\sum_{i=1}^{n}\varphi(X_i).
+\end{equation} 
+\end{mdframed}
+Wie aus Gleichung \eqref{betrepsilon} ersichtlich ist, wird der Fehler $\xi(\epsilon,n)$ der Approximation \eqref{MonteCarlo} bei konstantem $\epsilon$ mit zunehmendem $n$ kleiner. Damit der Bruch in \eqref{betrepsilon} für variables $\epsilon$ tatsächlich gegen null geht, wie es für die exakte Gleichheit in der Monte-Carlo-Integration \eqref{MonteCarlo} gefordert ist, muss $n$ für $n,\epsilon^{-1} \rightarrow \infty$ schneller wachsen als $\epsilon^{-2}.$  Man kann mit dem in \eqref{MonteCarlo} begründeten Verfahren also ein Integral beliebig genau approximieren, indem man ein beliebig kleines $\epsilon$ und im Grenzfall $\epsilon \rightarrow 0$ wählt. Allerdings ist zu beachten, dass die Approximation \begin{equation}
+	I \approx \frac{\mathcal{V}}{n}\sum_{i=1}^{n}\varphi(X_i)
+\end{equation} mit kleiner werdendem $\epsilon$ ein umso höheres $n$ fordert, damit die Approximation in guter Näherung mit dem exakten Integral $I$ übereinstimmt. Man erinnere sich nun, dass die $X_1,\dots,X_n$ $d$-dimensionale Zufallsvektoren sind. Das heisst, dass mit einem Computerprogramm $n$ Punkte im $d$-Dimensionalen Raum $D$ erzeugt werden können, welche dann als eine Realisierung der Zufallsvektoren $X_1,\dots,X_n$ als $x_1,\dots,x_n$ zu betrachten sind, wobei $x_i = (x_{i_1},\dots,x_{i_d})$ für $i \in \{1,\dots,n\}$ gilt.
+
+\section{Implementierung}
+Wie im obigen Abschnitt bereits angedeutet, werden zur Monte-Carlo-Integration zunächst $n$ Realisierungen $r_i$ eines $d$-dimensionalen Zufallsvektors $X_i$ mit $r_i \in D_i = D$ erzeugt. Mithilfe dieser erzeugten Zufallspunke kann nun die Funktion $\varphi(r_i)$ für jede Realisierung $r_i$ evaluiert werden. Das zu berechnende Integral $\eqref{tocalcintegral}$ kann sodann durch die Vorschrift \begin{equation}
+	I \approx \frac{\mathcal{V}}{n}\sum_{i=1}^{n}\varphi(r_i)
+\end{equation} mit einer \texttt{for}-Schleife berechnet beliebig genau berechnet werden.
+
+Im nachfolgenden Abschnitt ist eine Beispielimplementation in der Programmiersprache Python zu finden, der eine vierdimensionale Funktion $h(x_0,x_1,x_2,x_3)$ integrieren kann. Somit bietet der Integrator Möglichkeiten, viele Probleme der Physik lösen zu können, da dort oftmals vierdimensionale Integrale vorkommen - über drei Raumdimensionen und eine Zeitdimension.
+
+\subsection{Beispielimplementierung}
+\subsubsection{Code}
+Nachfolgend sei zunächst der folgende Programmcode in der Programmiersprache \texttt{Python} betrachtet:
+
+\begin{Verbatim}[breaklines = true, breakanywhere = true]
+#Import packages
+import math as m
+import numpy as np 
+
+def monteCarloInt(a_0, b_0, a_1, b_1, a_2, b_2, a_3, b_3, n, dim):
+	'''
+	Parameters
+	----------
+	a_0 : TYPE: Floating point number.
+		DESCRIPTION: Lower boundary of integration in zeroth component.
+	b_0 : TYPE: Floating point number.
+		DESCRIPTION: Upper boundary of integration in zeroth component.
+	a_1 : TYPE: Floating point number.
+		DESCRIPTION: Lower boundary of integration in first component.
+	b_1 : TYPE: Floating point number.
+		DESCRIPTION: Upper boundary of integration in first component.
+	a_2 : TYPE: Floating point number.
+		DESCRIPTION: Lower boundary of integration in second component.
+	b_2 : TYPE: Floating point number.
+		DESCRIPTION: Upper boundary of integration in second component.
+	a_3 : TYPE: Floating point number.
+		DESCRIPTION: Lower boundary of integration in third component.
+	b_3 : TYPE: Floating point number.
+		DESCRIPTION: Upper boundary of integration in third component.
+	n : TYPE: Integer, natural number.
+		DESCRIPTION: Number of random vectors to be generated for sampling the
+		function.
+	dim : TYPE: Integer, natural number.
+		DESCRIPTION: Number of dimensions of implemented function.
+
+		
+	Important
+	---------
+	The function to be integrated using this Monte-Carlo integration method
+	needs to be implemented directly in the code. That means, it must be hard
+	coded in line xxx.\n\n
+	If there is not a 4-dimensional integration to be carried out, it shall be
+	begun with a_0, b_0 and so on to fill moneCarloInt(). The corresponding
+	number of dimensions for the integration is to be assigned to dim.
+
+	Returns
+	-------
+	Value of the desired integral.
+
+	'''
+	if (dim == 1):
+		# print('1-dimensional integration chosen.') 
+		# Generate n random vectors of dimension 1
+		x = np.random.rand(1, n)
+		x[0][:] = x[0][:]*abs(b_0-a_0)-(0-a_0)
+		
+		# Define integral value
+		I = float(0)
+		
+		# Calculate integral
+		for i in range(len(x[0])):
+			I = I + m.exp(-2*(x[0][i]**2)) # Function implementation
+		I = I*abs(b_0-a_0)*n**(-1)
+		
+		# Return integral value
+		return I
+	
+	if (dim == 2):
+		# print('2-dimensional integration chosen.')
+		# Generate n random vectors of dimension 2
+		x = np.random.rand(2, n)
+		x[0][:] = x[0][:]*abs(b_0-a_0)-(0-a_0)
+		x[1][:] = x[1][:]*abs(b_1-a_1)-(0-a_1)
+		
+		# Define integral value
+		I = float(0)
+		
+		# Calculate integral
+		for i in range(len(x[0])):
+			I = I + m.exp(-2*(x[0][i]**2+x[1][i]**2)) # Function implementation
+		I = I*abs(b_0-a_0)*abs(b_1-a_1)*n**(-1)
+		
+		# Return integral value
+		return I
+	
+	if (dim == 3):
+		# print('3-dimensional integration chosen.')
+		# Generate n random vectors of dimension 3
+		x = np.random.rand(3, n)
+		x[0][:] = x[0][:]*abs(b_0-a_0)-(0-a_0)
+		x[1][:] = x[1][:]*abs(b_1-a_1)-(0-a_1)
+		x[2][:] = x[2][:]*abs(b_2-a_2)-(0-a_2)
+
+		# Define integral value
+		I = float(0)
+		
+		# Calculate integral
+		for i in range(len(x[0])):
+			I = I + m.exp(-2*(x[0][i]**2+x[1][i]**2+x[2][i]**2)) # Function implementation
+		I = I*abs(b_0-a_0)*abs(b_1-a_1)*abs(b_2-a_2)*n**(-1)
+		
+		# Return integral value
+		return I
+	
+	if (dim == 4):
+		# print('4-dimensional integration chosen.')
+		# Generate n random vectors of dimension 3
+		x = np.random.rand(4, n)
+		x[0][:] = x[0][:]*abs(b_0-a_0)-(0-a_0)
+		x[1][:] = x[1][:]*abs(b_1-a_1)-(0-a_1)
+		x[2][:] = x[2][:]*abs(b_2-a_2)-(0-a_2)
+		x[3][:] = x[3][:]*abs(b_3-a_3)-(0-a_3)
+
+		# Define integral value
+		I = float(0)
+		
+		# Calculate integral
+		for i in range(len(x[0])):
+			I = I + m.exp(-2*(x[0][i]**2+x[1][i]**2+x[2][i]**2+x[3][i]**2)) # Function implementation
+		I = I*abs(b_0-a_0)*abs(b_1-a_1)*abs(b_2-a_2)*abs(b_3-a_3)*n**(-1)
+		
+		# Return integral value
+		return I
+	
+	else:
+		I = 0
+		print('Something with the input was wrong, please check input and compare with function description of monteCarloInt!')
+		return I
+
+# Execute program
+Integral_1 = monteCarloInt(-1, 3, 0, 0, 0, 0, 0, 0, 1000000, 1)
+Integral_2 = monteCarloInt(-1, 3, 1, 5, 0, 0, 0, 0, 1000000, 2)
+Integral_3 = monteCarloInt(-1, 3, 1, 5, -1, 1, 0, 0, 1000000, 3)
+Integral_4 = monteCarloInt(-1, 3, 1, 5, -1, 1, -18, 7, 1000000, 4)
+
+# Print results
+print('Integral_1 is I = ',Integral_1)
+print('Integral_2 is I = ',Integral_2)
+print('Integral_3 is I = ',Integral_3)
+print('Integral_4 is I = ',Integral_4)
+\end{Verbatim}
+
+Das hier gezeigte Beispiel realisiert eine Monte-Carlo-Integration der vierdimensionalen Funktion \begin{equation}\label{bespfunct}
+h(x_0,x_1,x_2,x_3) = e^{-2(x_0^2 + x_1^2 + x_2^2 + x_3^2)}
+\end{equation} über die die Menge \begin{equation}
+D_{bsp} \doteq [a_{i_1},b_{i_1}] \times [a_{i_2},b_{i_3}] \times [a_{i_4},b_{i_5}] \times [a_{i_1},b_{i_1}] \doteq [-1,3] \times [1,5] \times [-1,1]\times [-18,7],
+\end{equation} wobei für die Anzahl der erzeugten Zufallsvektoren in $D_{bsp}$ die Zahl $n \doteq 10^6$ gewählt wurde und $i \in \{1,\dots,n\}$ ist, hierbei ferner $a_{i_k} = a_{j_k}$ und $b_{i_k} = b_{j_k} \;\;\forall i,j \in \{1,\dots,n\} \;\; \forall k \in \{1,2,3,4\}$ aufgrund der identischen Dichtefunktionen der erzeugten Zufallsvektoren gilt. Die nachfolgenden Integrale wurden in einem ersten Schritt mittels des obenstehenden Programmcodes, welcher die Monte-Carlo-Methode implementiert, berechnet. In einem zweiten Schritt wurden die vier Integrale mithilfe des Programms Mathematica gelöst, um Vergleichswerte für die ungefähre Genauigkeit der in Python programmierten Monte-Carlo-Methode zu erhalten. Die zu berechnenden Integrale sind
+
+\begin{align}\label{integralsbspcalc}
+\text{Integral 1:}\quad I_1 &= \int\displaylimits_{a_{i_1}}^{b_{i_1}} e^{-2x_{i_0}^2} \,\mathrm{d}x_{i_0} = \int\displaylimits_{-1}^{3} e^{-2x^2} \,\mathrm{d}x, \\
+\text{Integral 2:}\quad I_2 &= \int\displaylimits_{a_{i_1}}^{b_{i_1}} \int\displaylimits_{a_{i_2}}^{b_{i_2}}  e^{-2(x_{i_0}^2+x_{i_1}^2)} \,\mathrm{d}x_{i_0}\,\mathrm{d}x_{i_1} = \int\displaylimits_{-1}^{3} \int\displaylimits_{1}^{5}  e^{-2(x^2+y^2)} \,\mathrm{d}x\,\mathrm{d}y, \\
+\text{Integral 3:}\quad I_3 &= \int\displaylimits_{a_{i_1}}^{b_{i_1}} \int\displaylimits_{a_{i_2}}^{b_{i_2}} \int\displaylimits_{a_{i_3}}^{b_{i_3}} e^{-2(x_{i_0}^2+x_{i_1}^2+x_{i_2}^2)} \,\mathrm{d}x_{i_0}\,\mathrm{d}x_{i_1} \,\mathrm{d}x_{i_2} \nonumber \\ &= \int\displaylimits_{-1}^{3} \int\displaylimits_{1}^{5} \int\displaylimits_{-1}^{1} e^{-2(x^2+y^2+z^2)} \,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z \hspace{2cm} \text{und} \\
+\text{Integral 4:}\quad I_4 &= \int\displaylimits_{a_{i_1}}^{b_{i_1}} \int\displaylimits_{a_{i_2}}^{b_{i_2}} \int\displaylimits_{a_{i_3}}^{b_{i_3}} \int\displaylimits_{a_{i_4}}^{b_{i_4}} e^{-2(x_{i_0}^2+x_{i_1}^2+x_{i_2}^2+x_{i_3}^2)} \,\mathrm{d}x_{i_0}\,\mathrm{d}x_{i_1} \,\mathrm{d}x_{i_2}\,\mathrm{d}x_{i_3} \nonumber \\ &= \int\displaylimits_{-1}^{3} \int\displaylimits_{1}^{5} \int\displaylimits_{-1}^{1} \int\displaylimits_{-18}^{7} e^{-2(x^2+y^2+z^2+u^2)} \,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z\,\mathrm{d}u.
+\end{align}
+
+Der in Mathematica implementierte Code zum Vergleichen der mittels obenstehendem Python-Code erhaltenen Resultate lautet wie folgt:
+
+\begin{Verbatim}[breaklines = true, breakanywhere = true]
+SetAttributes[nameAndValue, HoldFirst]; 
+nameAndValue[x_] := Print[Unevaluated[x], "=", x];
+
+Subscript[Integral, 1] = N[Integrate[E^(-2*(x^2)), {x, -1, 3}]];
+nameAndValue[Subscript[Integral, 1]]
+
+Subscript[Integral, 2] = N[Integrate[E^(-2*(x^2 + y^2)), {x, -1, 3}, {y, 1, 5}]];
+nameAndValue[Subscript[Integral, 2]]
+
+Subscript[Integral, 3] = N[Integrate[E^(-2*(x^2 + y^2 + z^2)), {x, -1, 3}, {y, 1, 5}, {z, -1, 1}]];
+nameAndValue[Subscript[Integral, 3]]
+
+Subscript[Integral, 4] = N[Integrate[E^(-2*(x^2 + y^2 + z^2 + u^2)), {x, -1, 3}, {y, 1, 5}, {z, -1, 1}, {u, -18, 7}]];
+nameAndValue[Subscript[Integral, 4]]
+\end{Verbatim}
+
+\subsubsection{Resultate}
+Der Python Code liefert folgende Ergebnisse:
+\begin{Verbatim}[breaklines = true, breakanywhere = true]
+Integral_1 is I = 1.2213193885584246
+Integral_2 is I = 0.03502552728359172
+Integral_3 is I = 0.041539963653965
+Integral_4 is I = 0.05096407733798501
+\end{Verbatim}
+
+Die mit Mathematica berechneten Vergleichswerte ergeben folgendes:
+\begin{Verbatim}[breaklines = true, breakanywhere = true]
+Subscript[Integral, 1] = 1.2248
+Subscript[Integral, 2] = 0.0349228
+Subscript[Integral, 3] = 0.0417778
+Subscript[Integral, 4] = 0.0523607
+\end{Verbatim}
+
+Durch einen Vergleich der beiden Ergebnisse ist ersichtlich, dass die implementierte Monte-Carlo-Methode zur Berechnung von hochdimensionalen Integralen funktionieren sollte. Wählt man höhere Zahlen für $n$, als es im vorliegenden Beispiel getan wurde, nimmt die für die Prozessierung des Programms benötigte Zeit massiv zu. Mit genügenden Rechenressourcen kann man aber, wie es im Theorieteil dargelegt wurde, ein beliebiges Integral im Prinzip beliebig genau berechnen, indem man $n$ so wählt, dass damit die gewünschte Genauigkeit erreicht wird.
+
+\bibliography{references}
+\bibliographystyle{apalike}
+
+\end{document}
