@@ -803,13 +803,13 @@ A coarse overview of the measurement circuit for the implementation of the 3-int
 The circuit features the PicoScale device used to read out the optical information gathered by the interferometer heads. Furthermore, it features photodetectors used to translate the optical superposition of interferometer signals to a processable output to use as input for the time interval analyzer. The time interval analyzer then records the timestamps of zero-crossings of the interferometer signal for each of the three channels. Knowing the wavelength of the used laser, one can then calculate distances and velocities as indicated and explained with \cref{fig:dataprocessing} and \cref{sec:dataprocessingtheory_v1}.
 
 \subsubsection{Description of the TIA device}
-Text.
+The time interval analyzer features 4 inputs for an electric signal ranging between $-\SI{3}{\volt}$ and $+\SI{3}{\volt}$. It can be controlled using either the shipped graphical user interface, LabVIEW or \verb|python|; it should be able to get timestamps of zero-crossings of interference signals of an interferometer.
 
 \subsubsection{Signals to process}
-Text.
+The signals to process by the time interval analyzers are interference signals provided by the photodetectors as seen in \cref{fig:measurement_circuit}. These signals are based on interference patterns as provided by the interferometer heads.
 
 \subsubsection{Required output}
-Text.
+The required output of the time interval analyzer are the timestamps of zero-crossings for the interferometer signal of each of the three interferometers. Using these timestamps and knowing the wavelength of the used laser light, one can then calculate distances and velocities of the moving mirrors as visualized in \cref{fig:measurement_circuit} and \cref{fig:dataprocessing}.
 
 \chapter{Joule balance}
 \section{Introduction}
