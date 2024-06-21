@@ -40,8 +40,7 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 	
-	\chapter{Preliminaries}
-	\section{Electrodynamics}
+	\chapter{Electrodynamics}
 	The design of a watt and joule balance heavily relies on classical electrodynamics. It is therefore necessary, to invoke Maxwell's equations, in particular the Lorentz force equation \begin{equation}
 		\vect{F}(\vect{r}, t) = q\left[\vect{E}(\vect{r},t) + \vect{v}(t)\times \vect{B}(\vect{r},t)\right],
 	\end{equation} where $\vect{r}$ and $t$ denote the position and time of evaluation; and where $q$ is a charge probe, $\vect{v}$ is the velocity of $q$ and $\vect{E}$ and $\vect{B}$ are the electric and magnetic field respectively. Furthermore, the third Maxwell equation is of interest for the watt and joule balance techniques, namely \begin{equation}\label{eq:maxwell3rd_diff}
@@ -91,7 +90,7 @@
 %	Second term in \cite{Baumann_2013}: \url{https://de.wikipedia.org/wiki/Elektromagnetische_Induktion}, \url{https://en.wikipedia.org/wiki/Electromagnetic_induction} and \url{https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction} oder Faraday'sches Induktionsgesetz in Theoretische Physik s.16ff
 
 	
-	\section{Quantum mechanics}
+	\chapter{Quantum mechanics}
 	Quantum mechanics describes everything by means of a wave function $\Psi(\vect{r},t)$. According to the probability interpretation of quantum mechanics, the quantity $|\Psi(\vect{r},t)|^2\,\mathrm{d}^3r$ gives the probability, that the described object is located in the volume $\mathrm{d}^3r$ at time $t$. In order to calculate the probability $P_V$ to find the described object in the volume $V$ therefore, one has to perform the integral \begin{equation}
 		P_V = \int_{V} |\Psi(\vect{r},t)|^2\,\mathrm{d}^3r.
 	\end{equation} Any system described by such a wave function is governed by the Schrödinger equation 
@@ -100,7 +99,7 @@
 	\end{equation}
 	where $\hat{H}$ is the Hamilton operator of the system determining its energy states. The Hamilton operator $\hat{H}$ is derived from the Hamiltonian $H$ from classical mechanics describing the total energy of the system under consideration; it is commonly given as the sum of potential energy $V$ and kinetic energy $T$, thus $H = T + V$. The Hamilton operator then is obtained by the substitution $\vect{p} \rightarrow \hat{\vect{p}} = -i\hbar \vect{\nabla}$ for any occurrence of the momentum $\vect{p}$ in the Hamiltonian $H$. Depending on the system under consideration, potential and kinetic energy will be given differently and hence also the Hamilton operator, subsequently simply called ``the Hamiltonian'', will look differently.
 	
-	\subsection{Schrödinger's equation}
+	\section{Schrödinger's equation}
 	The Schrödinger equation, in reference to wave-particle duality, is intended to describe a matter wave. A general solution to the wave equation can be achieved by superposition of plane waves $F(\vect{r},t) = Ae^{i(\vect{k}\cdot\vect{r}-\omega t)}, A \in \mathbb{C}$. This is done through a function \begin{equation}
 		W(\vect{r},t) = \int\displaylimits_{\mathbb{R}^3}\mathrm{d}^3k \, A(\vect{k}\,) e^{i(\vect{k}\cdot\vect{r}-\omega t)},
 	\end{equation} where the wave vector $|\vect{k}\,| = \frac{2\pi}{\lambda}$ is related to $\omega$ with $\omega = \omega(\vect{k}\,)$. According to De Broglie, the relations \begin{equation}
@@ -137,12 +136,12 @@
 	%https://lampz.tugraz.at/~hadley/ss1/IQHE/cpimf.php
 	% The Hamiltonian operator for an electron in a magnetic field is obtained by minimal coupling
 	% Hamiltonian: Fliessbach p.27ff QM, s.73-75 Mech
-	\subsection{The quantum Hall effect}
+	\section{The quantum Hall effect}
 	The quantum Hall effect can be used for resistance measurement; according to \cite{B_Jeckelmann_2001}, the quantum Hall resistance $R_H$ is given by the expression \begin{equation}\label{eq:quantumhalleffect}
 		R_H = \frac{h}{n_He^2}, \quad n_H \in \mathbb{N},
 	\end{equation} where $h = \SI{6.62607015e-35}{\joule\second}$ is the Planck constant and $e$ is the elementary charge. The following treatment of the classical and quantum Hall effects will closely follow the material given by \cite{tong2016lectures}.
 	
-	\subsubsection{The classical Hall effect}
+	\subsection{The classical Hall effect}
 	In order to understand the quantum Hall effect, it is instructive to first attain a solid understanding of the classical Hall effect. Consider \cref{fig:classicalhalleffect} for a start. The situation is such that the shown flat rectangle represents the plane, to which the movement of electrons in the material is restricted. In this plane, electrons of mass $m_e$ can move with velocity $\vect{v} = (v_x,v_y,0)^\top$. Perpendicular to the plane, an external magnetic field $\vect{B} = (0,0,B)^\top$ is applied.
 	\begin{figure}[h]
 		\centering
@@ -224,7 +223,7 @@
 	R_{xy} = -\mathcal{R}_{xy} = -\frac{B}{ne}.
 	\end{equation} The transverse resistance $R_{xy}$ is the classical Hall resistance and is equal to the transverse resistivity $\mathcal{R}_{xy}$ in magnitude. The special thing about this resistance is that it does not depend on any geometrical or microscopic factor of the material.
 	
-	\subsubsection{The Hamiltonian for the quantum Hall effect derivation}
+	\subsection{The Hamiltonian for the quantum Hall effect derivation}
 	The starting point to derive the quantum Hall effect is the definition of the system under consideration. This will lead to the determination of the Hamilton operator $\hat{H}_{QHE}$ of the system and thus allows the Schrödinger equation to be solved for this particular system.
 	
 	In order to obtain the Hamilton operator for a quantum Hall effect system, one can first look for an expression of the Lagrangian $\mathcal{L}$ for such a system. The claim made here is that the Lagrangian for a charged particle of mass $m$ and charge $q$ moving in an electromagnetic field\footnote{The expressions found in \cref{eq:qhe_field} for the electromagnetic field are derived in classical electrodynamics. The potentials $\phi(\vect{r},t)$ and $\vect{A}(\vect{r},t)$ are not unique and lead to the same electric and magnetic fields under gauge transformations $\phi(\vect{r},t) \rightarrow \phi(\vect{r},t) - \frac{\partial}{\partial t}\Lambda(\vect{r},t)$ and $\vect{A}(\vect{r},t) \rightarrow \vect{A}(\vect{r},t) + \vect{\nabla}\Lambda(\vect{r},t)$ for an arbitrary real function $\Lambda(\vect{r},t)$.} given by \begin{equation}\label{eq:qhe_field}
@@ -266,9 +265,9 @@ H_{QHE}(\vect{r},\vect{p},t) = \dot{\vect{r}}(\vect{r},\vect{p},t)\cdot \vect{p}
 H_{QHE}(\vect{r},\vect{p},t) = \frac{(\vect{p}+e\vect{A}(\vect{r},t))^2}{2m_e} - e\phi(\vect{r},t)
 \end{equation} after rearrangement of terms. This is the quantum Hall effect Hamiltonian associated to the quantum Hall effect Lagrangian.
 	
-\subsubsection{Solving the quantum Hall effect Schrödinger equation}
+\subsection{Solving the quantum Hall effect Schrödinger equation}
 
-\paragraph{Case 1: Magnetic field nonzero, electric field zero}
+\subsubsection{Case 1: Magnetic field nonzero, electric field zero}
 In order to derive an expression for the quantum Hall effect Schrödinger equation, a gauge for the vector potential $\vect{A}$ defining the magnetic field $B\vect{e}_z \doteq \vect{B} = \vect{\nabla} \times \vect{A}$ has to be defined, where $\vect{e}_z$ is the unit vector in z-direction and $B = |\vect{B}|$ is the absolute value of the magnetic field. The magnetic field $\vect{B}$ takes this form due to the geometry of the quantum Hall effect; recall, that the Hall effect describes the movement of electrons restricted to a x-y-plane. Hence, the choice of the vector potential $\vect{A}$ has to fulfill \begin{equation}
 	\vect{\nabla} \times \vect{A} = B \vect{e}_z.
 \end{equation} The electric field on the other hand is assumed to be zero until further notice. The common choice for $\vect{A}$ is the so-called Landau gauge, defined by \begin{equation}
@@ -326,7 +325,7 @@ E_n = \left(n+\frac{1}{2}\right)\hbar \omega_B, \quad n \in \mathbb{N}_0.
 \psi_{k,n}(x,y) = \frac{1}{\sqrt{L_y \, l_B \sqrt{\pi} \, 2^n \, n!}} e^{iky} H_n\left(\frac{x}{l_B} + kl_B\right) e^{-\frac{(x+kl_B^2)^2}{2l_B^2}}.
 \end{equation} In addition to this it is worth mentioning, that the wave functions $\psi_{k,n}(x,y)$ are extended in the y-direction, but exponentially localized in the x-direction around $x_0 = -kl_B^2$.
 
-\paragraph{Case 2: Magnetic field nonzero, electric field nonzero} Now, if the magnetic field is given by $B\vect{e}_z = \vect{\nabla}\times \vect{A}$ with $\vect{A} = xB\vect{e}_y$ and the electric field is constant in the x-direction, namely $\vect{E} = E\vect{e}_x = -\vect{\nabla}\phi$ with $\phi = -Ex$, a similar procedure can be carried out as in the case with $\vect{E} =0$. The Hamilton function for this situation in the Landau gauge is hence accounted for by \begin{equation}
+\subsubsection{Case 2: Magnetic field nonzero, electric field nonzero} Now, if the magnetic field is given by $B\vect{e}_z = \vect{\nabla}\times \vect{A}$ with $\vect{A} = xB\vect{e}_y$ and the electric field is constant in the x-direction, namely $\vect{E} = E\vect{e}_x = -\vect{\nabla}\phi$ with $\phi = -Ex$, a similar procedure can be carried out as in the case with $\vect{E} =0$. The Hamilton function for this situation in the Landau gauge is hence accounted for by \begin{equation}
 	H_{QHE} = \frac{1}{2m_e}\left[p_x^2 + (p_y + exB)^2\right] +exE.
 \end{equation} Performing the canonical substitutions $p_x \rightarrow \hat{p}_x = -i\hbar \partial_x$ and $p_y \rightarrow \hat{p}_y = -i\hbar \partial_y$ leads to the Hamilton operator \begin{align}\small\begin{aligned}
 \hat{H}_{QHE} &= \frac{1}{2m_e}\left[-\hbar^2 \partial_x^2 + (exB + \hbar k)^2\right] + exE \\
@@ -342,7 +341,7 @@ E_{n,k} = \left(n+\frac{1}{2}\right)\hbar \omega_B -\frac{k\hbar E}{B} - \frac{m
 \end{aligned}\end{align} by satisfying the requirement $\iint_{\mathbb{R}^2}|\psi_{k,n}(x,y)|^2\,\mathrm{d}x\,\mathrm{d}y \overset{!}{=} 1$.
 % Give eigenstates and eigenfunctions, if electric field is non-zero.
 
-\subsubsection{Deriving the quantum Hall resistance}
+\subsection{Deriving the quantum Hall resistance}
 In order do understand the integer quantum Hall effect, the degeneracy of energy eigenstates for values of $k$ at the same quantum number $n$ is key. Each level $E_n$ is known as a Landau level, for which several states with different $k$-values exist. Each value of $k$ per value of $n$ can be thought of representing an electron; thus the Landau levels can be understood of electron bands. Hence, in order to calculate a current flowing through some finite flat material of length $L_x$ and width $L_y$ in the x-y-plane, one has to know how many electron states there are. Thus the degeneracy of each energy eigenstate $E_n$ in terms of $k$ has to be known. % Calculate degeneracy, mention ininite square well, potentially make picture to show degeneracy calculation.
 
 In order to calculate the amount of allowed values of $k$ for a given energy state $n$, one integrates over $k$ from the minimal allowed to the maximal allowed value of $k$, namely $ k \in [k_{min},k_{max}]$, and divides by the spacing $\Delta_k$ of $k$-states subsequently. Mathematically, the degeneracy $g$ is calculated as \begin{equation}
@@ -359,8 +358,8 @@ Now the momentum of an electron moving in a quantum Hall system is given by \beg
 \end{equation} where $\vect{p}$ is the canonical momentum as defined by \cref{eq:canonical_momentum_definition}. As specified already in the derivation of the classical Hall effect, one can define a current density $\vect{J}$ as $\vect{J} = nq\dot{\vect{r}} = -ne\vect{r}$, where $n$ is the surface density of charge carriers of charge $q$ and $\dot{\vect{r}}$ is their bulk velocity. Going from a classical to a quantum mechanical system, one has to perform the substitution $\vect{p} \rightarrow \hat{\vect{p}} = -i\hbar\vect{\nabla}$ for every occurence of $\vect{p}$ in the classical expressions. Furthermore, the quantum mechanical charge carrier density is obtained by dividing the number of filled electronic states $\mathcal{N}$ within the system by the surface area $A=L_xL_y$ of the quantum Hall system. The definition of the current density $\vect{J}$ hence becomes an operator \begin{equation}
 \hat{\vect{J}} = -\frac{e}{m_eL_x L_y}\left(\hat{\vect{p}} + e\vect{A}\right) = -\frac{e}{m_eL_x L_y}\left(-i\hbar\vect{\nabla} + e\vect{A}\right)
 \end{equation} giving the expected current density for each state $\psi_{k,n}(x,y)$. In order to obtain the total expected current density $\vect{J}_{QHE}$, one needs to sum the expectation values $\langle \hat{\vect{J}}\rangle_{k,n}\doteq \langle \psi_{k,n}|\hat{\vect{J}}|\psi_{k,n}\rangle$ for each possible state $\psi_{k,n}(x,y)$. Hereby, the expression $\langle \psi|\hat{\vect{Q}}|\psi\rangle$ for a $D$-dimensional quantum mechanical operator and possible wave functions $\psi(\vect{x})$ for $\vect{x}\in \mathbb{R}^D$ and $D \in \mathbb{N}$ is defined as \begin{equation}
-\langle \psi|\hat{\vect{Q}}|\psi \rangle \doteq \int_{\mathbb{R}^D} \psi^\star(\vect{x})\hat{\vect{Q}}\psi(\vect{x})\,\mathrm{d}^D x.
-\end{equation} The quantum Hall current density $\vect{J}_{QHE}$ is thus given by the expression
+\langle \psi|\hat{\vect{Q}}|\psi \rangle \doteq \int_{\mathbb{R}^D} \psi^\star(\vect{x})\hat{\vect{Q}}\psi(\vect{x})\,\mathrm{d}^D x,
+\end{equation} where $z^\star$ denotes the complex conjugate of a complex number $z = a + ib$, so $z^\star = a-ib$ for $a,b \in \mathbb{R}$. The quantum Hall current density $\vect{J}_{QHE}$ is thus given by the expression
 \begin{align}\begin{aligned}
 	\vect{J}_{QHE} &= \sum_{n=1}^{n_H}\sum_{k} \langle \hat{\vect{J}}_{k,n}\rangle \\
 	&= -\frac{e}{m_eL_xL_y}\sum_{n=1}^{n_H}\sum_{k}\langle \psi_{k,n}|-i\hbar\vect{\nabla} + e\vect{A}|\psi_{k,n}\rangle,
@@ -405,25 +404,30 @@ R_H = R_{xy} = \mathcal{R}_{xy} = \frac{h}{n_He^2},  \quad n_H \in \mathbb{N}
 % - Explore the concept of disorder for QHE to surface
 
 	
-\subsection{The Josephson effect}
+\section{The Josephson effect}
 	The Josephson voltage $U_J$ across a Josephson junction can be used for voltage measurements; according to \cite{Kajastie_2009} it is given by the equation \begin{equation}\label{eq:josephsoneffect}
 		U_J = \frac{2e}{h}n_Jf_J, \quad n_J \in \mathbb{N},
 	\end{equation} where $h$ is the Planck constant, $e$ is the elementary charge and $f_J$ is the frequency of the microwave radiation used to irradiate the Josephson junction with.
 	
 	This section is concerned with a rigorous derivation of the above mentioned relation \cref{eq:josephsoneffect} from first principles of quantum mechanics and superconductivity.
 	
-	\subsubsection{The BCS theory of superconductivity}
-	\paragraph{BCS theory}
-	Text. % Get basic concepts of BCS-superconductivity
-	
-	\paragraph{Cooper pairs}
-	Text. % Get basic concepts of Cooper pairs
-	
-	\paragraph{Macroscopic quantum tunneling}
-	Text. % Get basic ideas of macroscopic quantum tunnelling, derive tunneling Hamiltonian, connection
-	
-	\paragraph{Josephson junctions and the Josephson effect}
-	Text. % Derive the Josephson equations from the tunneling Hamiltonian and get the desired equation U_J = (2e/H)n_Jf_J
+\subsection{Superconductivity}
+\subsubsection{Expulsion of a magnetic field}
+Text. % Summarize lecture one of sc1 lecture-notes.
+
+
+%	\subsection{The BCS theory of superconductivity}
+%	\subsubsection{BCS theory}
+%	Text. % Get basic concepts of BCS-superconductivity
+%	
+%	\subsubsection{Cooper pairs}
+%	Text. % Get basic concepts of Cooper pairs
+%	
+%	\subsubsection{Macroscopic quantum tunneling}
+%	Text. % Get basic ideas of macroscopic quantum tunnelling, derive tunneling Hamiltonian, connection
+%	
+%	\subsubsection{Josephson junctions and the Josephson effect}
+%	Text. % Derive the Josephson equations from the tunneling Hamiltonian and get the desired equation U_J = (2e/H)n_Jf_J
 
 	\chapter{Kibble balance}
 	\section{Introduction}
