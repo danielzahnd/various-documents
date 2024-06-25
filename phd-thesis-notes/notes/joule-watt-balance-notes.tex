@@ -41,7 +41,42 @@
 \setcounter{page}{1}
 	
 	\chapter{Electrodynamics}
-	The design of a watt and joule balance heavily relies on classical electrodynamics. It is therefore necessary, to invoke Maxwell's equations, in particular the Lorentz force equation \begin{equation}
+	\section{Maxwell's equations}
+	The design of a watt and/or joule balance heavily relies on classical electrodynamics. It is therefore instructive to consider Maxwell's equations, which can be written in microscopic or macroscopic form, aswell as in differential or integral form.
+	\subsection{Microscopic Maxwell equations}
+	Consider an electric field $\vect{E}(\vect{r},t)$, a magnetic field $\vect{B}(\vect{r},t)$, a charge density\footnote{The charge density $\rho$ gives the amount of charge per volume in Euclidean space.} $\rho(\vect{r},t)$ and a current density\footnote{The current density $\vect{j}$ gives the amount of current per area, through which the current flows.} $\vect{j}(\vect{r},t)$. The four so-called Maxwell equations \begin{equation}
+	\vect{\nabla}\cdot \vect{E} = \frac{\rho}{\epsilon_0} \quad \Leftrightarrow \quad \oint_{\partial V} \vect{E}\cdot \mathrm{d}\vect{S} = \frac{1}{\epsilon_0}\int_{V}\rho\,\mathrm{d}V
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla}\cdot \vect{B} = 0 \quad \Leftrightarrow \quad \oint_{\partial V}\vect{B}\cdot \mathrm{d}\vect{S} = 0
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla} \times \vect{E} = - \frac{\partial \vect{B}}{\partial t} \quad \Leftrightarrow \quad \oint_{\partial S}\vect{E}\cdot \mathrm{d}\vect{l} = -\int_{S}\frac{\partial \vect{B}}{\partial t}\cdot \mathrm{d}\vect{S}
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla} \times \vect{B} = \mu_0\vect{j} + \mu_0\epsilon_0\frac{\partial \vect{E}}{\partial t} \quad \Leftrightarrow \quad \oint_{\partial S}\vect{B}\cdot \mathrm{d}\vect{l} = \mu_0\int_{S}\vect{j}\cdot \mathrm{d}\vect{S} + \mu_0\epsilon_0\int_{S}\frac{\partial \vect{E}}{\partial t}\cdot \mathrm{d}\vect{S}
+	\end{equation} govern these physical quantities in a situation, where no matter is present. These equations are also known as the microscopic Maxwell equations. One can go back and forth between integral and differential formulations by means of the Gauss and Stokes integral theorems.
+	
+	\subsection{Macroscopic Maxwell equations}
+	Consider an electric field $\vect{E}(\vect{r},t)$, a magnetic field $\vect{B}(\vect{r},t)$, a charge density $\rho(\vect{r},t)$ and a current density $\vect{j}(\vect{r},t)$. Consider furthermore a polarization $\vect{P}(\vect{r},t)$ and magnetization $\vect{M}(\vect{r},t)$ of a material present in the fields. Due to the magnetization and the polarization of the material, the electric and magnetic fields are shifted such that one now writes the Maxwell equations for the electric displacement field \begin{equation}
+		\vect{D}(\vect{r},t) \doteq \epsilon_0\vect{E}(\vect{r},t) + \vect{P}(\vect{r},t)
+	\end{equation} and the magnetic field strength \begin{equation}
+	\vect{H}(\vect{r},t) \doteq \frac{1}{\mu_0}\vect{B}(\vect{r},t) - \vect{M}(\vect{r},t).
+	\end{equation} One arrives thus at the so-called macroscopic Maxwell equations given by \begin{equation}
+	\vect{\nabla}\cdot \vect{D} = \rho \quad \Leftrightarrow \quad \oint_{\partial V} \vect{D}\cdot \mathrm{d}\vect{S} = \int_{V}\rho\,\mathrm{d}V
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla}\cdot \vect{B} = 0 \quad \Leftrightarrow \quad \oint_{\partial V}\vect{B}\cdot \mathrm{d}\vect{S} = 0
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla} \times \vect{E} = - \frac{\partial \vect{B}}{\partial t} \quad \Leftrightarrow \quad \oint_{\partial S}\vect{E}\cdot \mathrm{d}\vect{l} = -\int_{S}\frac{\partial \vect{B}}{\partial t}\cdot \mathrm{d}\vect{S}
+	\end{equation}
+	\begin{equation}
+	\vect{\nabla} \times \vect{H} = \vect{j} + \frac{\partial \vect{D}}{\partial t} \quad \Leftrightarrow \quad \oint_{\partial S}\vect{H}\cdot \mathrm{d}\vect{l} = \int_{S}\vect{j}\cdot \mathrm{d}\vect{S} + \int_{S}\frac{\partial \vect{D}}{\partial t}\cdot \mathrm{d}\vect{S}.
+	\end{equation}
+	
+	\section{Electromagnetic induction}
+ In order to derive an expression for electromagnetic induction, it is necessary to invoke Maxwell's equations; in particular the Lorentz force equation \begin{equation}
 		\vect{F}(\vect{r}, t) = q\left[\vect{E}(\vect{r},t) + \vect{v}(t)\times \vect{B}(\vect{r},t)\right],
 	\end{equation} where $\vect{r}$ and $t$ denote the position and time of evaluation; and where $q$ is a charge probe, $\vect{v}$ is the velocity of $q$ and $\vect{E}$ and $\vect{B}$ are the electric and magnetic field respectively. Furthermore, the third Maxwell equation is of interest for the watt and joule balance techniques, namely \begin{equation}\label{eq:maxwell3rd_diff}
 	\vect{\nabla} \times \vect{E}(\vect{r},t) = -\frac{\partial \vect{B}(\vect{r},t)}{\partial t}.
@@ -73,7 +108,10 @@
 		\end{aligned}
 	\end{align} In the case where the external magnetic field is zero, i.e. $\vect{E}(\vect{r},t) = 0$, this equation reduces to \begin{equation}\label{eq:watt_bal_fund_eq_1}
 	U(t) = \oint_{\partial \Sigma(t)} \left[\vect{v}(t) \times \vect{B}(\vect{r},t)\right]\cdot \mathrm{d}\vect{l}
-	\end{equation} and is herewith the first of the fundamental equations used for the Kibble balance experiment. A second important equation is derived from the Lorentz force equation. Consider for this purpose \cref{fig:lorentzforceeq}. \begin{figure}[h]
+	\end{equation} and is herewith the first of the fundamental equations used for the Kibble balance experiment. 
+	
+	\section{Electromagnetic force}
+	A second important equation is derived from the Lorentz force equation. Consider for this purpose \cref{fig:lorentzforceeq}. \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.4\textwidth]{figures/lorentzforceeq.pdf}
 	\caption{Illustration to derive the second important equation needed for the Kibble balance principle.}
@@ -413,7 +451,19 @@ R_H = R_{xy} = \mathcal{R}_{xy} = \frac{h}{n_He^2},  \quad n_H \in \mathbb{N}
 	
 \subsection{Superconductivity}
 \subsubsection{Expulsion of a magnetic field}
-Text. % Summarize lecture one of sc1 lecture-notes.
+A superconductor is a material, whose resistivity drops to zero below a certain cricical temperature $T_c$. If a material is in superconducting state, its charge carriers - namely the electrons - are in a so-called Cooper pair quantum state, which experience no resistance along their way through the material. The mechanism leading to the formation of Cooper pairs is very complex and in most cases can only be understood phenomenologically. 
+
+A superconductor may phenomenologically be characterized by means of two postulates, which need to be fullfilled for a certain material to be called a superconductor:
+\begin{enumerate}
+	\item The material must be an ideal conductor, meaning that its resistivity $\mathcal{R}$ is zero, i.e. $\mathcal{R} = 0$.
+	\item The material must be an ideal diamagnet, meaning that a magnetic field $-\vect{B}$ forms within the material in response to an external magnetic field $\vect{B}$, thus exactly cancelling out the residual magnetic field.
+\end{enumerate}% Summarize lecture one of sc1 lecture-notes.
+
+The second condition effectly means an expulsion of any magnetic field from a superconductor. This expulsion can be understood qualitatively by means of Maxwell's third equation \begin{equation}
+	\vect{\nabla}\times \vect{E}  = -\frac{\partial \vect{B}}{\partial t}
+\end{equation} and Ohm's law $\matr{\mathcal{R}}\vect{J} = \vect{E}$, where $\matr{\mathcal{R}}$ is the resistivity tensor and $\vect{J}$ is the current density. Now, if the above first condition is met, $\vect{E} = 0$ must hold since the resistivity tensor $\matr{\mathcal{R}}$ vanishes. Hence, \begin{equation}
+\frac{\partial \vect{B}}{\partial t} = 0 \quad \Rightarrow \quad \vect{B}(t) = \text{const.},
+\end{equation} which in words means, that the magnetic field within an ideal conductor (zero resistivity) is constant. Therefore, the magnetic field remains trapped in a conductor, if it is cooled down such that $T < T_c$. In a superconductor however, the magnetic field drops to zero as soon as $T < T_c$.
 
 
 %	\subsection{The BCS theory of superconductivity}
@@ -814,6 +864,9 @@ The signals to process by the time interval analyzers are interference signals p
 
 \subsubsection{Required output}
 The required output of the time interval analyzer are the timestamps of zero-crossings for the interferometer signal of each of the three interferometers. Using these timestamps and knowing the wavelength of the used laser light, one can then calculate distances and velocities of the moving mirrors as visualized in \cref{fig:measurement_circuit} and \cref{fig:dataprocessing}.
+
+\subsubsection{Experiment: Providing signal to TIA and getting timestamps}
+In order to take the available time interval analyzer into operating mode, a preliminary experiment was carried out. This experiment consisted of providing a signal of frequency $\nu$ generated by a frequency generator to an input of the time interval analyzer. The time interval analyzer was programmed such that is could get the timestamps of minimal values of the signal. The acquired timestamps can then expected to have a spacing of $\Delta t$ matching the provided frequency by means of the relation $\nu = 1/\Delta t$.
 
 \chapter{Joule balance}
 \section{Introduction}
