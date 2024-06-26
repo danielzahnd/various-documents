@@ -449,22 +449,92 @@ R_H = R_{xy} = \mathcal{R}_{xy} = \frac{h}{n_He^2},  \quad n_H \in \mathbb{N}
 	
 	This section is concerned with a rigorous derivation of the above mentioned relation \cref{eq:josephsoneffect} from first principles of quantum mechanics and superconductivity.
 	
-\subsection{Superconductivity}
-\subsubsection{Expulsion of a magnetic field}
+\chapter{Superconductivity}
+Superconductivity is a peculiar state of matter, in which an electrical current through the material experiences no resistance. Superconducting materials are used in many technological and science applications, among which also the watt and joule balances take their place. The latter applications make use of so-called Josephson junctions, which essentially are voltage standards connecting a measured voltage to units of the Planck constant $h$. It is therefore integral to understanding the watt and joule balance methods in detail to consider some main topics of superconductivity.
+
+\section{Expulsive property of superconductors}
+
+\subsection{Expulsion property}
 A superconductor is a material, whose resistivity drops to zero below a certain cricical temperature $T_c$. If a material is in superconducting state, its charge carriers - namely the electrons - are in a so-called Cooper pair quantum state, which experience no resistance along their way through the material. The mechanism leading to the formation of Cooper pairs is very complex and in most cases can only be understood phenomenologically. 
 
 A superconductor may phenomenologically be characterized by means of two postulates, which need to be fullfilled for a certain material to be called a superconductor:
 \begin{enumerate}
-	\item The material must be an ideal conductor, meaning that its resistivity $\mathcal{R}$ is zero, i.e. $\mathcal{R} = 0$.
-	\item The material must be an ideal diamagnet, meaning that a magnetic field $-\vect{B}$ forms within the material in response to an external magnetic field $\vect{B}$, thus exactly cancelling out the residual magnetic field.
+	\item The material must be an ideal conductor, meaning that the considered system's resistivity tensor $\matr{\mathcal{R}}$ is zero, i.e. $\matr{\mathcal{R}} = 0$.
+	\item The material must be an ideal diamagnet, meaning that $\vect{B} = \mu_0(\vect{H}+\vect{M}) = 0$ holds for the material.
 \end{enumerate}% Summarize lecture one of sc1 lecture-notes.
 
 The second condition effectly means an expulsion of any magnetic field from a superconductor. This expulsion can be understood qualitatively by means of Maxwell's third equation \begin{equation}
 	\vect{\nabla}\times \vect{E}  = -\frac{\partial \vect{B}}{\partial t}
 \end{equation} and Ohm's law $\matr{\mathcal{R}}\vect{J} = \vect{E}$, where $\matr{\mathcal{R}}$ is the resistivity tensor and $\vect{J}$ is the current density. Now, if the above first condition is met, $\vect{E} = 0$ must hold since the resistivity tensor $\matr{\mathcal{R}}$ vanishes. Hence, \begin{equation}
-\frac{\partial \vect{B}}{\partial t} = 0 \quad \Rightarrow \quad \vect{B}(t) = \text{const.},
+	\frac{\partial \vect{B}}{\partial t} = 0 \quad \Rightarrow \quad \vect{B}(t) = \text{const.},
 \end{equation} which in words means, that the magnetic field within an ideal conductor (zero resistivity) is constant. Therefore, the magnetic field remains trapped in a conductor, if it is cooled down such that $T < T_c$. In a superconductor however, the magnetic field drops to zero as soon as $T < T_c$.
 
+\subsection{Formation of a supercurrent}
+Consider \cref{fig:supercurrent}. This figure visualizes the formation of a supercurrent, which is confined to the surface of materials. The supercurrent forms as a response to the external magnetic field $\vect{B} = \vect{B}_{ext}$. Identifying the purple path as integration path $\partial S$ in the fourth microscopic Maxwell equation, one obtains \begin{equation}
+	\oint_{\partial S}\vect{B}\cdot \mathrm{d}\vect{l} = |\vect{B}_{ext}|l = B_{ext}l.
+\end{equation}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/supercurrent.pdf}
+	\caption{Visualization of supercurrent formation. Figure inspired by \cite{Tsirlin.2024}.}
+	\label{fig:supercurrent}
+\end{figure}
+Given a stationary situation, the electric field $\vect{E}(t)$ is constant with respect to time $t$, hence $\vect{E}(t)=\text{const.}$ and thus $\partial \vect{E}/\partial t = 0$. The fourth microscopic Maxwell equation for the situation at hand is thus given by \begin{equation}
+	\oint_{\partial S}\vect{B}\cdot \mathrm{d}\vect{l} = B_{ext}l = \mu_0\int_{S}\vect{j}\cdot \mathrm{d}\vect{S},
+\end{equation} where $S$ is the surface enclosed by the purple integration path $\partial S$ as seen in \cref{fig:supercurrent}. Now identifying $\vect{j} = \vect{j}_s$ as the supercurrent, one can see that the integration path can be chosen to lie arbitrarily close to the surface of the material; hence the supercurrent $\vect{j}_s$ needs to be confined to the surface of the material, as $B_{ext}l$ is a constant quantity.
+
+
+%Using the Stokes integral theorem, one can furthermore write \begin{equation}
+	%\oint_{\partial S}\vect{B}\cdot \mathrm{d}l = \int_{S}(\vect{\nabla}\times \vect{B})\cdot \mathrm{d}S = \mu_0\int_{S}\vect{j}\cdot \mathrm{d}\vect{S}.
+	%\end{equation}
+	
+\section{The Meissner effect}
+The Meissner effect is the property of superconductors to have a magnetic susceptibility of $-1$. Given some material, the magnetic field $\vect{B}$ is characterized by the equation $\vect{B} = \mu_0(\vect{H}+ \vect{M})$, where $\vect{H}$ is the magnetic field strength in the presence of matter and $\vect{M}$ is the magnetization of the material. Now, the first postulate of superconductivity demands $\vect{B} = 0$, from which $\vect{M} = -\vect{H}$ immediately follows. The magnetic susceptibility defined as \begin{equation}
+	\chi \doteq \frac{1}{\dim(\vect{M})}\vect{\nabla}_{\vect{H}}\vect{M} = \frac{1}{\dim(\vect{M})}\begin{pmatrix}
+		\partial_{H_x} \\ \partial_{H_y} \\ \partial_{H_z}
+	\end{pmatrix}\vect{M}
+\end{equation} now leads to the conclusion $\chi = -1$ for a superconductor. The Meissner effect only occurs, if the temperature $T$ of the material is lower than the so-called critical temperature $T_c$, namely $T < T_c$.
+
+\section{London theory}
+\subsection{The London equations}
+The so-called London equations are phenomenological equations for the description of materials in superconducting state. The underlying assumptions are that $\rho = 0$ and $\vect{B} = 0$ hold, aswell as the macroscopic Maxwell equations.
+
+Let the mass and charge of charge carriers in superconducting state be denoted by $m_s$ and $q_s$. From the Lorentz force equation, one obtains the equation of motion for such a charge carrier as \begin{equation}
+	m_s \frac{\mathrm{d}\vect{v}}{\mathrm{d}t} = q_s\vect{E},
+\end{equation} since $\vect{B} = 0$. From the theory of superconductivity it is known, that the charge carriers are so-called Cooper pairs, which are a compound of two electrons; thus $m_s = 2m_e$ and $q_s = -2e$. Let furthermore $n_{e,s}$ be the so-called superfluid density, which is defined as the density of electrons in a superconducting state. The density of charge carriers $n_s$ is a superconducting state is thus given by $n_s = n_{e,s}/2$. Furthermore, one can define the supercurrent $\vect{j}_s$ as the product of bulk velocity of charge carriers with the charge $q_s$ and the density $n_s$ of charge carriers, thus \begin{equation}
+\vect{j}_s = n_sq_s\vect{v} = -n_{e,s}e\vect{v}.
+\end{equation} Inserting this expression into the above equation of motion, the first London equation is obtained:
+\begin{equation}
+	\frac{\mathrm{d}\vect{j}_s}{\mathrm{d}t} = \frac{e^2 n_{e,s}}{m_e}\vect{E}.
+\end{equation} In normal materials, $\vect{E} = 0$ means that there cannot be any current. In superconducting materials however, $\vect{E} = 0$ only means $\vect{j}_s = \text{const.},$ as one can see from the first London equation. Taking the curl of the first London equation, applying the third Maxwell equation and requiring $\partial \vect{j}_s/\partial t = \mathrm{d}\vect{j}_s/\mathrm{d}t$, one obtains the second London equation as \begin{equation}
+\vect{\nabla}\times \vect{j}_s = -\frac{e^2n_{e,s}}{m_e}\vect{B}.
+\end{equation} Experimentally, it is seen that near only near the surface of superconductor does the field $\vect{B}$ become nonzero, which according to the second London equation means that the supercurrent $\vect{j}_s$ does only flow in the surface regions of the material. By means of using a scalar and vector potentials $\phi$ and $\vect{A}$ and writing $\vect{B} = \vect{\nabla}\times \vect{A}$ and $\vect{E} = -\vect{\nabla}\phi - \frac{\partial \vect{A}}{\partial t}$ one can combine both London equations to one equation \begin{equation}
+\vect{j}_s = -\frac{e^2n_{e,s}}{m_e}\vect{A}.
+\end{equation} Since $\phi$ and $\vect{A}$ can be gauged and the London equations are not gauge invariant, one needs to chose a gauge that matches the requirements of the London equations. The first London equation requires that $\vect{\nabla}\phi=0$ to be fulfilled. Secondly, the second London equation demands $\vect{\nabla}\cdot \vect{A} = 0$, since the continuity equation $\vect{\nabla}\cdot \vect{j} = \partial_t \rho = 0$ requires $\vect{\nabla}\cdot \vect{j} = 0$ whenever one has a constant charge density with respect to time in a material. In a superconducting material described by the London equations, such a constant charge density is given.
+
+\subsection{The penetration depth}
+The so-called penetration depth as derived from London theory is a measure on how deep a magnetic field can penetrate a superconductor. As postulated, $\vect{B} =0$ is required within a superconductor; this is however not exactly true, as one can show experimentally. The magnetic field vanishes for most of the superconductor, but is nonzero close to the surface. The penetration depth gives an idea on how thick this surface layer of magnetic field is.
+
+Assuming a stationary situation and that the magnetization is zero, i.e. $\vect{M} = 0$, the fourth Maxwell equation implies \begin{equation}
+	\vect{\nabla} \times \vect{B} = \mu_0 \vect{j}_s.
+\end{equation} Using the vector analysis identity \begin{equation}
+\vect{\nabla} \times (\vect{\nabla} \times \vect{B}) = \vect{\nabla}(\vect{\nabla} \cdot \vect{B}) - \vect{\nabla}^2\vect{B},
+\end{equation} one obtains
+\begin{equation}
+	\vect{\nabla} \times (\vect{\nabla} \times \vect{B}) = \mu_0\vect{\nabla}\times  \vect{j}_s =  - \vect{\nabla}^2\vect{B}.
+\end{equation} Inserting the second London equation into the above equation, the differential equation \begin{equation}
+\vect{\nabla}^2\vect{B} = \frac{\mu_0e^2n_{e,s}}{m_e}\vect{B}
+\end{equation} results. The inverse of the prefactor on the right hand side has units of length squared, as \begin{equation}
+\left[\frac{\mu_0e^2n_{e,s}}{m_e}\right] = \frac{\si{\kilogram\meter\coulomb^2}}{\si{\second^2\ampere^2\meter^3\kilogram}} = \frac{\si{\coulomb^2\second^2}}{\si{\second^2\coulomb^2\meter^2}} = \si{\meter^{-2}}
+\end{equation} shows, where $[\mu_0] = \si{\newton\ampere^{-2}}$. Hence, one defines the so-called London penetration depth $\lambda_L$ as
+\begin{equation}
+	\lambda_L \doteq \sqrt{\frac{m_e}{\mu_0e^2n_{e,s}}}.
+\end{equation}
+
+\textbf{show this for the current and make example with figure}
+
+
+% Go on with p. 12 of notes
 
 %	\subsection{The BCS theory of superconductivity}
 %	\subsubsection{BCS theory}
