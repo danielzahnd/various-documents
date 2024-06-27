@@ -517,7 +517,7 @@ The so-called penetration depth as derived from London theory is a measure on ho
 
 Assuming a stationary situation and that the magnetization is zero, i.e. $\vect{M} = 0$, the fourth Maxwell equation implies \begin{equation}
 	\vect{\nabla} \times \vect{B} = \mu_0 \vect{j}_s.
-\end{equation} Using the vector analysis identity \begin{equation}
+\end{equation} Using the vector analysis identity \begin{equation}\label{eq:vectoranalysisidentity}
 \vect{\nabla} \times (\vect{\nabla} \times \vect{B}) = \vect{\nabla}(\vect{\nabla} \cdot \vect{B}) - \vect{\nabla}^2\vect{B},
 \end{equation} one obtains
 \begin{equation}
@@ -531,8 +531,44 @@ Assuming a stationary situation and that the magnetization is zero, i.e. $\vect{
 	\lambda_L \doteq \sqrt{\frac{m_e}{\mu_0e^2n_{e,s}}}.
 \end{equation}
 
-\textbf{show this for the current and make example with figure}
+A similar equation can be derived for the supercurrent density $\vect{j}_s$ by means of taking the rotation of the second London equation and employing the above mentioned vector analysis identity \cref{eq:vectoranalysisidentity}. A stationary situation means that the continuity equation \begin{equation}
+	\vect{\nabla}\cdot \vect{j}_s + \frac{\partial \rho}{\partial t} = 0
+\end{equation} yields $\vect{\nabla}\cdot \vect{j}_s$, since $\partial_t \rho = 0$. Furthermore using again $\vect{\nabla}\times \vect{B} = \mu_0\vect{j}_s$ following from the fourth Maxwell equation in a stationary situation one obtains \begin{equation}
+\vect{\nabla}^2\vect{j}_s = \frac{\mu_0 e^2n_{e,s}}{m_e}\vect{j}_s.
+\end{equation} Using the penetration depth $\lambda_L$, both the equations for the supercurrent density and the magnetic field can be written as \begin{equation}
+\vect{\nabla}^2 \vect{B} = \frac{1}{\lambda_L^2}\vect{B}, \qquad \vect{\nabla}^2 \vect{j}_s = \frac{1}{\lambda_L^2}\vect{j}_s.
+\end{equation}
 
+\subsubsection{Surface of a superconductor}
+In order to investigate the surface of a superconductor, consider \cref{fig:superconductor_example}.
+\begin{figure}[h]
+	\centering
+\begin{subfigure}{0.56\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{figures/superconductor_example.pdf}
+	\caption{Surface of a superconductor.}
+	\label{fig:superconductor_example}
+\end{subfigure}\hfill
+\begin{subfigure}{0.43\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{figures/supercurrent_example_plot.pdf}
+	\caption{Plot of the magnetic field and supercurrent for the situation at hand.}
+	\label{fig:superconductor_example_plot}
+\end{subfigure}
+\caption{Visualization of magnetic field and supercurrent formation at the boundary of a superconductor.}
+\label{fig:superconductor_boundary}
+\end{figure}
+The magnetic field in this case is given by $\vect{B} = (B_x(z),0,0)^\top$, where one requires the boundary conditions $B_x(z=\infty)=0$ and $B_x(z=0)=B_0$ to hold in accordance with the two postulates of superconductivity. The governing equation for the magnetic field simplifies as \begin{equation}
+	\vect{\nabla}^2\vect{B} = \frac{1}{\lambda_L^2}\vect{B} \quad \Rightarrow \quad \frac{\mathrm{d}^2B_x(z)}{\mathrm{d}z^2} = \frac{1}{\lambda_L^2}B_x(z).
+\end{equation} Using $B_x(z) = B_0e^{az}$ as ansatz one obtains the general solution $B_x(z) = B_0(e^{z/\lambda_L}+e^{-z/\lambda_L})$, which simplifies to \begin{equation}
+B_x(z) = B_0e^{-z/\lambda_L}, \quad \vect{B} = \begin{pmatrix}
+	B_0 e^{-z/\lambda_L} \\ 0 \\ 0
+\end{pmatrix}
+\end{equation} after implementation of the boundary conditions. The supercurrent is obtained by means of $\vect{j}_s = \mu_0^{-1}\vect{\nabla} \times \vect{B}$, thus obtaining \begin{equation}
+j_{s,y}(x) = -j_{s,0}e^{-z/\lambda_L}, \quad \vect{j}_s = \begin{pmatrix}
+	0 \\ -j_{s,0}e^{-z/\lambda_L} \\ 0
+\end{pmatrix},
+\end{equation} where $j_{s,0} \doteq B_0/(\mu_0\lambda_L)$ was defined as the supercurrent at $z=0$. Thus one can conclude, that both the magnetic field aswell as the supercurrent are directed as seen in \cref{fig:superconductor_example} and drop exponentially with depth $z$ into the superconductor, whereby $\lambda_L$ is the characteristic distance for which the magnetic field and the supercurrent drop by $1/e$. The behaviour of the supercurrent and the magnetic field is shown in the plot \cref{fig:superconductor_example_plot}.
 
 % Go on with p. 12 of notes
 
