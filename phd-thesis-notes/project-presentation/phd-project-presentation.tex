@@ -175,23 +175,48 @@
         \item The overarching goal of the proposed project is therefore to reduce the measurement uncertainty of the existing METAS Kibble balance.
         \item This reduction is aimed to be achieved by means of four connected approaches.
         \item The goal is to reduce the uncertainty from currently $4.3\cdot 10^{-8}$ to $3.0\cdot 10^{-8}$ in relative terms.
-        \item This means that a kilogram can then be measured with an accuracy of $\SI{30}{\micro\gram}$.
     \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Hypotheses}
+  \framesubtitle{Overarching hypothesis and goal}
+
+  \begin{columns}
+    \begin{column}{0.59\textwidth}
+    \begin{itemize}
+        \item Such a relative accuracy of order $10^{-8}$ is equivalent to picking a single paper from a $\SI{10}{\kilo\meter}$ stack of paper.
+        \item A relative measurement uncertainty of $3.0\cdot 10^{-8}$ also means that a kilogram can then be measured with an accuracy of $\SI{30}{\micro\gram}$.
+    \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.4\textwidth}
+      \begin{figure}[h!] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/stackofpaper.pdf}
+	\caption{Visualization of a relative accuracy of order $10^{-8}$.}
+	\label{fig:stackofpaper}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Hypotheses}
   \framesubtitle{Hypothesis and aim 1}
 
   \begin{columns}
-    \begin{column}{0.49\textwidth}
-    Text.
+    \begin{column}{0.59\textwidth}
+\textbf{Background:} Text.
+    
+    \textbf{Problem:} Captured velocities $v$ due to tilt of the coil not captured by induced voltages $U_d$.
+
+    \textbf{Hypothesis:} Elimination of Abbe error using a weighting technique using 3 interferometers leads to reduction of noise in the $G_e = U_d/v$ profile.
     \end{column}
     
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
       \begin{figure}[h!] 
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/abbeerror.pdf}
-	\caption{Visualization of a so-called Abbe offset error $\Delta z$.}
+	\caption{Visualization of a so-called Abbe offset error $\Delta z \approx a \varphi$.}
 	\label{fig:abbeerror}
       \end{figure}
     \end{column}
@@ -202,11 +227,15 @@
   \framesubtitle{Hypothesis and aim 2}
 
   \begin{columns}
-    \begin{column}{0.49\textwidth}
-    Text.
+    \begin{column}{0.59\textwidth}
+\textbf{Background:} Text.
+    
+    \textbf{Problem:} Choice of polynomial order for fit of $G_e$ profile is not substantiated.
+    
+    \textbf{Hypothesis:} Obtaining a force profile $G_m = g/I_s$ for the dynamic range substantiates choice of polynomial order and hence reduces uncertainty associated to choice of order.
     \end{column}
     
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
       \begin{figure}[h!] 
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/Ge_example.pdf}
@@ -220,26 +249,26 @@
 \begin{frame}[allowframebreaks]{Hypotheses}
   \framesubtitle{Hypothesis and aim 3}
 
-  \begin{columns}
-    \begin{column}{0.49\textwidth}
-    Text.
-    \end{column}
-    
-    \begin{column}{0.5\textwidth}
-    Text.
-    \end{column}
-  \end{columns}
+\textbf{Background:} Text.
+
+\textbf{Problem:} Currently, there is only one method (Kibble balance) available to trace the kilogram back to the Planck constant $h$.
+
+\textbf{Hypothesis:} By implementation of a joule balance mode for the existing Kibble balance, the associated uncertainty on kilogram measurements might be reducible.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Hypotheses}
   \framesubtitle{Hypothesis and aim 4}
 
   \begin{columns}
-    \begin{column}{0.49\textwidth}
-    Text.
+    \begin{column}{0.59\textwidth}
+\textbf{Background:} Text.
+
+\textbf{Problem:} Non-ideal alignment of the Kibble balance has effects contributing to uncertainties of $G_e$, $G_m$ and thus $m=G_eG_m^{-1}$.
+
+\textbf{Hypothesis:} Systematically variying the alignment parameters $p_1,\dots,p_k$ and studying the associated outcome for $G_e$ and $G_m$, an artificial neural network can be trained to correct for alingment errors.
     \end{column}
     
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
       \begin{figure}[h!] 
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/nn.pdf}
@@ -372,6 +401,8 @@ Consider an electric field $\vect{E}(\vect{r},t)$, a magnetic field $\vect{B}(\v
 	The quantum Hall effect can be used for resistance measurement; according to \cite{B_Jeckelmann_2001}, the quantum Hall resistance $R_H$ is given by the expression \begin{equation}\label{eq:quantumhalleffect}
 		R_H = \frac{h}{n_He^2}, \quad n_H \in \mathbb{N},
 	\end{equation} where $h = \SI{6.62607015e-35}{\joule\second}$ is the Planck constant and $e$ is the elementary charge.
+
+ \textbf{Add explanatory picture and think about explanation.}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Appendix}
@@ -380,6 +411,8 @@ Consider an electric field $\vect{E}(\vect{r},t)$, a magnetic field $\vect{B}(\v
 	The Josephson voltage $U_J$ across a Josephson junction can be used for voltage measurements; according to \cite{Kajastie_2009} it is given by the equation \begin{equation}\label{eq:josephsoneffect}
 		U_J = \frac{2e}{h}n_Jf_J, \quad n_J \in \mathbb{N},
 	\end{equation} where $h$ is the Planck constant, $e$ is the elementary charge and $f_J$ is the frequency of the microwave radiation used to irradiate the Josephson junction with.
+
+\textbf{Add explanatory picture and think about explanation.}
 \end{frame}
 
 \end{document}
