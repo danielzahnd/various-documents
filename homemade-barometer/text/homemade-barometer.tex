@@ -1,0 +1,207 @@
+\documentclass[a4paper,11pt, twocolumn]{article}
+\input{packages}
+\input{commands}
+
+\author{Daniel Zahnd}
+\date{May 14, 2024 - \today}
+\title{Building a homemade barometer \\ \vspace{0.5cm} \normalsize Theory and test report on building a homemade barometer}
+
+\begin{document}
+
+%\newgeometry{left=40mm,right=40mm}
+\maketitle
+%\newpage
+%\pagenumbering{roman}
+%\tableofcontents
+%\FloatBarrier
+%\newpage
+%\pagenumbering{arabic}
+%\setcounter{page}{1}
+
+
+\begin{abstract}
+Barometers are devices, that measure air pressure. Usually, this is done in the field of meteorology to explore future weather predictions. Observing the atmospheric pressure evolution at some fixed point in space allows for a rough estimate of possible future weather, since a pressure drop usually is a precursor for bad, and a pressure rise an indication for good weather. This paper is concerned with development of theory coupled with a simple realization and test of a homemade barometer.
+\end{abstract}
+
+\section{Introduction}
+Barometers are used to measure air pressure. Observing the atmospheric pressure at a fixed point in space over a given time interval allows for coarse predictions of the future weather. This is due to the observation that pressure drops are usually linked to bad weather, while pressure rises often indicate development of good weather. 
+
+High pressure air is heavier than low pressure air and thus has a tendency to sink due to buoyancy. Sinking air rises in temperature due to adiabatic and diabatic warming. Warm air can take up more water vapour and hence the relative humidity sinks. As a result, clouds tend to vanish and thus render precipitation unlikely. Low pressure air however tends to rise and thus to cool off with increasing height. Now, cold air is sooner saturated with water vapour than warm air. If air rises and cools off therefore, the air gets oversaturated with water vapour and hence clouds begin to form and precipitation becomes possible as well as likely.
+
+As a rough estimate of the future weather helps with planning outdoor activities, it is nice to have a barometer at home to observe the pressure evolution. This paper hence aims to provide the necessary theory to build a homemade barometer using only equipment available in any hardware store. The general design of such a barometer will be provided here, whereas the details of an actual realization are left to the reader to figure out given the available tools and hardware.
+
+
+\section{Theoretical foundation}
+\subsection{Background}
+The theoretical foundation of the proposed homemade barometer is comprised of two main equations and their theoretical background. 
+
+The first equation is the ideal gas law \begin{equation}
+	PV = Nk_B T,
+\end{equation} where $P$ is the pressure of a gas, $N$ the number of particles in the volume $V$, $k_B$ the Boltzmann constant and $T$ the temperature of the gas. There are number of assumptions processed in the derivation of this ideal gas law; but for the purpose at hand it suffices to state that air pressure in non-extreme environments on earth follows the ideal gas law very well.
+
+The second main equation is the equation of hydrostatic pressure \begin{equation}
+	P = \rho g h,
+\end{equation} where $P$ is the hydrostatic pressure of an incompressible fluid, $\rho$ is the density of the fluid, $g$ is the gravitational acceleration and $h$ is the depth in the fluid, where the hydrostatic pressure $P$ is measured.
+
+\subsection{Working principle}
+Consider an experimental setup as seen in \cref{fig:barometer_principle}. The experimental setup consists of a U-shaped tube with the opening facing towards the sky. At the bottom of the U, a valve is placed which separates both the left part and right part of the U. The right part of the U is furthermore closable, whereas the left part remains open throughout the experiment and is therefore subject to the atmospheric pressure $P_0$, which is to be measured. 
+
+Initially, the red valve is closed and water is filled into the right and left part of the U. In the left end, the water is filled up to height $z_{l,0}$, whereas the water in the left tube is filled up to height $z_{r,0}$, fulfilling the condition $z_{r,0} \gg z_{l,0}$. After filling both ends of the U with water of density $\rho$, the right part of the U is closed, which means that at closed valve the pressure and volume of the residual air in the tube remains constant at $P_0$ and $V_0$. This situation is depicted in the left panel of \cref{fig:barometer_principle} and describes the experiment preparation required to carry out measurements.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/barometer_principle.pdf}
+	\caption{General working principle of the proposed homemade barometer.}
+	\label{fig:barometer_principle}
+\end{figure}
+
+Now, a measurement is carried out by first tediously preparing the experiment as described above. Then, the red valve is opened, which marks the starting point of the measurement process. Now, the water in the right part of the U is drawn to the left part of the U due to the higher hydrostatic pressure in the right part of the U. Water keeps flowing from the left part of the U to the right part until the sum of hydrostatic and atmospheric pressure in the right part of the U is exactly balanced by the sum of hydrostatic pressure and air pressure in the right (closed) part of the U. The water level in the left part of the U is now at $z_l$ and $z_r$ denotes the water level in the right part at equilibrium.
+
+Mathematically speaking, the total pressure $P_l$ at the bottom of the U in the left part is given by \begin{equation}
+	P_l = P_0 + \rho g z_l,
+\end{equation} where analogously the total pressure $P_r$ at the bottom of the U in the right part is accounted for by \begin{equation}
+P_r = P_1 + \rho g z_r.
+\end{equation}
+Now, at equilibrium, these two pressures must be equal to one another. Now, the pressure $P_1$ can further be expressed by means of the ideal gas law. Consider for this purpose the evolution of the residual air parcel located in the right part of the U. Initially, this air parcel exhibits pressure $P_0$ and a volume $V_0$. At equilibrium then, the pressure has dropped to $P_1$ due to an expanded volume $V_1 > V_0$. Considering the ideal gas law, the number of particles in the air parcel does not change from the initial condition to equilibrium, hence $N_0 = N_1 \doteq N$. Furthermore, the assumption $T_0 = T_1 \doteq T$ shall be made which means, that the temperature of the air parcel is assumed to stay constant throughout the measurement procedure. Writing out the ideal gas law for both initial and equilibrium conditions, one obtains \begin{equation}
+	P_0V_0 = Nk_BT = P_1V_1 \quad \Leftrightarrow \quad P_1 = P_0\frac{V_0}{V_1}.
+\end{equation} The volume $V_1$ can be expressed by means of the equation \begin{align}\begin{aligned}
+V_1 &= V_0 + r^2\pi(z_{r,0}-z_r) \\ &= r^2\pi(L-z_{r,0})+r^2\pi(z_{r,0}-z_r) \\
+&= r^2\pi (L-z_r).
+\end{aligned}\end{align} The pressure $P_1$ can thus be expressed as \begin{equation}
+P_1 = P_0 \frac{L-z_{r,0}}{L-z_{r}},
+\end{equation} which renders the pressure $P_r$ at the bottom of the right U-part at equilibrum as \begin{equation}
+P_r = P_0 \frac{L-z_{r,0}}{L-z_{r}} + \rho gz_r.
+\end{equation} From the equilibrium condition $P_l \overset{!}{=} P_r$, the reasoning \begin{gather}
+\begin{gathered}
+	\overbrace{P_0 + \rho g z_l}^{P_l} = \overbrace{P_0 \frac{L-z_{r,0}}{L-z_{r}} + \rho gz_r}^{P_r} \\
+	\Leftrightarrow \\
+	P_0\left(1 - \frac{L-z_{r,0}}{L-z_{r}}\right) = \rho g(z_r - z_l)
+\end{gathered}
+\end{gather} Thus, the final barometer expression $P_0(z_{r,0}, z_r, z_l, L)$ results as a function of initial water height $z_{r,0}$, equilibrium water heights $z_r$ and $z_l$ in both parts of the U and the total length $L$ of the right U-part. This final equation is given by \begin{equation}\label{eq:barometer_equation}
+P_0(z_{r,0}, z_r, z_l, L) = \rho g(z_r-z_l)\left(1-\frac{L-z_{r,0}}{L-z_{r}}\right)^{-1}.
+\end{equation}
+In \cref{fig:colormap_theory}, a visualization of the barometer equation \cref{eq:barometer_equation} for the parameters $L = \SI{1.99}{\meter}$, $z_{r,0} = \SI{1.16}{\meter}$, $g = \SI{9.81}{\meter\per\second\squared}$ and $\rho = \SI{1000}{\kilogram\per\cubic\meter}$ can be seen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/colormap_theory.pdf}
+	\caption{Visualization of the barometer equation \cref{eq:barometer_equation}.}
+	\label{fig:colormap_theory}
+\end{figure}
+As one can see from this figure, the difference $\Delta z \doteq z_{r,0}-z_r$ in water level height between initial and equilibrium conditions in the right part of the U increases with dropping ambient pressure $P_0$. This is not surprising insofar as with less ambient pressure $P_0$, the pressure exerted on the left water level is lower and hence the water level in the left part of the U will rise stronger as with less pressure. As a result, the water level in the right part of the U will drop lower at lower pressure, which makes the difference $\Delta z$ large.
+
+The pressure regime in a practical experiment will range somewhere between $\SI{750}{\milli\bar}$ and $\SI{1000}{\milli\bar}$. Hence, following \cref{fig:barometer_principle} and \cref{fig:colormap_theory}, the barometer design will feature a tube length of $L \approx \SI{2.0}{\meter}$, an initial right water level of $z_{r,0} \approx \SI{1.1}{\meter}$ and an initial water height in the left part of the U of $z_{l,0} = \SI{33}{\milli\meter}$. This setup should result in a difference $\Delta z$ in the range of $\SI{60}{\milli\meter}$ to $\SI{90}{\milli\meter}$ between equilibrium and initial water level height in the right part of the barometric U.
+
+\section{Methods}
+\subsection{Experimental apparatus}
+A homemade barometer was built according to the general sketch given in \cref{fig:barometer_principle}. The barometric U was made from transparent plastic tubing of inner diameter $D = \SI{10}{\milli\meter}$, which was attached to a wooden board of around 2 meters length using commercially available standard pipe clamps. At the bottom of the U, the valve was placed. Furthermore, a conic silicon plug of appropriate diameter was used to seal the right part of the barometric U airtight prior to measurements. The used materials are summarized in \cref{tab:materials} and were bought at the online shop \verb|temu|\footnote{See \url{https://www.temu.com/}.}
+
+\begin{table}
+\small
+\centering
+\begin{tabular}{|m{2.2cm}|m{2.2cm}|m{2.2cm}|}
+	\hline
+	\textbf{Description} & \textbf{Image} & \textbf{Link} \\
+	\hline\hline
+	Tube & \vspace{0.05cm}\includegraphics[width=2.0cm]{figures/tube.png}\vspace{0.05cm} & \href{https://www.temu.com/goods.html?_bg_fs=1&goods_id=601099518731564&sku_id=17592225551569&_x_msgid=192-20240730-05-B-760248003177005056-427-mMaeJZZR&_x_src=mail&refer_page_name=bgt_order_detail&refer_page_id=10045_1724253739572_on4iony7bd&refer_page_sn=10045&_x_sessn_id=ahq8utniw7}{tube-link} \\
+	\hline
+	Valve & \vspace{0.05cm}\includegraphics[width=2.0cm]{figures/valve.png}\vspace{0.05cm} & \href{https://www.temu.com/goods.html?_bg_fs=1&goods_id=601099549050111&sku_id=17592354223433&_x_msgid=192-20240730-05-B-760248003177005056-427-mMaeJZZR&_x_src=mail&refer_page_name=bgt_order_detail&refer_page_id=10045_1724253726270_l0vjc8ns90&refer_page_sn=10045&_x_sessn_id=ahq8utniw7}{valve-link} \\
+	\hline
+	Plug & \vspace{0.05cm}\includegraphics[width=2.0cm]{figures/plug.png}\vspace{0.05cm} & \href{https://www.temu.com/ch/100-teiliges-silikon-tapered-plug-set-7-grossen-1-16-bis-1-2-fur-lochversiegelung-pulverbeschichtung-lackierung-g-601099575024267.html?_oak_mp_inf=EIu1k7Wm1ogBGh1nb29kc19qb3Z1NGtfc29sZF9vdXRfc2ltaWxhciCo76eslzI%3D&top_gallery_url=https%3A%2F%2Fimg.kwcdn.com%2Fproduct%2Ffancyalgo%2Ftoaster-api%2Ftoaster-processor-image-cm2in%2F1cfc421a-0cec-11ef-88da-0a580a698089.jpg&spec_gallery_id=4145208100&refer_page_sn=10032&refer_source=10016&freesia_scene=25&_oak_freesia_scene=25&_oak_rec_ext_1=NTA5&_oak_gallery_order=1540174563%2C1937683670%2C1782981886%2C1294555810%2C2022719144&refer_page_el_sn=200970&_x_msgid=192-20240730-05-B-760248003177005056-427-mMaeJZZR&_x_src=mail&_x_sessn_id=ahq8utniw7&refer_page_name=goods&refer_page_id=10032_1724253860488_oc44p61c1o}{plug-link} \\
+	\hline
+\end{tabular}
+\caption{Used materials for the homemade barometer reported in the paper at hand.}
+\label{tab:materials}
+\end{table}
+
+
+\subsection{Measurement procedure}
+Text.
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.22\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/picture_initial_cropped.jpg}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.22\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/picture_final_cropped.jpg}
+	\end{subfigure}
+\end{figure}
+
+\subsection{Uncertainty evaluation}
+Text.
+
+
+\section{Results}
+Text.
+
+\subsection{Uncertainty evaluation of results}
+Text.
+
+\section{Discussion}
+Text.
+
+\section{Conclusions}
+Text.
+
+\appendix
+\section{Derivation of the ideal gas law}
+Text. % Derive the ideal gas law from first principles clearly stating the assumptions flowing into the derivation.
+
+\section{Derivation of hydrostatic pressure}
+Text. % Derive hydrostatic pressure with a sketch.
+
+%\section{Measurement uncertainty evaluation}
+%\subsection{Random variable}
+%A random variable is some quantity $x$, which can take a random value. Those random values follow a certain probability distribution, which is determined by the underlying process constituting the random variable.If the probability distribution of a random variable is known, the probability density $p(x)$ can be written down for the continuous and discrete cases as \begin{equation}
+%	\int_{-\infty}^{\infty}p(x)\,\mathrm{d}x = 1 \qquad \text{and} \qquad \sum_{i} p(x_i) = 1.
+%\end{equation}
+%
+%\subsection{Expectation value}
+%The expectation value $E(x) \doteq \bar{x}$ of a random variable $x$ for both the continuous and discrete case is defined as \begin{equation}
+%	E(x) = \int_{-\infty}^{\infty}xp(x)\,\mathrm{d}x
+%	\end{equation}
+%	and
+%	\begin{equation}
+%	E(x) = \sum_{i}x_ip(x_i).
+%\end{equation}
+%
+%\subsection{Variance, standard deviation and covariance}
+%The variance $V(x)$ of a continuous or discrete random variable $x$ can be calculated by means of \begin{equation}
+%	V(x) = \int_{-\infty}^{\infty} (x-\bar{x})^2\,\mathrm{d}x \end{equation} and
+%	
+%	\begin{equation} V(x) = \sum_{i} (x_i-\bar{x})^2p(x_i).
+%\end{equation}
+%The standard deviation $\sigma_x$ is defined as the square root of the variance, hence \begin{equation}
+%	\sigma_x = \sqrt{V(x)}.
+%\end{equation}
+%Let now $x_1,\dots,x_n$ be random variables with associated probability densities $p(x_j)$, $j\in \{1,\dots,n\}$ and joint probability densities $p(x_i,x_j)$. Let furthermore be $\bar{x}_i = E(x_i)$. The covariance $K(x_i,x_j)$ of two random variables for the continuous and discrete case is defined as \begin{gather}\label{eq:covariance}\footnotesize
+% \begin{gathered}
+%	K(x_i,x_j) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}(x_i-\mu_i)(x_j-\mu_j)p(x_i,x_j)\,\mathrm{d}x_i\,\mathrm{d}x_j
+%\end{gathered}\end{gather} and \begin{equation}
+%	K(x_i,x_j) = \sum_{k,l}(x_{i_k}-\mu_{i})(x_{j_l}-\mu_j)p(x_{i_k},x_{j_l}).
+%\end{equation} In the context of covariance, one usually also defines the correlation coefficient $\rho(x_i,x_j)$ between two random variables as \begin{equation}\label{eq:correlationcoefficient}
+%	\rho(x_i,x_j) = \frac{K(x_i,x_j)}{\sqrt{V(x_i)V(x_j)}} = \frac{K(x_i,x_j)}{\sigma_{x_i}\sigma_{x_j}}.
+%\end{equation} If one has two discrete random variables $a$ and $b$ following a uniform distribution and samples $\{a_1,\dots,a_n\}$ and $\{b_1,\dots,b_n\}$ with $n\in \mathbb{N}$, one can calculate an estimate $s(a,b)$ of the covariance $K(a,b)$ as \begin{equation}
+%	s(a,b) = \frac{1}{n-1}\sum_{i=1}^{n} (a_i-\bar{a})(b_i-\bar{b}).
+%\end{equation}
+%
+%\subsection{Propagation of uncertainties}
+%Consider some random variables $x_1,\dots,x_n$ and a function $f(x_1,\dots,x_n)$ relating those variables. Let furthermore $\sigma_{x_i}$ be the uncertainties (standard deviations) of the random variables $x_i$ and let $\sigma_{x_ix_j} = \sqrt{K(x_i,x_j)}$ be the joint uncertainties of $x_i$ and $x_j$. In this case, the general propagation of uncertainties $\sigma_{x_i}$ on the outcome $f(x_1,\dots,x_n)$ is quantified by the uncertainty $\sigma_f$ as \begin{gather}\label{eq:generallawpropagationofuncertainties}
+%\footnotesize	\begin{gathered}\sigma_f = \sqrt{\sum_{i=1}^{n}\left(\frac{\partial f}{\partial x_i}\right)^2 \sigma_{x_i}^2+ 2\sum_{1\leq i<j\leq n}\left(\frac{\partial f}{\partial x_i}\right)\left(\frac{\partial f}{\partial x_j}\right)\sigma_{x_ix_j}^2}.
+%\end{gathered}\end{gather}
+
+\section{Propagation of uncertainties}
+Consider $n \in \mathbb{N}$ random variables $x_1,\dots,x_n$ and a function $f(x_1,\dots,x_n)$ relating those variables. Let furthermore $\sigma_{x_i}$ be the uncertainties (standard deviations) of the random variables $x_i$, which are assumed to be uncorrelated. In this case, the general propagation of uncertainties $\sigma_{x_i}$ on the outcome $f(x_1,\dots,x_n)$ is quantified by the uncertainty $\sigma_f$ as \begin{gather}\label{eq:generallawpropagationofuncertainties}
+		\begin{gathered}\sigma_f = \sqrt{\sum_{i=1}^{n}\left(\frac{\partial f}{\partial x_i}\right)^2 \sigma_{x_i}^2} = \sqrt{\sum_{i=1}^{n}c_i^2 \sigma_{i}^2},
+\end{gathered}\end{gather} where the short-hand notation $\sigma_i \doteq \sigma_{x_i}$ and $c_i \doteq \partial f/\partial x_i$ was introduced. Note, that the $c_i$ factors are commonly called sensitivity coefficients.
+
+% Include basics about calculating measurement uncertainty by Gauss' error propagation. Mention assumptions made (rectangular distr., normal distr. multiplicative factors) and result is normally distributed. See METAS documentation and PhD notes.
+
+%\end{multicols}
+
+\bibliography{references}
+\bibliographystyle{apalike}
+
+\end{document}
