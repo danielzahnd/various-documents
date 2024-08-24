@@ -92,7 +92,7 @@ The pressure regime in a practical experiment will range somewhere between $\SI{
 
 \section{Methods}
 \subsection{Experimental apparatus}
-A homemade barometer was built according to the general sketch given in \cref{fig:barometer_principle}. The barometric U was made from transparent plastic tubing of inner diameter $D = \SI{10}{\milli\meter}$, which was attached to a wooden board of around 2 meters length using commercially available standard pipe clamps. At the bottom of the U, the valve was placed. Furthermore, a conic silicon plug of appropriate diameter was used to seal the right part of the barometric U airtight prior to measurements. The used materials are summarized in \cref{tab:materials} and were bought at the online shop \verb|temu|\footnote{See \url{https://www.temu.com/}.}
+A homemade barometer was built according to the general sketch given in \cref{fig:barometer_principle}. The barometric U was made from transparent plastic tubing of inner diameter $D = \SI{10}{\milli\meter}$, which was attached to a wooden board of around 2 meters length using commercially available standard pipe clamps. At the bottom of the U, the valve was placed. Furthermore, a conic silicon plug of appropriate diameter was used to seal the right part of the barometric U airtight prior to measurements. The used materials are summarized in \cref{tab:materials} and were bought at the online shop temu.com\footnote{See \url{https://www.temu.com/}.}.
 
 \begin{table}
 \small
@@ -114,30 +114,74 @@ A homemade barometer was built according to the general sketch given in \cref{fi
 
 
 \subsection{Measurement procedure}
-Text.
-
-\begin{figure}[h]
+The measurement procedure consists of two stages. 
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}{0.22\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{figures/picture_initial_cropped.jpg}
+		\includegraphics[width=\textwidth]{figures/initial.pdf}
+		\caption{Barometer during stage 1 of a measurement.}
+		\label{fig:meas_stage_1}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.22\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{figures/picture_final_cropped.jpg}
+		\includegraphics[width=\textwidth]{figures/final.pdf}
+		\caption{Barometer during stage 2 of a measurement.}
+		\label{fig:meas_stage_2}
 	\end{subfigure}
+	\caption{Pictures of the homemade barometer during both stages of a measurement procedure. At the top of the images, the blue plug used to seal the right part of the barometric U airtight, whereas on the bottom of the pictures, the red valve with the red lever can be perceived. In the left picture, the valve is closed, whereas in the right picture it is visualized in its open position.}
+	\label{fig:measurement_procedure}
+\end{figure}
+
+In the first stage visualized in \cref{fig:meas_stage_1}, the valve is closed and water is filled into both arms of the barometric U, ensuring that $z_{l,0} \ll z_{r,0}$, such that the difference in hydrostatic pressure between both barometer arms is sufficient to be balanced by the difference in air pressure in stage 2 of the measurement. After the water has been filled into the barometric U, the top of the right part of the U is sealed by the blue plug. At this point, three measurements each for both $L$ and $z_{r,0}$ are taken.
+
+In the second stage of a measurement, the valve is opened, which leads to an equilibration of hydrostatic and gas pressure in both barometric arms. A sufficient equilibrium is achieved as soon as the water levels are no more observed to oscillate in height. As soon as this condition has been reached, three measurements each for both $z_r$ and $z_l$ are acquired.
+
+The successful completion of both stages will lead to 12 measurement values in total, three measurements per measured parameter $L$, $z_{r,0}$, $z_r$ and $z_l$. These values are then propagated through an uncertainty evaluation leading to a final value $P_0 \pm \sigma_{P_0}$ associated with an uncertainty $\sigma_{P_0}$ of measurement. The uncertainty $\sigma_{P_0}$ is given for a 95 percent confidence interval. 
+
+\subsection{Uncertainty evaluation}
+The measurement uncertainty for the experiment at hand is evaluated according to the standard procedure explained in \cite{GUM2023}.
+
+\section{Results}
+The photos depicted in \cref{fig:measurement_procedure} correspond to a measurement on August 21, 2024 at 16:22 in the afternoon; \cref{fig:result_mc} shows the results obtained by a Monte Carlo simulation of uncertainty propagation.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/result_mc.pdf}
+	\caption{Measurement results associated to the measurement depicted in \cref{fig:measurement_procedure} with measurement uncertainty obtained by a Monte Carlo simulation.}
+	\label{fig:result_mc}
 \end{figure}
 
 \subsection{Uncertainty evaluation}
-Text.
+There are four measured parameters, namely the total length $L$ of the right part of the barometric U, the initial right water height $z_{r,0}$, the final right water height $z_r$ and the final left water height $z_l$. Each of those measurements is in the units of length and measured by the same yard stick and thus subject to the same uncertainty contributions. However, some of the uncertainty contributions scale with measured length and are therefore different for each of the four parameters.
 
+In the following material, each uncertainty contribution to each one of the four measured parameters is briefly described and explained. Details can be seen in the excel file used for the uncertainty evaluation available in the online repository\footnote{See \url{https://github.com/danielzahnd/various-documents/tree/main/homemade-barometer/code}.}. The total uncertainty reported is calculated by the formula \begin{equation}
+	\sigma_{P_0} = 2\sqrt{U_{z_{r,0}}^2 + U_{z_r}^2 + U_{z_l}^2 + U_L^2},
+\end{equation} with the involved quantities being explained below.
 
-\section{Results}
-Text.
+\paragraph{Initial right water height $z_{r,0}$} The initial right water height is subject to six considered uncertainty contributions. First of all, there is the statistical uncertainty contribution $\delta {z_{r,0}}$ given by the standard deviation of the three taken measurements. Second, there is an uncertainty contribution $\delta z_{r,0,rd}$ due to possibly incorrect reading of the yard stick. Third, there is an uncertainty associated to the surface tension of the water yielding a non-flat surface, given by $\delta z_{r,0,st}$. Fourth, a scaled uncertainty $\delta z_{r,0,mu}$ due to the accuracy class of the used yard stick contributes to the budged. Fifth, there is a contribution $\delta z_{r,0,or}$ due to a possible misidentification of the measurement origin down at the bottom of the barometric U. Sixth, there is a contribution $\delta z_{r,0,tilt}$ due to a possible tilt of the experimental apparatus, thus also scaling with measured length. 
 
-\subsection{Uncertainty evaluation of results}
-Text.
+The total uncertainty contribution $U_{z_{r,0}}$ of the initial right water height $z_{r,0}$ is thus given by \begin{equation}
+	U_{z_{r,0}}^2 = \left(\frac{\partial P_0(z_{r,0}, z_r, z_l, L)}{\partial z_{r,0}}\right)^2\sum_{i}\delta z_{r,0,i}^2.
+\end{equation}
+
+\paragraph{Final right water height $z_r$} The final right water height $z_r$ is subject to the same, but appropriately scaled uncertainty contributions as $z_{r,0}$. Thus, there is the statistical contribution $\delta z_r$, the contribution $\delta z_{r,rd}$ due to reading, the quantity $\delta z_{r,st}$ due to surface tension, the contribution $\delta z_{r,mu}$ given by the accuracy class of the yard stick, the uncertainty $\delta z_{r,or}$ due to possible origin misplacement and finally the contribution $\delta z_{r,tilt}$ caused by possible tilt.
+
+The total uncertainty contribution $U_{z_{r}}$ of the final right water height $z_{r}$ is thus given by \begin{equation}
+	U_{z_{r}}^2 = \left(\frac{\partial P_0(z_{r,0}, z_r, z_l, L)}{\partial z_{r}}\right)^2\sum_{i}\delta z_{r,i}^2.
+\end{equation}
+
+\paragraph{Final left water height $z_l$} The final left water height $z_l$ is subject to the same, but appropriately scaled uncertainty contributions as $z_{r}$. Therefore, there is the statistical contribution $\delta z_l$, the contribution $\delta z_{l,rd}$ due to reading, the quantity $\delta z_{l,st}$ due to surface tension, the contribution $\delta z_{l,mu}$ given by the accuracy class of the yard stick, the uncertainty $\delta z_{l,or}$ due to possible origin misplacement and finally the contribution $\delta z_{l,tilt}$ caused by possible tilt.
+
+The total uncertainty contribution $U_{z_{l}}$ of the final left water height $z_{l}$ is thus given by \begin{equation}
+	U_{z_{l}}^2 = \left(\frac{\partial P_0(z_{r,0}, z_r, z_l, L)}{\partial z_{l}}\right)^2\sum_{i}\delta z_{l,i}^2.
+\end{equation}
+
+\paragraph{Tube length $L$} The tube length $L$ is subject to the same, but appropriately scaled uncertainty contributions as $z_{l}$, except for the surface tension contribution, since with $L$ no water level measurements are involved. Hence, there is the statistical contribution $\delta L$, the contribution $\delta L_{rd}$ due to reading, the uncertainty $\delta L_{mu}$ given by the accuracy class of the yard stick, the uncertainty $\delta L_{or}$ due to possible origin misplacement and finally the contribution $\delta L_{tilt}$ caused by possible tilt.
+
+The total uncertainty contribution $U_{L}$ of the tube length $L$ is thus given by \begin{equation}
+	U_{L}^2 = \left(\frac{\partial P_0(z_{r,0}, z_r, z_l, L)}{\partial L}\right)^2\sum_{i}\delta L_{i}^2.
+\end{equation}
 
 \section{Discussion}
 Text.
@@ -147,10 +191,54 @@ Text.
 
 \appendix
 \section{Derivation of the ideal gas law}
-Text. % Derive the ideal gas law from first principles clearly stating the assumptions flowing into the derivation.
+The ideal gas law can be derived from the so-called kinetic gas theory. The kinetic gas theory is based on three postulates, which can be found in any physics textbook such as \cite{tipler2007physics}:
+\begin{enumerate}
+	\item The volume of the gas under consideration contains a large number of molecules.
+	\item The adjacent molecules are separated at distances much larger than their sizes.
+	\item The only interactions between molecules are elastical collisions.
+\end{enumerate}
+Given these three postulates, the so-called Maxwell-Boltzmann distribution for the absolute value $v$ of molecules in a gas can be derived; it is given by \begin{equation}
+	p(v) = 4\pi v^2\left(\frac{m}{2\pi k_BT}\right)^{3/2}e^{-\frac{mv^2}{2k_B T}},
+\end{equation} where $p(v)$ is the probability, that the velocity $v$ of a molecule in the gas is found to be in the interval $v \in [v, v + \mathrm{d}v ]$. Furthermore, $m$ denotes the mass of a gas molecule. Since $p(v)$ is a probaility density function, the mean squared velocity $\bar{v^2}$ of a gas molecule can be calculated by means of performing the integral \begin{equation}\label{eq:mean_squared_velocity}
+\overline{{v^2}} = \int_{0}^{\infty}v^2 p(v)\,\mathrm{d}v = \frac{3k_B T }{m},
+\end{equation} where $k_B$ is known as the Boltzmann constant.
+
+Now, in order to derive an expression for the pressure $P$, one can consider a cubic box of length $l$ filled with $N \in \mathbb{N}$ gas molecules following the kinetic gas theory. Such a situation is visualized in \cref{fig:ideal-gas-law-derivation}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.15\textwidth]{figures/ideal-gas-law-derivation.pdf}
+	\caption{Illustration of a gas container.}
+	\label{fig:ideal-gas-law-derivation}
+\end{figure} Each molecule $j \in \{1,\dots,N\}$ shall have a velocity $\vect{v}_j = (v_{j,x}, v_{j,y}, v_{j,z})^\top$ and a mass $m$. The pressure exerted on a container wall is hence given by the total force $F$ generated by molecules hitting the wall divided by the surface $A = l^2$ of the wall. The force $F$ exerted by molecules hitting a container wall is given by the change in momentum of the hitting particles divided by the interval of time, during which the change in momentum occurs; therefore, one can write down \begin{equation}
+F = \sum_{j = 1}^{N}\frac{m v_{j,i}^2}{l} = \frac{1}{3}\sum_{j = 1}^{N}\frac{m v_{j}^2}{l},
+\end{equation} where in the last step \begin{equation}
+\sum_{j = 1}^{N}v_{j,x} = \sum_{j = 1}^{N}v_{j,y} = \sum_{j = 1}^{N}v_{j,z} = \frac{1}{3}\sum_{j = 1}^{N}v_j^2
+\end{equation} with $v_j = |\vect{v}_j|$ was used, since no particular direction of movement is preferred by the gas molecules. Now, the pressure $P$ can be calculated by the force $F$ divided by the surface area $A = l^2$ as \begin{equation}
+P = \frac{F}{A} = \frac{m}{3V}\sum_{j = 1}^{N} v_j^2.
+\end{equation} The average kinetic energy $\frac{1}{2}m\overline{{v^2}}$ can be calculated by means of \begin{equation}
+\frac{1}{2}m\overline{{v^2}} = \frac{1}{2N}\sum_{j=1}^{N} m v_j^2,
+\end{equation} which allows for a reformulation of the former equation as \begin{equation}\label{eq:ideal_gas_law_almost_final}
+PV = \frac{N}{3}m\overline{{v^2}} = \frac{2N}{3f}\bar{E}_f,
+\end{equation} where $\bar{E}_f \doteq \frac{f}{2}m\overline{{v^2}} = f\bar{E}$ with $\bar{E} = \frac{1}{2}k_B T$ the average energy per degree of freedom $f$ of movement was defined. Thus, $\bar{E}_f$ is the average kinetic energy of a molecule with $f$ degrees of freedom of movement. In the case of single-atom molecules, the result \cref{eq:mean_squared_velocity} holds and one has \begin{equation}
+\frac{1}{2}m\overline{{v^2}} = \frac{3}{2}k_B T = 3\bar{E}.
+\end{equation} From this, $f=3$ can be concluded for single-atom molecules, which corresponds to the expected three degrees of translational freedom. Inserting the above expressions for $\bar{E}$ and $\bar{E}_f$ into \cref{eq:ideal_gas_law_almost_final} yields the ideal gas law \begin{equation}
+PV = Nk_B T.
+\end{equation}
+
+% Derive the ideal gas law from first principles clearly stating the assumptions flowing into the derivation.
 
 \section{Derivation of hydrostatic pressure}
-Text. % Derive hydrostatic pressure with a sketch.
+Hydrostatic pressure is the pressure an object experiences on its surface due to a medium of different density $\rho$ surrounding it, the whole system being subject to a gravitational field. Consider therefore for a derivation of the mathematical expression for the hydrostatic pressure \cref{fig:hydrostatic-pressure-derivation}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.15\textwidth]{figures/hydrostatic-pressure-derivation.pdf}
+	\caption{Illustration of an object (medium 2) experiencing hydrostatic pressure exerted on it by an other medium (medium 1) of constant density $\rho$.}
+	\label{fig:hydrostatic-pressure-derivation}
+\end{figure}
+
+The hydrostatic pressure $P$ exerted on medium 2 by means of medium 1 is given by the gravitational force generated by the mass of medium 1 divided by the surface area of medium 2 facing medium 1. Hence, one can write \begin{equation}
+	P = \frac{\rho h A g}{A}  = \rho g h.
+\end{equation}  % Derive hydrostatic pressure with a sketch.
 
 %\section{Measurement uncertainty evaluation}
 %\subsection{Random variable}
@@ -193,6 +281,8 @@ Text. % Derive hydrostatic pressure with a sketch.
 %\end{gathered}\end{gather}
 
 \section{Propagation of uncertainties}
+The following formulae are derived in detail in standard references such as \cite{GUM2023}.
+
 Consider $n \in \mathbb{N}$ random variables $x_1,\dots,x_n$ and a function $f(x_1,\dots,x_n)$ relating those variables. Let furthermore $\sigma_{x_i}$ be the uncertainties (standard deviations) of the random variables $x_i$, which are assumed to be uncorrelated. In this case, the general propagation of uncertainties $\sigma_{x_i}$ on the outcome $f(x_1,\dots,x_n)$ is quantified by the uncertainty $\sigma_f$ as \begin{gather}\label{eq:generallawpropagationofuncertainties}
 		\begin{gathered}\sigma_f = \sqrt{\sum_{i=1}^{n}\left(\frac{\partial f}{\partial x_i}\right)^2 \sigma_{x_i}^2} = \sqrt{\sum_{i=1}^{n}c_i^2 \sigma_{i}^2},
 \end{gathered}\end{gather} where the short-hand notation $\sigma_i \doteq \sigma_{x_i}$ and $c_i \doteq \partial f/\partial x_i$ was introduced. Note, that the $c_i$ factors are commonly called sensitivity coefficients.
