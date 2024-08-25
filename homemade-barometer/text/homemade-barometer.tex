@@ -140,17 +140,88 @@ In the second stage of a measurement, the valve is opened, which leads to an equ
 
 The successful completion of both stages will lead to 12 measurement values in total, three measurements per measured parameter $L$, $z_{r,0}$, $z_r$ and $z_l$. These values are then propagated through an uncertainty evaluation leading to a final value $P_0 \pm \sigma_{P_0}$ associated with an uncertainty $\sigma_{P_0}$ of measurement. The uncertainty $\sigma_{P_0}$ is given for a 95 percent confidence interval. 
 
+All measurements were taken at Chrütli 128D, 3154 Rüschegg Heubach BE, which is situated at 1018 meters above sea level and coordinates \ang{46.762413} north and \ang{7.421758} east.
+
+\subsection{Experiment 1: Plausibility test}
+As a first experiment, a single measurement for the ambient pressure $P_0$ was conducted. This was done to test, if the homemade barometer gives plausible results within a reasonable uncertainty regime. The plausibility of the obtained results was compared to the values provided at the same time of measurement by an official weather station at a comparable height and not far away from the location of the homemade barometer; the chosen official weather station\footnote{See \href{https://www.meteoschweiz.admin.ch/service-und-publikationen/applikationen/messwerte-und-messnetze.html}{https://www.meteoschweiz.ch/messwerte} for measurement data obtained by this weather station.} is that of MeteoSchweiz in Plaffeien FR situated at 1044 meters above sea level and coordinates \ang{46.747717} north and \ang{7.266264} east.
+
+\subsection{Experiment 2: Aiming for a weather prediction}
+As a second experiment it was aimed for a prediction of a known weather trend. For this purpose, the ambient pressure $P_0$ was measured on two days approximately 24 hours apart. The first date and time of measurement was August 23, 2024 around 21:30, whereas the second date and time of measurement was August 24, 2024 around 21:00. For both of these measurements, the ambient pressure was measured three times. The observed dataset thus then consisted of six individual values, for which a trend can be visible.
+
+August 23 was known to feature fair weather, whereas a change in weather to rainy condition on August 24 was predicted. If the measurements of ambient pressure obtained by the homemade barometer were to indicate this change of weather, a pressure drop from August 23 to August 24 would be expected.
+
 \subsection{Uncertainty evaluation}
 The measurement uncertainty for the experiment at hand is evaluated according to the standard procedure explained in \cite{GUM2023}.
 
 \section{Results}
-The photos depicted in \cref{fig:measurement_procedure} correspond to a measurement on August 21, 2024 at 16:22 in the afternoon; \cref{fig:result_mc} shows the results obtained by a Monte Carlo simulation of uncertainty propagation.
+
+\subsection{Experiment 1: Plausibility test}
+The photos depicted in \cref{fig:measurement_procedure} the plausibility experiment conducted on August 21, 2024 at 16:22 in the afternoon. The obtained values for the four measured parameters $z_{r,0}$, $z_r$, $z_l$ and $L$ are tabularized in \cref{tab:meas_values}.
+\begin{table}[h]
+	\small
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{$z_{r,0}$ [mm]} & \textbf{$z_r$ [mm]} & \textbf{$z_l$ [mm]} & \textbf{$L$ [mm]} \\
+	\hline\hline
+	1159.0 & 1092.0 & 406.0	& 1989.0 \\
+	\hline
+	1158.0 & 1091.0 & 407.0	& 1988.0 \\
+	\hline
+	1158.5 & 1091.5 & 408.0 & 1987.0 \\
+	\hline
+	\end{tabular}
+	\label{tab:meas_values}
+	\caption{Obtained measurements of the four parameters for the plausibility experiment.}
+\end{table}
+
+The final result for the atmospheric pressure obtained by the measured values \cref{tab:meas_values} in combination with \cref{eq:barometer_equation} and an appropriate uncertainty budget according to the standard procedure explained in \cite{GUM2023} is given by \begin{equation}
+	P_0 = 898.50 \pm 60.04 \text{ mbar},
+\end{equation} where the uncertainty is given for a 95 percent confidence interval. 
+
+In addition to the standard procedure for uncertainty evaluation according to \cite{GUM2023}, a Monte Carlo propagation of uncertainties was done to verify and complement the standard procedure. The results again for a 95 percent confidence interval are shown in \cref{fig:result_mc}.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/result_mc.pdf}
-	\caption{Measurement results associated to the measurement depicted in \cref{fig:measurement_procedure} with measurement uncertainty obtained by a Monte Carlo simulation.}
+	\includegraphics[width=0.35\textwidth]{figures/result_mc.pdf}
+	\caption{Monte Carlo propagated uncertainties.}
 	\label{fig:result_mc}
 \end{figure}
+
+As a reference value, the ambient pressure $P_{0,ref}$ measured at the MeteoSchweiz weather station located in Plaffeien at a similar height above sea level was taken to be \begin{equation}
+	P_{0,ref} = 902.10 \text{ mbar}.
+\end{equation}
+
+\subsection{Experiment 2: Aiming for a weather prediction}
+The obtained results for the ambient pressure $P_0$ for the mentioned two times of measurements are tabularized in \cref{tab:experiment_2_results}.
+\begin{table}[h]
+	\small
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		 \textbf{Date and time} & \textbf{$P_0$ [mbar]} & \textbf{$\sigma_{P_0}$ [mbar]} \\
+		\hline\hline
+		23.08.2024 21:31 &	840.74 &	53.25 \\
+		\hline
+		23.08.2024 21:34 &	824.49 &	50.75 \\
+		\hline
+		23.08.2024 21:37 &	834.59 &	55.64 \\
+		\hline
+		24.08.2024 20:56 &	830.72 &	49.72 \\
+		\hline
+		24.08.2024 20:59 &	803.48 &	52.02 \\
+		\hline
+		24.08.2024 21:02 &	809.41 &	53.34 \\
+		\hline
+	\end{tabular}
+	\label{tab:experiment_2_results}
+	\caption{Obtained results for the ambient pressure $P_0$ of experiment 2.}
+\end{table} Furthermore, these values and their associated uncertainties are found graphed in \cref{fig:experiment_2_results} in order facilitate capturing a possible trend.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/experiment_2_results_br.pdf}
+	\caption{Graphed results as given in \cref{tab:experiment_2_results}.}
+	\label{fig:experiment_2_results}
+\end{figure} Details with respect to exact calculations and the uncertainty evaluation can be found below, aswell as in the code and spreadsheets available at the online repository\footnote{See \url{https://github.com/danielzahnd/various-documents/tree/main/homemade-barometer} for the complete material on the homemade barometer.}.
 
 \subsection{Uncertainty evaluation}
 There are four measured parameters, namely the total length $L$ of the right part of the barometric U, the initial right water height $z_{r,0}$, the final right water height $z_r$ and the final left water height $z_l$. Each of those measurements is in the units of length and measured by the same yard stick and thus subject to the same uncertainty contributions. However, some of the uncertainty contributions scale with measured length and are therefore different for each of the four parameters.
@@ -184,10 +255,16 @@ The total uncertainty contribution $U_{L}$ of the tube length $L$ is thus given 
 \end{equation}
 
 \section{Discussion}
-Text.
+Concerning the first experiment, one can state that the homemade barometer works pretty well, considering that the deviation to the reference value is only about 5 mbar. However, other measurements and corresponding reference values were taken and the seen deviations range from 5 to up about 100 mbar; hence, the measurement reported as a first experiment seems to be a ``lucky'' value, since the difference to the reference value is so low. However, the general pattern recorded by the reference weather station also seems to be reflected by the homemade barometer measurements; this is to say that pressure rises and falls do coincide for both the reference weather station measurements and those of the homemade barometer. It is to be remarked at this point, that the Monte Carlo simulation of uncertainty propagation leads to a smaller 95 percent confidence interval uncertainty than the standard procedure does. Further work could elaborate on finding the reason for this observation; likely, this is linked to the fact, that not all uncertainty contributions follow the same probability distributions.
+
+As for the second experiment, is was observed that the measurements obtained by the homemade barometer tend to be around 70 mbar lower on average than those of the reference weather station. This indicates, that there is some systematic measurement error present in the experimental setup. It would be a future improvement to find and correct this systematic issue. Apart from that, the observed weather tendency seemed to correspond to the observed slight pressure drop; from the 23th to the 24th of August, the weather shifted from fair to rainy. Also, there was a pressure drop recorded, as can be seen from \cref{fig:experiment_2_results}. However, the uncertainty ranges are fairly large compared to the absolute values, the average relative measurement uncertainty for the measurements reported in \cref{tab:experiment_2_results} is around $7\cdot 10^{-2}$. This means the data seen in \cref{fig:experiment_2_results} permit to draw negative, but also slightly positive slope trend lines. Hence, no actual statement is possible from the obtained data and the associated uncertainties, if the data indeed do indicate a falling pressure or if this is not the case.
 
 \section{Conclusions}
-Text.
+One can conclude from the reported material, that the homemade barometer indeed does work; however, it seems that the device is fairly inaccurate at present stage, such that it does not allow for reliable weather development presumptions. The reason behind this is that pressure fluctuations linked to changes in weather usually do not exceed 50 mbar; which is the current range of measurement uncertainty of the device. Hence, one could draw positive or negative slope trendlines through acquired data and therefore making reliable predictions for the weather development impossible.
+
+It can however be stated, that the general principle of the homemade barometer indeed works. There are also possibilities for improvement; one could for example increase the length $L$ and the initial right water height $z_{r,0}$, such that the observed difference $\Delta z = z_{r,0}-z_r$ would be larger than at present stage and thus making the uncertainty contributions due to reading and other sources less significant. There are also many other possibilities to improve the device, for example making the seal of the right part of the barometric U more reliable; currently, a silicon plug is used for that purpose of which the author is unsure, whether it really seals the tube airtight or not. Exploring and implementing further improvements would be the task of future work concerning the reported homemade barometer.
+
+Summing it up it can be said, that building a homemade barometer is a fun science project one can do with househeld tools at home, for example with kids or family. It would also make for a cool science project in middle or high schools.
 
 \appendix
 \section{Derivation of the ideal gas law}
