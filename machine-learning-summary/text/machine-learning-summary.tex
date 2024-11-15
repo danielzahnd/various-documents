@@ -460,6 +460,21 @@ In order to derive a generalized linear model, we can perform the three key step
 \end{equation} to implement, which is exactly the hypothesis function for logistic regression.
 }
 
+\Que{How does the perceptron connect to generalized linear models?}
+\Ans{
+The perceptron is nothing but a generalized linear model, if an appropriate activation function $f:\mathbb{R}^{d+1}\rightarrow \mathbb{R}$ has been chosen. Consider \cref{fig:perceptron} for a visualization.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/perceptron.pdf}
+	\caption{Visualization of a basic perceptron.}
+	\label{fig:perceptron}
+\end{figure}  Let $x \in \mathbb{R}^d$ be a feature vector and $y \in \{0,1\}$. Let furthermore $(x^{(i)}, y^{(i)})$ with $i \in \{1,\dots,m\}$ be a training dataset. If the activation function $f$ is chosen to be the sigmoid function \begin{equation}
+f(\theta^\top x) = \frac{1}{1+e^{-\theta^\top x}},
+\end{equation} then, the perceptron reduces to logistic regression, as the hypothesis function in this case is \begin{equation}
+h_\theta(x) = \frac{1}{1+e^{-\theta^\top x}}.
+\end{equation} and hence is a form of a generalized linear model. Therefore, the perceptron with the sigmoid activation function can be trained using gradient descent as in logistic regression. This finding also generalizes; if the activation function $f$ belongs to the exponential family, every perceptron is a basic unit of a generalized linear model!
+}
+
 \Que{How is logistic regression for $k \in \mathbb{N}$ classes rather than just for two classes defined?} 
 \Ans{
 Logistic regression for multiple classes is also known as multinomial logistic regression or softmax regression. This is a widely used technique in machine learning to cluster data into multiple classes.
@@ -544,53 +559,449 @@ which can be maximized (or minimized with negative sign) with respect to the mod
 }
 
 \subsection{Generative learning and naive Bayes} % Lecture 4
+\Que{Which are two very important formulas from probability theory heavily used in generative learning?}
+\Ans{
+The two formulas are the the Bayes theorem and second the marginalization theorem for probabilities.
+
+Now, consider random variables $x$ and $y$ with probability densities $p(x)$, $p(y)$ and a joint probability density $p(x,y)$. Furthermore, conditional probabilities are given as $p(x|y)$ and $p(y|x)$. The Bayes theorem then reads \begin{equation}
+	p(x|y) = \frac{p(y|x)p(x)}{p(y)} \qquad \text{or} \qquad p(y|x) = \frac{p(x|y)p(y)}{p(x)}.
+\end{equation} Now, the second important formula - the marginalization theorem - is given as \begin{equation}
+p(x) = \int_\mathbb{R} p(x,y)\,\mathrm{d}y \qquad \text{or} \quad p(y) = \int_{\mathbb{R}} p(x,y)\,\mathrm{d}x.
+\end{equation} Now, if every event in $x$ or $y$ is disjoint from any other event possible, the law of total probability applies, which permits to write the joint probability $p(x,y)$ as \begin{equation}
+p(x,y) = p(x|y)p(y) = p(y|x)p(x).
+\end{equation} By means of this, the Bayes theorem can be expressed by only two assumed quantities, rather than three, namely by means of $p(x|y)$ and $p(y)$ as \begin{equation}
+p(y|x) = \frac{p(x|y)p(y)}{\int_{\mathbb{R}}p(x|y)p(y)\,\mathrm{d}y},
+\end{equation} where the integral discretizes to a sum, if the random variable(s) are discrete.
+}
+
 \Que{What is the difference between a discriminative and generative approach in machine learning? Explain by using the Bayes theorem!}
 \Ans{
-Text.
+In machine learning, one models a probability density $p(y|x)$ of data $y$, given other data $x$. One can go about this using two different approaches; the generative and the discriminative approach.
+
+The discriminative approach is to directly and explicitly define a probability density for $p(y|x)$; say, a general linear model like the logistic regression. So in this case, one has \begin{equation}
+	p(y|x;\theta) = h_\theta(x),
+\end{equation} where $h_\theta(x)$ is some hypothesis function like the sigmoid function, which is parametrized by model parameters $\theta$. This approach requires an explicit definition of the probability density, which is oftentimes hard to determine.
+
+Because many times it is easier to find trustworthy expressions for the probability densities $p(x|y)$ and $p(y)$, the generative approach where one models $p(y|x)$ indirectly by means of the Bayes theorem as \begin{equation}
+	p(y|x) = \frac{p(x|y)p(y)}{\int_{\mathbb{R}}p(x|y)p(y)\,\mathrm{d}y}
+\end{equation} is easier. This is also the difference between the two approaches; the discriminative approach models $p(y|x)$ explicitly, whereas the generative approach models $p(y|x)$ indirectly by means of modeling $p(x|y)$ and $p(y)$ and applying the Bayes theorem.
 }
 
 \Que{What is generative learning?}
-\Ans{Text.}
+\Ans{Oftentimes, one wants to model the probability density $p(y|x)$, where $x = (x_1,\dots,x_n)^\top$ for example contain variables like the amount of rooms and the total living area of a house, and where $y$ would denote the prize of the house. This is called discriminative learning; so one wants to infer primarily one variable based on other variables.
+
+The other way round, where one models $p(x|y)$, is called generative learning. There, one wants to infer more than one variables based on one variable. For example, one wants to have probability densities for the amount of rooms and the total living area of a house, if one only knows the probability density for the prize.}
 
 \Que{How does Gaussian discriminative analysis (GDA) work?}
-\Ans{Text.}
+\Ans{Gaussian discriminative analysis is an example of a generative learning model. Hence, we assume the probabilities $p(x|y)$ and $p(y)$ in order to calculate $p(y|x)$ via the Bayes theorem. 
+	
+Let $y$ be a variable that can take two values; either $0$ or $1$. Thus, the probability $p(y;\phi)$ can be given by a Bernoulli probability density as $p(y=1;\phi) = \phi$ and $p(y=0;\phi) = 1-\phi$, where $\phi \in [0,1]$. For the probabilities $p(x|y=0;\mu_0, \Sigma)$ and $p(x|y=1;\mu_0;\Sigma)$, we assume Gaussian probability densities; thus one can write \begin{align}
+	\begin{aligned}
+		p(x|y=0;\mu_0,\Sigma) = \mathcal{N}(x; \mu_0, \Sigma), \quad p(x|y=1;\mu_0, \Sigma) = \mathcal{N}(x; \mu_1, \Sigma),
+	\end{aligned}
+	\end{align} where \begin{equation}
+	\mathcal{N}(x; \mu, \Sigma) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu)^\top \Sigma^{-1}(x-\mu)\right)
+\end{equation} is the $n$-dimensional multivariate normal distribution, where $\Sigma$ is the covariance matrix of the different components $x = (x_1,\dots,x_n)^\top$ and $\mu = (\mu_1,\dots,\mu_n)^\top$ is a vector of mean values for each component. The expression $|\Sigma|$ means $|\Sigma| = \det(\Sigma)$. Note, that the covariance matrix is assumed to be the same for both probability densities above, but not the mean values. In one expression, $p(x|y)$ and $p(y)$ can be written as \begin{align}\begin{aligned}
+p(x|y;\mu_0,\mu_1,\Sigma) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}}\prod_{j=0}^{1}\exp\left(-\frac{1}{2}(x-\mu_j)^\top \Sigma^{-1}(x-\mu_j)\right)^{\mathbb{I}\{y=j\}}
+\end{aligned}\end{align} and \begin{equation}
+p(y;\phi) = \phi^{\mathbb{I}\{y=1\}}(1-\phi)^{\mathbb{I}\{y=0\}}.
+\end{equation}
+
+The model parameters $\theta$ to learn by optimization are therefore given by \begin{equation}
+	\theta= \{\mu_0, \mu_1, \Sigma, \phi\}.
+\end{equation} Let $x \in \mathbb{R}^n$ be a feature vector and $y \in \{0,1\}$. Let furthermore $(x^{(i)}, y^{(i)})$ with $i \in \{1,\dots,m\}$ be a training dataset. The way to go about optimization is taking the maximum likelihood of the data; thus we want to maximize $L(\theta) \doteq \sum_{i=1}^m p(y^{(i)}|x^{(i)};\theta)$ with respect to $\theta$. This is equivalent to the formulation \begin{align} \begin{aligned}
+\hat{\theta} &= \arg\min_\theta\left[l(\theta)\right] = \arg\min_\theta\left(\overbrace{-\sum_{i=1}^{m}\ln\left[p(x^{(i)}|y^{(i)};\theta)p(y^{(i);\theta})\right]}^{\doteq\,l(\theta)}\right) \\ &= \arg\min_\theta\left(-\sum_{i=1}^{m}\ln\left[p(x^{(i)}|y^{(i)};\theta)\right] - \sum_{i=1}^{m}\ln\left[p(y^{(i)};\theta)\right]\right)
+\end{aligned}\end{align} for the optimal model parameters $\hat{\theta}$. Now, explicitly inserting the probability densities, one obtains \begin{align}\scriptsize
+\begin{aligned}
+	\hat{\theta} = \arg\min_\theta\left(\sum_{i=1}^{m}\left[\frac{1}{2}\ln\left(|\Sigma|\right) - \mathbb{I}\{y^{(i)}=0\}\left(f(x^{(i)}, \mu_0, \Sigma)+\ln(1-\phi)\right) - \mathbb{I}\{y^{(i)}=1\}\left(f(x^{(i)}, \mu_1, \Sigma)+\ln(\phi)\right)\right]\right),
+\end{aligned}
+\end{align} where $f(x^{(i)}, \mu_j, \Sigma) \doteq \frac{1}{2}(x^{(i)}-\mu_j)^\top \Sigma^{-1}(x^{(i)}-\mu_j)$ was defined. Now, the expression $l(\theta)$ can be optimized with respect to every model parameter $\theta= \{\mu_0,\mu_1,\Sigma, \phi\}$ by means of calculating the partial derivative with respect to every parameter, setting it to zero and solving for the parameter. Thus, one obtains \begin{align}\small
+\begin{aligned}
+	\phi &= \frac{1}{m}\sum_{i=1}^m\mathbb{I}\{y^{(i)}=1\}, \\
+	\mu_0 &= \frac{\sum_{i=1}^{m}\mathbb{I}\{y^{(i)}=0\}x^{(i)}}{\sum_{i=1}^{m}\mathbb{I}\{y^{(i)}=0\}}, \\
+	\mu_1 &= \frac{\sum_{i=1}^{m}\mathbb{I}\{y^{(i)}=1\}x^{(i)}}{\sum_{i=1}^{m}\mathbb{I}\{y^{(i)}=1\}}, \\
+	\Sigma &= \frac{1}{m}\left(\mathbb{I}\{y^{(i)}=0\}\sum_{i=1}^{m}(x^{(i)}-\mu_0)(x^{(i)}-\mu_0)^\top+   \mathbb{I}\{y^{(i)}=1\}\sum_{i=1}^{m}(x^{(i)}-\mu_1)(x^{(i)}-\mu_1)^\top\right).
+\end{aligned} 
+\end{align} After finding the optimal parameters $\hat{\theta} = \{\hat{\mu}_0, \hat{\mu}_1, \hat{\Sigma}, \hat{\phi}\}$, one can then make a classification of a new sample $x^{(s)}$ by means of calculating
+\begin{align}\begin{aligned}
+	p(y=1|x^{(s)};\hat{\theta}) &= p(x^{(s)}|y=1; \hat{\theta})p(y=1;\hat{\theta}) \\
+	&=\frac{\hat{\phi}}{(2\pi)^{n/2}|\hat{\Sigma}|^{1/2}}\exp\left({-\frac{(x^{(s)}-\hat{\mu}_1)^\top \hat{\Sigma}^{-1}(x^{(s)}-\hat{\mu}_1)}{2}}\right).
+\end{aligned}\end{align} If $p(y=1|x^{(s)};\hat{\theta}) > 0.5$ for a sample $x^{(s)}$, then $x^{(s)}$ belongs to class 1, whereas otherwise $x^{(s)}$ belongs to class 0.
+
+Note, that $p(y=1|x^{(s)};\theta)$ can be written as a sigmoid function with an appropriate $\theta$, which is a function of the parameters $\mu_0$,$\mu_1$, $\Sigma$ and $\phi$. Therefore, the Gaussian discriminative analysis (GDA) is very similar to logistic regression, makes however stronger assumptions. Therefore, GDA is better than logistic regression, where the GDA assumptions are fullfilled, but if that is not the case, logistic regression will yield better results.
+}
 
 \Que{How does the naive Bayes approach work?}
-\Ans{Text.}
+\Ans{Consider a problem where one has a vector $x = (x_1,\dots,x_n)^\top \in \mathbb{R}^n$ of zeros and ones. Such a vector could for example contain a one at $x_j$, if the $j$-th word of a dictionary containing $n$ words is in a checked text; say, for a spam/non-spam classification. Correspondingly, one has a class label $y \in \{1,\dots,K\}$ for $K$ classes; for example $K=1$ could denote work-related mails, $K=2$ spam and so on. Suppose furthermore, that one has at disposal a training dataset $\{(x^{(i)}, y^{(i)})\}_{i=1,\dots,m}$.
+	
+In this case, a naive Bayes algorithm can be applied. It is an example of a generative approach; thus we model $p(y|x;\theta)$ based on the Bayes theorem \begin{equation}
+	p(y|x;\theta) \propto p(x|y;\theta)p(y;\theta),
+\end{equation} where $\theta$ are the model parameters of the naive Bayes classifier. Suppose, that we have a weights vector $\theta = (\phi_{1|y=1},\dots,\phi_{1|y=K},\dots,\phi_{n|y=1},\dots,\phi_{n|y=K},\phi_{y=1},\dots,\phi_{y=K})^\top$ containing $N = nK + K = K(n+1)$ weights. If one has for example $n=9999$ words in a dictionary and $K=10$ classes to classify incoming emails, one would have $N=K(n+1) = 10(9999+1) = 10^5$ model parameters.
+
+Now, the probability $p(x_i = 1|y=k)$ that an object contains element $i$, given that it belongs to class $k$, can be given by $p(x_i=1|y=k;\theta) = \phi_{i|y=k}$. Correspondingly, the probability $p(x_i=0|y=k;\theta)$ must be given as $p(x_i=0|y=k;\theta) = 1-\phi_{i|y=k}$. Furthermore, the probability $p(y=k;\theta)$ that an object belongs to class $k$ is given by $p(y=k;\theta) = \phi_{y=k}$. Written as sole expressions, the probabilities $p(x_i|y;\theta)$ and $p(y;\theta)$ can be given as \begin{align}
+	\begin{aligned}
+		p(x_i|y;\theta) = \prod_{j=1}^{K}\phi_{i|y=j}^{\mathbb{I}\{x_i=1, y=j\}}(1-\phi_{i|y=j})^{\mathbb{I}\{x_i=0, y=j\}}, \qquad
+		p(y;\theta) = \prod_{j=1}^{K}\phi_{y=j}^{\mathbb{I}\{y=j\}}.
+	\end{aligned}
+\end{align} The naive Bayes assumption is that the events $x_i|y=k$ and $x_j|y=k$ are independent of one another for any $i,y\in\{1,\dots,n\}$ and $k\in\{1,\dots,K\}$. This allows us to write $p(x|y; \theta) = p(x_1,\dots,x_n|y;\theta) = \prod_{i=1}^{n}p(x_i|y;\theta)$. Thus, we have \begin{equation}
+p(y|x;\theta) \propto p(x|y;\theta)p(y;\theta) = \prod_{i=1}^{n}\prod_{j=1}^{K}\phi_{y=j}^{\mathbb{I}\{y=j\}}\phi_{i|y=j}^{\mathbb{I}\{x_i=1, y=j\}}(1-\phi_{i|y=j})^{\mathbb{I}\{x_i=0, y=j\}}.
+\end{equation} The expression, one would like to maximize, is \begin{equation}
+L(\theta) = \sum_{i=1}^{m}p(y^{(i)}|x^{(i)};\theta).
+\end{equation} This is equivalent to minimizing the log-likelihood $l(\theta) \doteq - \sum_{k=1}^{m}\ln\left[p(y^{(i)}|x^{(i)};\theta)\right]$ as \begin{align}\tiny\begin{aligned}
+l(\theta) = -\sum_{k=1}^{m}\sum_{i=1}^{n}\sum_{j=1}^{K}\left[\mathbb{I}\{y^{(k)}=j\}\ln\left(\phi_{y=j}\right) + \mathbb{I}\{x_i^{(k)}=1,y^{(k)}=j\}\ln\left(\phi_{i|y=j}\right)+ \mathbb{I}\{x_i^{(k)}=0,y^{(k)}=j\}\ln\left(1-\phi_{i|y=j}\right)\right].
+\end{aligned}\end{align} Calculating the derivatives with respect to all model parameters contained in $\theta$, setting the derivatives to zero and solving for the parameter, one would obtain the optimal model parameters $\hat{\theta}$.
+
+We now consider a case, where we have only two classes $y\in\{0,1\}$. In that case, the log-likelihood to minimize simplifies to \begin{align}\footnotesize\begin{aligned}
+		l(\theta) &= -\sum_{k=1}^{m}\sum_{i=1}^{n}\sum_{j=0}^{1}\left[ \mathbb{I}\{x_i^{(k)}=1,y^{(k)}=j\}\ln\left(\phi_{i|y=j}\right)+ \mathbb{I}\{x_i^{(k)}=0,y^{(k)}=j\}\ln\left(1-\phi_{i|y=j}\right)\right] \\
+		&\quad\ -\sum_{k=1}^{m}\left[\mathbb{I}\{y^{(k)}=0\}\ln\left(\phi_y\right) + \mathbb{I}\{y^{(k)}=1\}\ln\left(1-\phi_y\right)\right],
+\end{aligned}\end{align} where $\phi_{y=0} \doteq \phi_y$ was redefined. Minimizing $l(\theta)$ leads to the optimal model parameters $$\hat{\theta} = (\hat{\phi}_{1|y=0},\dots,\hat{\phi}_{n|y=0},\hat{\phi}_{1|y=1},\dots,\hat{\phi}_{n|y=1},\hat{\phi}_y)^\top$$ as \begin{align}
+\begin{aligned}
+	\hat{\phi}_{i|y=0} &= \frac{\sum_{k=1}^m \mathbb{I}\{x_i^{(k)}= 1, y^{(k)}=0,\}}{\sum_{k=1}^{m}\mathbb{I}\{y^{(k)}=0\}}, \\
+	\hat{\phi}_{i|y=1} &= \frac{\sum_{k=1}^m \mathbb{I}\{x_i^{(k)}= 1, y^{(k)}=1,\}}{\sum_{k=1}^{m}\mathbb{I}\{y^{(k)}=1\}}, \\
+	\hat{\phi}_y &= \frac{\sum_{k=1}^{m}\mathbb{I}\{y^{(k)}=0\}}{m}.
+\end{aligned}
+\end{align} Now that the optimal model parameters are known, one can make a prediction on a new sample $x^{(s)}$ whether it belongs to class $y=0$ or class $y=1$ by means of calculating \begin{align}\footnotesize\begin{aligned}
+p(y=1|x^{(s)};\hat{\theta}) = \frac{p(x^{(s)}|y=1;\hat{\theta})p(y=1;\hat{\theta})}{p(x^{(s)};\hat{\theta})}= \frac{p(x^{(s)}|y=1;\hat{\theta})p(y=1;\hat{\theta})}{p(x^{(s)}|y=1;\hat{\theta})p(y=1;\hat{\theta}) + p(x^{(s)}|y=0;\hat{\theta})p(y=0;\hat{\theta})}.
+\end{aligned}\end{align} If $p(y=1|x^{(s)};\hat{\theta}) > 0.5$, then $x^{(s)}$ belongs to class $y=1$; if not, $x^{(s)}$ belongs to class $y=0$.
+}
 
 \Que{What is Laplace smoothing in the context of the naive Bayes approach?}
 \Ans{
-Text.
+Consider a random variable $z$ taking values $\{1,\dots,k\}$. One can parametrize this using probabilities $\phi_i = p(z=i)$. Given a set of $m$ independent observations $\{z^{(1)},\dots,z^{(m)}\}$, the maximum likelihood estimates $\hat{\phi}_j$ for this case are then derived to be \begin{equation}
+	\hat{\phi}_j = \frac{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}}{m}.
+\end{equation} If the training dataset however does not contain a single instance where $z = l$ for example, the corresponding probability $\phi_l$ will be estimated as zero, leading to a decision problem for the model, because both nominator and denominator of the Bayes theorem to generate the posterior will be zero.
+
+This problem can be solved by so-called Laplace smoothing. One just adds to the maximum likelihood estimators $+1$ in the nominator, and $+k$ in the denominator, where $k$ is the number of possible values for $z$. Therefore, the modified maximum likelihood estimators will be given as \begin{equation}
+	\hat{\phi}_j = \frac{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}+1}{m+k}.
+\end{equation} It can be shown, that these are still valid probailities, as \begin{align}
+\begin{aligned}
+	\sum_{j=1}^{k}\hat{\phi}_j &= \sum_{j=1}^{k}\left(\frac{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}+1}{m+k}\right) = \frac{1}{m+k}\sum_{j=1}^{k}\left(\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}+1\right) \\
+	&= \frac{1}{m+k}\left(k + \underbrace{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=1\} + \dots + \sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=k\}}_{=\,m} \right) = 1
+\end{aligned}
+\end{align} shows. Notice, that if the value $z=l$ never occurs in the training dataset, the probability $\phi_l$ will be estimated as $\phi_l = 1/(m+k)$; the most unlikely, but not impossible event.
 }
 
-\Que{How does the multinomial event model work?}
-\Ans{
-Text.
-}
+%\Que{How does the multinomial event model work?}
+%\Ans{
+%Text.
+%}
 
 \subsection{Support vector machines} % Lectures 4 and 5
 \Que{What is the general idea behind support vector machines?}
-\Ans{Text.
+\Ans{Let $x \in \mathbb{R}^n$ be a feature vector and $y \in \{-1,1\}$. Let furthermore $(x^{(i)}, y^{(i)})$ with $i \in \{1,\dots,m\}$ be a training dataset.
+ 
+Now, the idea of a support vector machine is that one tries to find a hyperplane (dimension $\mathbb{R}^{n-1}$) in the feature space ($\mathbb{R}^n$), that separates positives ($y=+1$) from negatives ($y=-1$). That means, we have a classifier \begin{equation}
+	h_{w,b}(x) = g(w^\top x + b), \qquad g(z) = \begin{cases}
+		1, \quad &z \geq 0 \\
+		0, \quad &z < 0
+	\end{cases},
+\end{equation} where $w$ is a vector and $b$ a scalar; $w$ and $b$ comprise the model parameters of the support vector machine. The separating hyperplane between positives and negatives is given by the equation $w^\top x + b = 0$. Graphically, one can depict this a seen in \cref{fig:scheme_svm}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/scheme_svm.pdf}
+	\caption{Schematic view of the working principle of a support vector machine.}
+	\label{fig:scheme_svm}
+\end{figure}
+}
 
-A note concerning the name of support vector machines: The term ``vector'' comes from the inputs $x$, which are to be classified to belong either to the class $y=-1$ (negatives) or to the class $y=+1$ (positives). As a matter of fact, mostly the samples $x^{(i)}$ closest to the decision boundary actually decide on the location of it; only those vectors support the decision on the decision boundary - this is where the term ``support'' comes from.}
+\Que{Where does the name ``support vector machine'' come from?}
+\Ans{
+The term ``vector'' comes from the inputs $x$, which are to be classified to belong either to the class $y=-1$ (negatives) or to the class $y=+1$ (positives). As a matter of fact, mostly the samples $x^{(i)}$ closest to the decision boundary actually decide on the location of it; only those vectors support the decision on the decision boundary - this is where the term ``support'' comes from.}
+
+\Que{What are the geometrical and functional margins with respect to the support vector machines (SVMs)? Why are both functional aswell as geometrical margin necessary?}
+\Ans{
+	In SVMs, the decision boundary for the SVM to decide if a new sample $x^{(j)}$ belongs to the category $y=+1$ or $y=-1$ is given by $w^\top x + b=0$, where $w$ is a vector and $b$ a scalar. All vectors $x$ that fulfill this condition live on the decision boundary (hyperplane). If the new sample $x^{(j)}$ however is not part of the decision hyperplane, then the quantity $w^\top x + b$ will either be a positive or a negative number. If it is a negative number, $x^{(j)}$ will belong to the negatives, while if it is positive, it will belong to the positives, so we have \begin{equation}
+		w^\top x^{(j)}+b \geq 0 \quad \Rightarrow \quad y^{(j)} =1, \qquad w^\top x^{(j)} + b < 0 \quad \Rightarrow \quad y^{(j)} = -1.
+	\end{equation} Thus one can make the number $w^\top x^{(j)} + b$ positive for any sample by means of defining the functional margin $\tilde{\gamma}^{(j)}$ for a particular sample as \begin{equation}
+	\tilde{\gamma}^{(j)} = y^{(j)}\left(w^\top x^{(j)}+ b\right).
+	\end{equation} The functional margin gives a metric of distance of a sample $x^{(j)}$ from the decision hyperplane and thus is a measure on the confidence of the decision; if the functional margin for a sample is very large, the decision to which class it belongs will be a confident one. However, the functional margin definition is insensitive to scaling factors; therefore, the definition of an alternative margin - the so-called geometrical margin - is necessary. The minimal functional margin $\tilde{\gamma}$ is given by \begin{equation}
+	\tilde{\gamma} = \min_{j=1,\dots,m}\tilde{\gamma}^{(j)}
+	\end{equation} for a set of $m$ training samples.
+	
+	Consider \cref{fig:geometrical_margin} for a visualization of the meaning of the geometrical margin. The weights vector $w$ is always orthogonal to the decision boundary, as $w\cdot \left(w^\top x + b\right) = 0$ for any $x$ on the decision boundary. Hence, one can measure the distance of a sample $x^{(i)}$ from the decision boundary along $w$. For any $x^{(i)}$, one can hence write $w^\top \left(x^{(i)} - \alpha^{(i)}w\right) + b = 0$, where $\alpha^{(i)}$ is a scalar needed to scale $w$ appropriately to obtain the orthogonal distance of $x^{(i)}$ to the decision boundary. Solving for $\alpha^{(i)}$ yields \begin{equation}
+		\alpha^{(i)} = \frac{w^\top x^{(i)}+ b}{\|w\|^2}.
+	\end{equation}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.4\textwidth]{figures/geometrical_margin.pdf}
+		\caption{Visualization of the construction of the geometrical margin in SVMs.}
+		\label{fig:geometrical_margin}
+	\end{figure} The geometric margin $\gamma^{(j)}$ for any sample $x^{(j)}$ as the positive orthogonal distance of the sample from the boundary hyperplane can therefore be defined as \begin{equation}
+	\gamma^{(j)} = y^{(j)}\alpha^{(j)}\|w\| = \left(\frac{w^\top x^{(j)}}{\|w\|}+\frac{b}{\|w\|}\right)y^{(j)}.
+	\end{equation} The minimal geometric margin $\gamma$ is accordingly defined by \begin{equation}
+	\gamma = \min_{j=1,\dots,m} \gamma^{(j)}.
+	\end{equation} Note, that in the case of $\|w\| = 1$, functional and geometric margin are identical.
+	
+	The reason why both functional and geometric margin are defined is because only one of them is sensitive to the actual distance of a sample from the decision boundary.
+}
 
 \Que{How is a support vector machine mathematically described?}
 \Ans{
-Text.
+Mathematically speaking, a support vector machine is all about tuning the model parameters $w$ and $b$ such that the minimum geometric margin is maximized for the training dataset. That is, if one has a dataset of $m$ pairs of $x^{(i)}$ and $y^{(i)}$, then the optimal model parameters $w^*$ and $b^*$ need to be chosen such that
+\begin{equation}
+	w^*, b^* \quad \text{such that} \quad \max_{w,b}\left(\min_{w,b,i=1,\dots,m}\left[\gamma^{(i)}\right]\right).
+\end{equation}
+
+The easiest way to define the optimization problem would be to require \begin{equation}
+	\max_{w, b}\left(\gamma\right) \quad \text{such that} \quad y^{(i)}\left(w^\top x^{(i)} + b\right) \geq \gamma \quad  \forall i = 1,\dots,m, \quad \|w\|=1.
+\end{equation} Here, the geometric margin is maximized, whereas the condition $\|w\|=1$ ensures that the geometric margin is identical to the functional margin. This ensures, that both functional and geometric margin are maximized. Because functional and geometric margin are related as $\gamma = \tilde{\gamma}/\|w\|$, one can also formulate the optimization problem as 
+\begin{equation}
+	\max_{w, b}\left(\frac{\tilde{\gamma}}{\|w\|}\right) \quad \text{such that} \quad y^{(i)}\left(w^\top x^{(i)} + b\right) \geq \tilde{\gamma} \quad  \forall i = 1,\dots,m.
+\end{equation} This still ensures, that both the functional aswell as geometric margins are maximized, but the condition $\|w\|=1$ was dropped. Still, the problem can be simplified by setting $\tilde{\gamma} = 1$. This can be done, because one can scale the functional margin $\tilde{\gamma}$ by any constant without effect. Thus, $\tilde{\gamma}$ is scaled appropriately such that $\tilde{\gamma}=1$. Further, we notice that maximizing $\frac{1}{\|w\|}$ will yield the same result as minimizing $\|w\|$ and thus also minimizing $\frac{1}{2}\|w\|^2$. Therefore, the final form of any SVM task is to optimize \begin{equation}
+w^*, b^* =  \arg\min_{w, b}\left(\frac{1}{2}\|w\|^2\right) \quad \text{such that} \quad y^{(i)}\left(w^\top x^{(i)} + b\right) \geq 1 \quad  \forall i = 1,\dots,m
+\end{equation} where $w^*$ and $b^*$ are the optimal SVM model parameters.
 }
 
-\section{Decision trees and ensembles} % Lecture 7
-\Que{?}
-\Ans{Text.}
+\Que{How does the Lagrange multiplier method for minimization of convex functions with additional constraints work?}
+\Ans{
+A constrained optimization problem of the form \begin{equation}
+	\min_w f(w), \quad \text{such that} \quad g_i(w) \leq 0, \quad i =1,\dots,k, \quad h_j(w) = 0, \quad j = 1,\dots,l,
+\end{equation} can be solved using the method of Lagrange multipliers. The constraints on the $g_i(w)$ and $h_j(w)$ are known as the primal constraints. One can define the generalized Lagrangian \begin{equation}
+\mathcal{L}(w,\alpha,\beta) = f(w)  + \sum_{i=1}^k \alpha_i g_i(w) + \sum_{j=1}^{l}\beta_j h_j(w).
+\end{equation} One would like to find the optimal model parameters $w^*$, $\alpha^*$ and $\beta^*$ for this problem. That is to say, one would like to minimize $\mathcal{L}(w,\alpha,\beta)$ with respect to $w$, whereas at the same time the primal conditions need to be satisfied. This can be ensured by defining the so-called primal quantity as \begin{equation}
+\theta_P(w) = \max_{\alpha,\beta:\alpha_i\geq 0}\left[\mathcal{L}(w,\alpha,\beta)\right] = \max_{\alpha,\beta:\alpha_i\geq 0}\left[f(w)  + \sum_{i=1}^k \alpha_i g_i(w) + \sum_{j=1}^{l}\beta_j h_j(w)\right].
+\end{equation} Here, one maximizes $\mathcal{L}$ with respect to $\alpha$ and $\beta$, which makes the resulting quantity after the maximization only a function of $w$. Defining $\theta_P(w)$ helps to ensure the primal constraints in the optimization process. One can see, that \begin{equation}
+\theta_P(w) = \begin{cases}
+	f(w), &\quad \text{primal constraints satisfied} \\
+	\infty, &\quad \text{primal constraints not satisfied}
+\end{cases}.
+\end{equation} Because one wants to minimize $f(w)$ with respect to $w$ in the end, one can now minimize $\theta_P(w)$ with respect to $w$, where $\theta_P(w)$ ensures that the primal constraints are satisfied; thus, a solution corresponding to the optimal value $p^*$ of the so-called primal optimization is obtained by  \begin{equation}
+p^* =\min_w\left[\theta_P(w)\right] = \min_w\left(\max_{\alpha,\beta:\alpha_i\geq 0}\left[\mathcal{L}(w,\alpha,\beta)\right]\right).
+\end{equation} Another approach is to define the dual quantity \begin{equation}
+\theta_D(\alpha,\beta) = \min_{w}\left[\mathcal{L}(w,\alpha,\beta)\right] = \min_{w}\left[f(w)  + \sum_{i=1}^k \alpha_i g_i(w) + \sum_{j=1}^{l}\beta_j h_j(w)\right].
+\end{equation} In the dual approach, one first minimizes the Lagrangian with respect to $w$. This does ensure that one finds a global minimum (if there is one) of the objective function $f(w)$, but does not ensure yet that the primal constraints are satisfied. Hence, to satisfy the primal constraints, one must afterwards maximize with respect to $\alpha$ and $\beta$ to obtain another solution corresponding to the optimal value $d^*$ of the optimization problem; this solution to the so-called dual optimization problem is given by \begin{equation}
+d^* = \max_w\left[\theta_D(w)\right] = \max_{\alpha,\beta:\alpha_i\geq 0}\left(\min_w\left[\mathcal{L}(w,\alpha,\beta)\right]\right).
+\end{equation} Now, both approaches are valid, as the relation \begin{equation}
+d^* \leq p^*
+\end{equation} holds, because for any function $f(a,b)$, the relation $\min_a\left(\max_b\left[f(a,b)\right]\right) \leq \max_b \left( \min_a\left[f(a,b)\right]\right)$ holds. If $f(w)$ and $g_i(w)$ are convex for all $w$ and $i$ and if all the $h_i(w)$ are affine, then it holds that the solutions to the primal and dual problems are identical; thus \begin{equation}
+d^* = \max_{\alpha,\beta:\alpha_i\geq 0}\left(\min_w\left[\mathcal{L}(w,\alpha,\beta)\right]\right) \overset{\text{Conditions}}{=} \min_w\left(\max_{\alpha,\beta:\alpha_i\geq 0}\left[\mathcal{L}(w,\alpha,\beta)\right]\right) = p^*.
+\end{equation} Under the given conditions, there exist optimal values $w^*$, $\alpha^*$ and $\beta^*$ to the optimization problem; this solution satisfies the so-called Karush-Kuhn-Tucker (KKT) conditions \begin{align}
+\frac{\partial \mathcal{L}(w,\alpha,\beta)}{\partial w_i}\biggr|_{w^*,\alpha^*,\beta^*} &= 0, \quad i = 1,\dots,n,\\
+\frac{\partial \mathcal{L}(w,\alpha,\beta)}{\partial \beta_i}\biggr|_{w^*,\alpha^*,\beta^*} &= 0, \quad i = 1,\dots,l,\\
+\alpha^*_i g_i(w^*) &= 0, \quad i =1,\dots,k,\\
+g_i(w^*) &\leq 0, \quad i =1,\dots,k,\\
+\alpha_i^* &\geq 0, \quad i = 1,\dots,k.
+\end{align} The third KKT condition, called the dual complementary condition, is insofar interesting as it implies $g_i(w^*)=0$ if $\alpha_i^* > 0$. In the context of $\mathcal{L}$ being the Lagrangian for support vector machines, the complementary condition implies that only the $\alpha_i^*$ which correspond to the functional margin $y^{(i)}\left(w^{*\top}x^{(i)}+b^*\right) =1$ are non-zero, because for those $i$'s, $g_i(w^*)=0$ holds (only for those $i$'s, it is possible for $\alpha_i^*$ to be non-zero, because the product $g_i(w^*)\alpha_i^*$ will be still zero).
+}
 
-\section{Ensemble boosting: Regularization and model selection} % Lecture 8
-\Que{?}
-\Ans{Text.}
+\Que{How can a basic support vector machine be implemented?}
+\Ans{
+Let $x \in \mathbb{R}^n$ be a feature vector and $y \in \{-1,1\}$. Let furthermore $(x^{(i)}, y^{(i)})$ with $i \in \{1,\dots,m\}$ be a training dataset. Following the optimization procedure for convex functions with additional constraints, one can define the Lagrangian and the constraints for a basic support vector machine as \begin{equation}
+	\mathcal{L}(w,b,\alpha) = \frac{1}{2}\|w\|^2 + \sum_{i=1}^{m}\alpha_i g_i(w), \quad g_i(w) = 1-y^{(i)}\left(w^\top x^{(i)}+b\right) \leq 0, \quad i =1,\dots,m.
+\end{equation} Now, one can go about imposing the KKT conditions. First, one can calculate the derivatives with respect to $w$ and $b$, set them to zero and solve for $w$ and $b$. One obtains \begin{equation}
+\nabla_w\mathcal{L}(w,b,\alpha) = w-\sum_{i=1}^{m}y^{(i)}x^{(i)} \overset{\text{KKT}}{=} 0 \quad \Leftrightarrow \quad w = \sum_{i=1}^m\alpha_i y^{(i)}x^{(i)}.
+\end{equation} Furthermore calculating $\nabla_b \mathcal{L}$ yields \begin{equation}
+\nabla_b \mathcal{L}(w,b,\alpha) = -\sum_{i=1}^{m}\alpha_i y^{(i)} \overset{\text{KKT}}{=} 0 \quad \Leftrightarrow \quad \sum_{i=1}^{m}\alpha_i y^{(i)} = 0.
+\end{equation} Inserting these findings into  the original Lagrangian yields after some simplifications the simplified Lagrangian 
+\begin{equation}
+	\mathcal{L}(\alpha) = \sum_{i=1}^{m}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{m}\alpha_i\alpha_jy^{(i)}y^{(j)}(x^{(i)})^\top x^{(j)} \doteq \theta_D(\alpha),
+\end{equation} where the minimization in $w$ and $b$ was already performed; that is, the maximization in $\alpha$ remains to be carried out. The optimal solution parameters $\alpha^* = (\alpha_1^*,\dots,\alpha_m^*)^\top$ are therefore obtained by \begin{equation}
+\alpha^* = \arg\max_{\substack{\alpha_i \geq 0 \\ \sum_{i=1}^{m}\alpha_i y^{(i)} = 0}}\left[\sum_{i=1}^{m}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{m}\alpha_i\alpha_jy^{(i)}y^{(j)}(x^{(i)})^\top x^{(j)}\right].
+\end{equation} Once, the optimal parameters $\alpha^*$ have been found, the vector $w^*$ can be calculated as \begin{equation}
+w^* = \sum_{i=1}^{m}\alpha_i^* y^{(i)}x^{(i)}.
+\end{equation} Finally, the parameter $b^*$ is missing. From the basic definition of a support vector machine problem, it is evident that \begin{equation}
+w^{*\top}x^{(i)} + b \geq 1 \quad \text{for} \quad y^{(i)} = +1, \qquad w^{*\top}x^{(i)} + b \leq -1 \quad \text{for} \quad y^{(i)} = -1.
+\end{equation} This means that one can write the inequality \begin{equation}
+\max_{i:y^{(i)}=1}\left(1-w^{*\top}x^{(i)}\right) \leq b \leq \min_{i:y^{(i)}=-1}\left(-1-w^{*\top}x^{(i)}\right).
+\end{equation} Taking the mean value between upper and lower bound for $b$ and making use of $\min(a) = -\min(-a)$ and $\max(a) = -\max(-a)$ for a generic parameter $a$, one obtains the optimal value $b^*$ as \begin{equation}
+b^* = -\frac{1}{2}\left[\max_{i:y^{(i)}=-1}\left(w^{*\top}x^{(i)}\right)+\min_{i:y^{(i)}=1}\left(w^{*\top}x^{(i)}\right)\right].
+\end{equation}
+
+Having found the parameters $\alpha^*$, $w^*$ and $b^*$, one can now perform classifications on new samples $x^{(k)}$ by means of \begin{equation}
+	y^{(k)} = \begin{cases}
+		+1, &\quad w^{*\top}x^{(k)} + b^* > 0 \\
+		-1, &\quad w^{*\top}x^{(k)} + b^* < 0
+	\end{cases}.
+\end{equation}
+}
+
+\Que{How can problems be handled with SVMs, which are not linearly separable and potentially feature outliers?}
+\Ans{
+Let $x \in \mathbb{R}^n$ be a feature vector and $y \in \{-1,1\}$. Let furthermore $(x^{(i)}, y^{(i)})$ with $i \in \{1,\dots,m\}$ be a training dataset. It is however possible, that the datapoints are not linearly separable due to outliers or more general patterns, that make the problem non-linear. 
+
+Still, support vector machines can be used in this case; one however needs to make some adjustments to the equations. A first strategy is to introduce so-called regularization parameters $\xi_i$ to allow for outliers or non-linearly separable points. This leads to the margin condition becoming $y^{(i)}\left(w^\top x^{(i)}+b\right) \geq 1-\xi_i$ for all $i =1,\dots,m$. Graphically, one can picture a sample $x^{(i)}$ (outlier) not being on the ``correct'' side by a distance of $\xi_i$. This minor adjustment leads to the Lagrangian of the optimization problem becoming \begin{equation}
+	\mathcal{L}(w,b,\alpha, \xi, r) = \frac{1}{2}\|w\|^2 + C\sum_{i=1}^{m}\xi_i - \sum_{i=1}^{m}\alpha_i\left[y^{(i)}\left(w^\top x^{(i)}+b\right)-1+\xi_i\right] - \sum_{i=1}^{m}r_i\xi_i
+\end{equation} with $\alpha_i, r_i \geq 0$ as Lagrange multipliers. One can go about solving the system using the KKT conditions, which leads to solving the problem \begin{equation}
+\alpha^* = \arg\max_{\substack{0 \leq \alpha_i \leq C \\ \sum_{i=1}^{m}\alpha_i y^{(i)} = 0}} \left[\sum_{i=1}^{m}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{m}\alpha_i\alpha_jy^{(i)}y^{(j)}(x^{(i)})^\top x^{(j)}\right].
+\end{equation} Having obtained a solution $\alpha^*$, one can further go about calculating $w^*$ and $b^*$ just as before. A second strategy, which can be combined with the first strategy, one can map the features $x \mapsto \tilde{x} = \phi(x)$ to a higher dimensional space, as they might become linearly separable. This principle is visualized in \cref{fig:featuremapping}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/featuremapping.pdf}
+	\caption{Principle of mapping features $x$ to a higher dimension with an appropriate mapping function $\phi(x)$, such that the features might become separable using a hyperplane in the new space.}
+	\label{fig:featuremapping}
+\end{figure} The same optimization framework is applicable as for basic SVMs; one just needs to replace every $x^{(i)}$ with $\phi(x^{(i)})$. Also, the prediction on a new sample $x^{(i)}$ needs to be then made with 
+\begin{equation}
+	y^{(k)} = \begin{cases}
+		+1, &\quad w^{*\top}\phi\left(x^{(k)}\right) + b^* > 0 \\
+		-1, &\quad w^{*\top}\phi\left(x^{(k)}\right) + b^* < 0
+	\end{cases}.
+\end{equation}
+}
+
+\Que{What is a kernel (matrix) in the context of SVMs and why is it useful?}
+\Ans{
+A key quantity occurring in the equations of SVMs is the inner product $(x^{(i)})^\top x^{(j)}$ for $i,j=1,\dots,m$ for a dataset containing $m$ samples $(x^{(i)},y^{(i)})$. Now, if one uses feature mapping, this inner product becomes \begin{equation}
+	(x^{(i)})^\top x^{(j)} \mapsto \phi(x^{(i)})^\top \phi(x^{(j)}) \doteq K(x^{(i)},x^{(j)}).
+\end{equation} Because this is a re-occurring expression in the SVM equations, one defines this quantity as the so-called kernel $K(x,z)$. One can use and experiment with different kernels when using SVMs to try to separate non-linearly separable datasets. Oftentimes, it is very useful to calculate the kernel directly, instead of first calculating $\phi(x)$ and $\phi(z)$ and then taking the inner product $\phi(x)^\top \phi(z)$. 
+
+Hereby, the Mercer theorem is very useful: If a kernel $K: \mathbb{R}^n \times \mathbb{R}^n \rightarrow \mathbb{R}$ written as kernel matrix for input vectors $\{x^{(1)},\dots,x^{(m)}\}$ with $m < \infty$ is positive semi-definite, then one can write the kernel in the form $K(x^{(i)},x^{(j)}) = \phi(x^{(i)})^\top \phi(x^{(j)})$. Thus, if the Mercer theorem is fulfilled for some chosen kernel, then one has found an ``allowed'' feature mapping and potentially a way to calculate the inner product of the feature mappings much more efficiently than explicitly defining and calculating the feature mappings and then performing the inner product. 
+}
+
+\Que{How can the fundamental optimization problem for support vector machines be solved?}
+\Ans{
+Given a dataset $(x^{(i)},y^{(i)})$ of feature vectors $x \in \mathbb{R}^n$ and labels $y\in\{-1,+1\}$ with $i=1,\dots,m$, the central problem to solve in SVM algorithms is \begin{equation}
+	\alpha^* = \arg\max_{\substack{\alpha: \text{Constraints}}}\underbrace{\left[\sum_{i=1}^{m}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{m}\alpha_i\alpha_jy^{(i)}y^{(j)}(x^{(i)})^\top x^{(j)}\right]}_{\doteq\, W(\alpha)}.
+\end{equation} Here, the constraints can e.g. be $\alpha_i \geq 0$ for all $i \in \{1,\dots,m\}$. The so-called SMO (sequential minimal optimization) algorithm can be used to solve that minimization/maximization problem. 
+
+The SMO algorithm works by means of sequentially fixing all but two quantities $\alpha_i$ and $\alpha_j$ of the function $W(\alpha)$ which is to be maximized. Fixing all parameters but $\alpha_i$ does not work because of the constraint $\sum_{j=1}^{m}y^{(j)}\alpha_j = 0$ which yields \begin{equation}
+	\alpha_i y^{(i)} +  \underbrace{\sum_{j\neq i}\alpha_jy^{(j)}}_{\doteq \gamma} = 0 \quad \Leftrightarrow \quad \alpha_i = -\gamma
+\end{equation} and hence leaves no room for optimization. So all but two parameters $\alpha_i$ and $\alpha_j$ are fixed. Imposing the constraint $\sum_{l}\alpha_ly^{(l)} = 0$ yields \begin{equation}\label{eq:svmalphai}
+\alpha_iy^{(i)} + \alpha_jy^{(j)} + \sum_{k\neq i,j}\alpha_ky^{(k)} = 0 \quad \Leftrightarrow \quad \alpha_i = -\alpha_jy^{(i)}y^{(j)} - y^{(j)}\sum_{k\neq i,j}\alpha_k y^{(k)},
+\end{equation} where the parameters $\alpha_i$ and $\alpha_j$ are constrained to a box $[0,C]\times [0,C]$ by the condition $0 \leq \alpha_i \leq C$ for all $i = 1,\dots,m$, as \cref{fig:posslines} shows.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/posslines.pdf}
+	\caption{Possible values for the parameters $\alpha_i$ and $\alpha_j$ subject to the constraint $0 \leq \alpha_i \leq C$ for all $i=1,\dots,m$.}
+	\label{fig:posslines}
+\end{figure}
+Now, one can substitute $\alpha_i$ in $W(\alpha_1,\dots, \alpha_i,\alpha_j,\dots,\alpha_m)$ with the above expression, which yields a function $W(\alpha_j)$ of only one variable $\alpha_j$, because all other parameters are fixed. This means, that one now finds $\alpha_j^*$ by means of \begin{equation}
+\alpha_j^* = \arg\max_{\alpha_j} \left[W(\alpha_j)\right]
+\end{equation} using for example a gradient ascent (or descent) method. Then, one can go about calculating $\alpha_j^*$ using \cref{eq:svmalphai}. Thus, the optimization in two parameters has been carried out. The SMO algorithm then iterates pair-wise through all other parameters, leading to the optimal solution $\alpha^*$.
+}
+
+\subsection{Decision trees} % Lecture 7/8
+\Que{What is a decision tree and what is the principle of the decision tree method?}
+\Ans{A decision tree is a very intuitive and useful approach for classification tasks. Consider a dataset $\{(x^{(i)},y^{(i)})\}_{i=1,\dots,m}$ of pairs of feature vectors $x \in \mathbb{R}^n$ and labels $y\in \{1,\dots,K\}$. A decision tree works by the principle of concatenating binary decisions to partition a parent partition $R_p$ into two child partitions $R_1$ and $R_2$. The goal is to finally have the samples belonging to each class separated in separate partitions.
+	
+Visually, decision trees can be explained as seen in \cref{fig:decisiontrees}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/decisiontrees.pdf}
+	\caption{Left panel: Decision tree working principle shown in a plane for $y \in \{1,2\}$ and features $x_i$ and $x_j$. Right panel: The same situation as seen in the left panel shown as decision tree.}
+	\label{fig:decisiontrees}
+\end{figure} Given a parent region $R_p$ consisting of samples $x$ of feature vectors, the child regions $R_1$ and $R_2$ given some threshold value $t$ applied to feature $x_j$ are calculated by \begin{align}\begin{aligned}
+R_1 &= \{x|x_j < t, x \in R_p\},\\
+R_2 &= \{x|x_j \geq t, x \in R_p\}.
+\end{aligned}\end{align} Regarding the right panel of \cref{fig:decisiontrees}, every instance where a decision is made is called a leaf node (rhomboid structure). The depth of a decision tree is furthermore given by the maximal number of concatenated decisions (maximal number of concatenated rhomboid structures). Finally, we understand the cardinality of a certain leaf (square box) as leaf size.
+
+In order to choose the splits, one requires a loss function $L(R)$, where $R$ is a region. This loss can generally be understood as the proportion of misclassified samples in $R$. Therefore, making a split one would like to decrease the proportion of misclassified samples in the splits $R_1$ and $R_2$ compared to a parent region $R_p$. One can define the quantity $D(R_p,R_1,R_2)$ denoting the decrease in terms of loss going from a parent region $R_p$ to two child regions $R_1$ and $R_2$ as \begin{equation}
+	D(R_p, R_1, R_2) = L(R_p) - \frac{|R_1|L(R_1)+|R_2|L(R_2)}{|R_1|+|R_2|}.
+\end{equation}
+As a loss function, the cross-entropy loss \begin{equation}
+	L_{ce}(R) = -\sum_c p_c(R)\log_2\left[p_c(R)\right],
+\end{equation} is used, where $p_c(R)$ is the proportion of of $c$-classified samples in $R$, namely \begin{equation}
+p_c(R) = \frac{\text{Number of samples belonging to class $c$ in $R$}}{\text{Number of samples in $R$}}.
+\end{equation} Using $L_{ce}(R)$ as a loss function ensures, that one always has a decrease $D(R_p, R_1, R_2)$ by splitting a parent region into two child regions.
+
+There are three common stopping criteria for training a decision tree:
+\begin{enumerate}
+	\item Minimum leaf size: Do not split a region $R$ anymore, if its cardinality falls below a threshold $t$.
+	\item Maximum depth: Do not split a region $R$ anymore, if a threshold $t$ of decisions have already been made in succession to reach $R$.
+	\item Maximum number of nodes: Do not split a region $R$ anymore, if a maximum threshold $t$ of decisions have been made.
+\end{enumerate}
+
+Now, if a decision tree has been trained, there are a finite number of leafs $R_i$, $i=1,\dots,q$ and leaf nodes in the tree. The decision tree may be pictures as a function \begin{equation}
+	f(x) = \begin{cases}
+		1, &\quad x \in R_1 \\
+		\vdots &\quad \vdots \\
+		q, &\quad x \in R_q
+	\end{cases}
+\end{equation} Given a new sample $x^{(l)}$, one feeds that sample to the decision tree and checks, in which leaf $R_i$ it would end up; for example $f(x^{(l)}) = j$ for $j \in \{1,\dots,q\}$. Finally, one calculates $p_c(R_j)$ on the training data for all classes present in $R_j$, which will yield probabilities of the sample $x^{(l)}$ belonging to any of the classes $c$ in $R_j$. The sample $x^{(l)}$ is then classified as belonging to the class of highest probability in $R_j$.
+}
+
+\Que{What common two types of loss functions are there? What are the issues?}
+\Ans{
+The two common types of classification losses for training decision trees are the misclassification loss and the cross-entropy loss. In practice however, only the cross-entropy loss is used, because the misclassification loss has the issue, that there is no guarantee that it decreases when making splits.
+
+The misclassification loss is defined as \begin{equation}
+	L_{mc}(R) = 1-\max_c[p_c(R)],
+\end{equation} whereas the cross-entropy loss is given by \begin{equation}
+L_{ce}(R) = -\sum_c p_c(R)\log_2[p_c(R)].
+\end{equation} Both loss functions are visualized in \cref{fig:dt_loss}.
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/dt_misclassification_loss.pdf}
+		\caption{Misclassification loss for binary classification.}
+		\label{fig:dt_misclassification_loss}
+	\end{subfigure}
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/dt_crossentropy_loss.pdf}
+		\caption{Cross-entropy loss for binary classification.}
+		\label{fig:dt_crossentropy_loss}
+	\end{subfigure}
+	\caption{Loss functions for training of decision trees. The figure was produced by assuming $R_p = \{400+, 100-\}$, $R_1 = \{150+,100-\}$ and $R_2 = \{250+, 0-\}$.}
+	\label{fig:dt_loss}
+\end{figure} As one can see from the figure, only for the cross-entropy loss, the decrease $D(R_p, R_1, R_2)$ in loss going from the parent $R_p$ to the children $R_1$ and $R_2$ is guaranteed to decrease.
+}
+
+
+\Que{What are the main advantages and disadvantages of the decision tree method?}
+\Ans{
+The advantages of decision trees are the following:
+\begin{enumerate}
+	\item[(A1)] Decision trees are easy to explain and interpretable.
+	\item[(A2)] Decision trees support categorical variables (features); one does not have to first convert categorical variables to numbers.
+	\item[(A3)] Decision trees are fast.
+	\item[(A4)] Decision trees can capture non-linear patterns.
+\end{enumerate}
+The drawbacks of decision trees are the following:
+\begin{enumerate}
+	\item[(D1)] Decision trees lead to a high variance in predictions; this is mainly due to the fact that decision trees tend to overfit, as they continue to split regions until each leaf is ideally pure. This leads to capture of just nose, instead of capturing the general pattern behind the data. Therefore, also predictions will vary wildly; hence they have large variance.
+	\item[(D2)] Decision trees cannot easily capture additive structure; that is, for example perform a split according to a linear function between two features. Many splits in a staircase-like manner are necessary to do that.
+\end{enumerate}
+}
+
+\subsection{Ensembling methods} % Lecture 7/8
+\Que{What is the general idea of ensembling methods?}
+\Ans{Text. % The ensemble always helps to reduce the resulting variance of predictions, even if the methods in the ensemble are correlated!
+}
+
+\Que{What methods are there to decorrelate methods in an ensemble of methods? What is decorrelation for?}
+\Ans{
+Text. % decorrelation is to reduce the correlation of methods of the ensemble. If the correlatino is lower, the ensemble of methods will have a signficantly lower variance. Methods for decorrelation include Different algorithms, different training sets, bagging, boosting 
+}
+
+\subsection{Regularization and model selection}
+\Que{What is regularization?}
+\Ans{
+Text. % Lecture 8
+}
+
+\Que{What are train, validation and test splits for?}
+\Ans{
+Text. % Lecture 8
+}
+
+\Que{What is cross validation and how does it work?}
+\Ans{
+Text. % Lecture 8
+}
+
+\Que{What is feature selection, when is it useful and how does it work?}
+\Ans{
+Text. % Lecture 9
+}
+
+\Que{What is mutual information and why is it used as a score function? What happens, if the two input quantities to mutual information are independent?}
+\Ans{
+Text. % Lecture 9
+}
 
 \section{Unsupervised learning}
+\Que{What is unsupervised learning? What is the goal of unsupervised learning?}
+\Ans{
+Text. % Lecture 9
+}
+
 \subsection{Clustering and k-means} % Lecture 9
-\Que{?}
+\Que{How does the k-means algorithm work?}
 \Ans{Text.}
+
+\Que{How do Gaussian mixture models work?}
+\Ans{Text.} % Lecture 9/10
 
 \subsection{EM and factor analysis} % Lecture 10
 \Que{?}
@@ -603,6 +1014,5 @@ Text.
 \section{Reinforcement learning} % Lectures 12 and 13
 \Que{?}
 \Ans{Text.}
-
 
 \end{document}
