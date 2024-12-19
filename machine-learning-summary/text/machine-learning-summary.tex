@@ -109,14 +109,14 @@ The expectation value $\mathbb{E}(x) \doteq \bar{x}$ of a random variable $x$ fo
 The variance $\mathbb{V}(x)$ of a continuous or discrete random variable $x$ can be calculated by means of \begin{equation}
 	\mathbb{V}(x) = \int_{-\infty}^{\infty} (x-\bar{x})^2p(x)\,\mathrm{d}x \qquad \text{and} \qquad \mathbb{V}(x) = \sum_{i} (x_i-\bar{x})^2p(x_i).
 \end{equation}
-The standard deviation $\sigma_x$ is defined as the square root of the variance, hence \begin{equation}
+Note, that the variance $\mathbb{V}(x)$ can also be expressed as \begin{equation}\mathbb{V}(x) = \mathbb{E}\left[(x-\mathbb{E}[x])^2\right].\end{equation} The standard deviation $\sigma_x$ is defined as the square root of the variance, hence \begin{equation}
 	\sigma_x = \sqrt{\mathbb{V}(x)}.
 \end{equation}
 Let now $x_1,\dots,x_n$ be random variables with associated probability densities $p(x_j)$, $j\in \{1,\dots,n\}$ and joint probability densities $p(x_i,x_j)$. Let furthermore be $\bar{x}_i = \mathbb{E}(x_i)$. The covariance $\mathbb{K}(x_i,x_j)$ of two random variables for the continuous and discrete case is defined as \begin{equation}\label{eq:covariance}
 	\mathbb{K}(x_i,x_j) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}(x_i-\bar{x}_i)(x_j-\bar{x}_j)p(x_i,x_j)\,\mathrm{d}x_i\,\mathrm{d}x_j
 \end{equation} and \begin{equation}
 	\mathbb{K}(x_i,x_j) = \sum_{k,l}(x_{i_k}-\bar{x}_i)(x_{j_l}-\bar{x}_j)p(x_{i_k},x_{j_l}).
-\end{equation} In the context of covariance, one usually also defines the correlation coefficient $\rho(x_i,x_j)$ between two random variables as \begin{equation}\label{eq:correlationcoefficient}
+\end{equation} Note, that the covariance $\mathbb{K}(x,y)$ of two random variables $x$ and $y$ can also be expressed as \begin{equation}\mathbb{K}(x,y) = \mathbb{E}\left[(x-\mathbb{E}[x])(y-\mathbb{E}[y])\right].\end{equation} In the context of covariance, one usually also defines the correlation coefficient $\rho(x_i,x_j)$ between two random variables as \begin{equation}\label{eq:correlationcoefficient}
 	\rho(x_i,x_j) = \frac{\mathbb{K}(x_i,x_j)}{\sqrt{\mathbb{V}(x_i)\mathbb{V}(x_j)}} = \frac{\mathbb{K}(x_i,x_j)}{\sigma_{x_i}\sigma_{x_j}}.
 \end{equation} % Definitions of expectation values and so on, and of Gaussian, Binomial, Poisson and Bernoulli distributions and why and when they are used
 
@@ -267,6 +267,10 @@ J(\theta) \approx J(\theta^t) + \nabla_\theta J(\theta^t)^\top (\theta - \theta^
 }
 
 \section{Supervised learning}
+\Que{What is supervised learning? What is the goal of supervised learning?}
+\Ans{
+	Suppose that one has a dataset $\{(x^{(i)}, y^{(i)})\}_{i=1,\dots,m}$ of feature vector $x\in\mathbb{R}^n$ samples and associated labels $y \in\{1,\dots,K\}$. Supervised learning is about learning the parameters $\theta$ for a model that models a probability density $p(y|x; \theta)$. % Lecture 9
+}
 \subsection{Linear regression}
 \subsubsection{Least mean squares} % Lecture 1
 \Que{How can a most simple machine learning model performing affine regression be implemented?}
@@ -889,7 +893,7 @@ In order to choose the splits, one requires a loss function $L(R)$, where $R$ is
 \end{equation}
 As a loss function, the cross-entropy loss \begin{equation}
 	L_{ce}(R) = -\sum_c p_c(R)\log_2\left[p_c(R)\right],
-\end{equation} is used, where $p_c(R)$ is the proportion of of $c$-classified samples in $R$, namely \begin{equation}
+\end{equation} is used, where $p_c(R)$ is the proportion of $c$-classified samples in $R$, namely \begin{equation}
 p_c(R) = \frac{\text{Number of samples belonging to class $c$ in $R$}}{\text{Number of samples in $R$}}.
 \end{equation} Using $L_{ce}(R)$ as a loss function ensures, that one always has a decrease $D(R_p, R_1, R_2)$ by splitting a parent region into two child regions.
 
@@ -956,63 +960,495 @@ The drawbacks of decision trees are the following:
 
 \subsection{Ensembling methods} % Lecture 7/8
 \Que{What is the general idea of ensembling methods?}
-\Ans{Text. % The ensemble always helps to reduce the resulting variance of predictions, even if the methods in the ensemble are correlated!
+\Ans{
+Consider a number of random variables $x_1,\dots,x_n$ with associated variances $\sigma_{x_i}^2\doteq \mathbb{V}(x_i)$ for $i=1,\dots,n$. Now, if each random variable $x_i$ is understood a the prediction of the $i$'th model, it is reasonable to compute an average prediction $\bar{x}$ as \begin{equation}
+	\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i.
+\end{equation} It is now interesting to calculate the variance $\mathbb{V}(\bar{x})$ on the average prediction $\bar{x}$. Doing this, we obtain
+\begin{align}
+	\begin{aligned}
+		\sigma_{\bar{x}}^2 &\doteq \mathbb{V}(\bar{x}) = \mathbb{V}\left(\frac{1}{n}\sum_{i=1}^n x_i\right) = \mathbb{E}\left[\left(\frac{1}{n}\sum_{i=1}^{n}x_i - \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n x_i\right]\right)^2\right] \\
+		&=\mathbb{E}\left[\left(\frac{1}{n}\sum_{i=1}^{n}x_i - \frac{1}{n}\sum_{i=1}^n \mathbb{E} [x_i]\right)^2\right] = \mathbb{E}\left[\frac{1}{n^2}\left(\sum_{i=1}^{n}\left(x_i-\mathbb{E}[x_i]\right)\right)^2\right] \\
+		&= \frac{1}{n^2}\mathbb{E}\left[\sum_{i=1}^{n}(x_i-\mathbb{E}[x_i])\sum_{j=1}^n(x_j-\mathbb{E})[x_j])\right] = \frac{1}{n^2}\mathbb{E}\left[\sum_{i,j=1}^n(x_i-\mathbb{E}[x_i])(x_j-\mathbb{E}[x_j])\right] \\
+		&= \frac{1}{n^2}\mathbb{E}\left[\sum_{i=1}^{n}(x_i-\mathbb{E}[x_i])^2 + 2\sum_{1\leq i < j \leq n}(x_i-\mathbb{E}[x_i])(x_j-\mathbb{E}[x_j])\right] \\
+		&= \frac{1}{n^2}\left(\sum_{i=1}^{n}\mathbb{E}\left[(x_i-\mathbb{E}[x_i])^2\right] + 2\sum_{1\leq i < j \leq n}\mathbb{E}\left[(x_i-\mathbb{E}[x_i])(x_j-\mathbb{E}[x_j])\right]\right) \\
+		&= \frac{1}{n^2}\left(\sum_{i=1}^{n}\mathbb{V}(x_i)+ 2\sum_{1\leq i < j \leq n}\mathbb{K}(x_i,x_j)\right) = \frac{1}{n^2}\sum_{i=1}^{n}\sigma_{x_i}^2 + \frac{2}{n^2}\sum_{1\leq i < j \leq n} \rho(x_i,x_j)\sigma_{x_i}\sigma_{x_j},
+	\end{aligned} 
+\end{align} where $\rho(x_i,x_j)$ is the correlation coefficient defined by \begin{equation}
+\rho(x_i,x_j) = \frac{\mathbb{K}(x_i,x_j)}{\sqrt{\mathbb{V}(x_i)\mathbb{V}(x_j)}},
+\end{equation} which is evidently zero, if the covariance is zero. For perfect correlation or anticorrelation, the correlation coefficient is either $+1$ or $-1$, so $\rho(x_i,x_j) \in [-1,1]$.
+
+Consider the case, where the random variables are identically distributed with correlation coefficient $\rho$, i.e. $\sigma_{x_i} = \sigma$ for all $i=1,\dots,n$. Then, the variance $\sigma_{\bar{x}}$ on the mean $\bar{x}$ is given by \begin{align}\begin{aligned}
+	\sigma_{\bar{x}}^2 &=\frac{1}{n^2}\sum_{i,j=1}^{n}\mathbb{E}\left[(x_i-\mathbb{E}[x_i])(x_j-\mathbb{E}[x_j])\right] = \frac{1}{n^2}\sum_{i,j=1}^{n}\mathbb{K}(x_i,x_j) \\ &= \frac{1}{n^2}\left(\sum_{i=1}^{n}\mathbb{V}(x_i)+\sum_{\substack{i,j=1 \\ i\neq j}}^{n}\mathbb{K}(x_i,x_j)\right) = \frac{n\sigma^2}{n^2}+ \frac{1}{n^2}\sum_{\substack{i,j=1 \\ i\neq j}}^{n}\rho \sqrt{\mathbb{V}(x_i)\mathbb{V}(x_j)} \\ &= \frac{n\sigma^2}{n^2} + \frac{n(n-1)}{n^2}\rho\sigma^2 = \rho\sigma^2 + \frac{\sigma^2(1-\rho)}{n}.
+\end{aligned}\end{align} And if it is the case that the random variables are furthermore identically and independently distributed, we have $\rho=0$ because of the correlations being zero, meaning that \begin{equation}
+\sigma_{\bar{x}}^2 = \frac{\sigma^2}{n}.
+\end{equation}
+
+The general idea behind ensembling methods is therefore to find several models to make a prediction on the same sample; these predictions can be denoted by the random variables $x_1,\dots,x_n$. Depending on the correlation $\rho(x_i,x_j)=\frac{\mathbb{K}(x_i,x_j)}{\sqrt{\mathbb{V}(x_i)\mathbb{V}(x_j)}}$ between the models and the variances $\mathbb{V}(x_i)$, the resulting average prediction given by $\bar{x} = \frac{1}{n}\sum_{i=1}^nx_i$ will have a lower variance than the lowest of all predictions; it can however also be larger, this entirely depends on the incoming variances and correlations. In general therefore, in order to achieve a better performance of the ensembled method in comparison to individual methods, one needs to decrease correlation (decrease $\rho$) between models aswell as provide as many models as possible (increase $n$).
 }
 
 \Que{What methods are there to decorrelate methods in an ensemble of methods? What is decorrelation for?}
 \Ans{
-Text. % decorrelation is to reduce the correlation of methods of the ensemble. If the correlatino is lower, the ensemble of methods will have a signficantly lower variance. Methods for decorrelation include Different algorithms, different training sets, bagging, boosting 
+The term decorrelation refers to a strategy in ensembling methods to lower the resulting variance on predictions of the ensembled method. Given the equation \begin{equation}
+	\sigma_{\bar{x}} = \rho\sigma^2 + \frac{\sigma^2(1-\rho)}{n}, \quad \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i,
+\end{equation} where we have assumed that the $x_i$ are identically distributed, we can either increase the amount $n$ of models in the ensemble or decrease the correlations $\rho$ to achieve precisely that; decorrelation refers to the latter. There are four prominent ways to do decorrelation:
+\begin{enumerate}
+	\item Using different algorithms.
+	\item Using different training sets.
+	\item Bagging.
+	\item Boosting.
+\end{enumerate}
+}
+
+\Que{How does bagging work?}
+\Ans{
+Bagging stands for bootstrap aggregation and is a technique used in ensembling methods for variance reduction. Assume, one has a dataset $S= \{(x^{(i)},y^{(i)})\}{i=1,\dots,m}$ of samples, where $x\in \mathbb{R}^n$ are feature vectors and $y$ class labels. With the bagging method, one aggregates low-bias, high-variance models to aim for variance reduction.
+
+One samples several subsets $S_i \subseteq S$ and trains models $h_{i,\theta_i}$ for $i =1,\dots,M$ on those sets. Typically, these trained models will be quite accurate (low-bias), but have a high variance. These models are then aggregated by means of defining a new predictor as \begin{equation}
+	h_\theta(x) = \frac{1}{M}\sum_{i=1}^M h_{i,\theta_i}(x).
+\end{equation} This method is called bagging.
+}
+
+\Que{How does boosting work?}
+\Ans{
+Boosting is a technique used in ensembling methods for bias reduction. Assume, one has a dataset $S= \{(x^{(i)},y^{(i)})\}{i=1,\dots,m}$ of samples, where $x\in \mathbb{R}^n$ are feature vectors and $y$ class labels. With the boosting method, one aggregates high-bias, low-variance models to aim for bias reduction.
+
+Towards this aim, one successively aggregates and trains $M$ high-bias models (e.g. linear regression or single-step decision trees) $h_{i,\theta_i}$ on the data $S$ as \begin{equation}
+	G_k(x) = G_{k-1}(x) + h_{k,\theta_k}(x), \quad G_1(x) = h_{1,\theta_1}(x)
+\end{equation} for $k \in \mathbb{M}$. Each subsequent model $G_{i}(x)$ gives particular weight to the misclassifications of the previous model $G_{i-1}(x)$. The final model is then given by \begin{equation}
+h_{\theta}(x) = \frac{1}{M}G_M(x).
+\end{equation} This predictor will have an increased accuracy due to bias reduction.
+}
+
+\Que{How are methods actually combined/ensembled to make a prediction?}
+\Ans{
+Say one has a supervised learning problems, where $x$ are feature vectors and $y$ are labels. Then we assume, that we have $m$ different models given by hypothesis functions $h_{1,\theta_1}(x), \dots,h_{m,\theta_m}(x)$ with uncertainties $\sigma_1,\dots,\sigma_m$ and correlations $\rho_{ij}$ associated with them. In order to make a prediction on a sample $x^{(k)}$ using the ensemble of methods, one simply calculates \begin{equation}
+	y^{(k)} = \frac{1}{m}\sum_{i=1}^mh_{i,\theta_i}(x^{(k)}),
+\end{equation} where the resulting uncertainty $\sigma_y$ on the prediction is given by \begin{equation}
+\sigma_{y}^2 = \frac{1}{m^2}\sum_{i=1}^m\sigma_i^2 + \frac{2}{m^2}\sum_{1\leq i < j \leq m}\rho_{ij}\sigma_i\sigma_j.
+\end{equation}
 }
 
 \subsection{Regularization and model selection}
 \Que{What is regularization?}
 \Ans{
-Text. % Lecture 8
+Regularization describes a family of approaches that ensure, that a trained model generalizes well. That is to say, regularization aims for the goal of good performance of a trained model on unseen data. 
+
+Consider for example, that one has a set $M = \{M_1,\dots,M_n\}$ of $n$ models trained on a dataset $S$. Assume, that $M_k$ is a $k$-th order polynomial model. It is known, that a higher order polynomial will better fit the training data $S$. However, one will also fit the uncertainty present in the training data $S$, which will lead to bad performance on new, unseen data. One calls this overfitting; and regularization is the means to prevent a model from overfitting during training. % Lecture 8
 }
 
 \Que{What are train, validation and test splits for?}
 \Ans{
-Text. % Lecture 8
+Given some model $M$ and a training dataset $S = \{(x^{(i)}, y^{(i)})\}_{i=1,\dots,m}$, one usually divides the data into training and testing data as \begin{equation}
+	S_{test} \subset S, \qquad S_{train} \subset S, \qquad S_{test} \cap S_{train} = \emptyset, \qquad S_{test} \cup S_{train} = S.
+\end{equation} The training set $S_{train}$ is only used to train the model $M$, while the test set $S_{test}$ is solely used to test the model after final training. There however is also such a thing as the validation set. The validation set is used to determine the optimal hyperparameters for the model $M$, such as the polynomial degree for a polynomial regression model. Oftentimes, the validation set is chosen as a subset of the training dataset (e.g. via the cross validation technique). The reason why the test dataset is not used for hyperparameter setting is that one would use information gained by the test dataset to ``improve'' the model; but that could lead to overfitting and less performance on unseen data; the test data would thus become some sort of training data.
+ % Lecture 8
 }
 
-\Que{What is cross validation and how does it work?}
+\Que{How does hold-out cross validation (simple cross validation) work and what are its disadvantages?}
 \Ans{
-Text. % Lecture 8
+Consider an available dataset $S$ on which we would like to train models $M_1,\dots,M_d$ of the same family, but with different hyperparameters. In order to find the optimal hyperparameters, one needs to train the models $M_i$ on a training dataset, evaluate their performance on a validation set and finally give the test performance for the model with least error on the validation set.
+
+Now, so-called hold-out cross validation, also known as simple cross validation, is the simplest validation technique there is; it works as follows:
+\begin{enumerate}
+	\item Randomly split $S$ into $S_{train}$ and $S_{test}$ to, say 70 to 30 percent. Then, randomly split $S_{train}$ into a set $S_{tr}$ solely used for training, and a validation set $S_{val}$ only used for validation. Again, a typical split is 70 to 30 percent.
+	\item Train each model $M_i$ on $S_{tr}$ to get a hypothesis function $h_{\theta_i}$; calculate the error $\varepsilon_{val}(h_{\theta_i})$ of each hypothesis function on the validation set $S_{val}$.
+	\item Select the model $M_k$ with the smallest error $\varepsilon_{val}(h_{\theta_k})$ as the best model and output its performance on the test set $S_{test}$ as a final answer.
+\end{enumerate}
+
+The disadvantage of simple cross validation is that one needs to have a lot of data available, because one uses a large part of the original dataset $S$ just to validate the models and thus in a sense ``wastes'' data. However, compared to other approaches, simple cross validation is fast to use. Therefore, simple cross validation it is a good choice for situations in which data is abundant and/or one has models $M_i$ demanding a lot of computational resources (i.e. models with many model parameter).
+}
+
+\Que{How does k-fold cross validation work and what are its disadvantages?}
+\Ans{
+Consider an available dataset $S$ on which we would like to train models $M_1,\dots,M_d$ of the same family, but with different hyperparameters. In order to find the optimal hyperparameters, one needs to train the models $M_i$ on a training dataset, evaluate their performance on a validation set and finally give the test performance for the model with least error on the validation set.
+
+Now, so-called k-fold cross validation is an advanced technique to do validation; it works as follows:
+\begin{enumerate}
+	\item Randomly split $S$ into $S_{train}$ and $S_{test}$ to, say 70 to 30 percent. Then, randomly split $S_{train}$ with cardinality $|S_{train}| = m$ into $k$ disjoint subsets $S_1,\dots,S_k$, each with cardinality $m/k$.
+	\item For each model $M_i$, evaluate as follows:
+	\begin{itemize}
+		\item[] For $j = 1,\dots,k$ do the following:
+		\begin{itemize}
+			\item[] Train the model $M_i$ on $S_{train}\backslash S_j$ to get hypothesis function $h_{\theta_{ij}}$.
+			\item[] Evaluate the error $\varepsilon_{ij}(h_{\theta_{ij})}$ of the hypothesis function $h_{\theta_{ij}}$ on the left-out set $S_j$ (validate $h_{\theta_{ij}}$ on $S_j$).
+		\end{itemize}
+		\item[] Calculate generalization error $\varepsilon_{i} = \frac{1}{k}\sum_{j=1}^{k}\varepsilon_{ij}(h_{\theta_{ij}})$.
+	\end{itemize}
+	\item Select the model $M_i$ with the smallest error $\varepsilon_i$ as the best model, train it on the entire set $S_{train}$ and output its performance on the test set $S_{test}$ as a final answer.
+\end{enumerate}
+
+The disadvantage of k-fold cross validation is that one needs to train a model $M_i$ for $k$ times. Especially for complex models with many parameters, this is expensive in terms of computational resources, but however ``wastes'' as little data as possible. Thus, k-fold cross validation is an ideal choice if the available dataset $S$ is sparse and/or if the models $M_i$ do not require heavy computational resources (i.e. models with a small amount of parameters). % Lecture 8
 }
 
 \Que{What is feature selection, when is it useful and how does it work?}
 \Ans{
-Text. % Lecture 9
+Consider a dataset $\{(x^{(i)},y^{(i)})\}_{i=1,\dots,m}$ of feature vectors $x\in\mathbb{R}^n$ and labels $y$. It may very well be the case, that not all features are very relevant to make a prediction about the label. For example, if a feature $x_i$ would be completely irrelevant to a prediction on $y$, then $p(y|x_i) = p(y)p(x_i)$ would hold, i.e. that $p(y)$ and $p(x_i)$ are independent. However, in general there must be some correlation of $x$ and $y$ such that one can establish a model $h_\theta(x) = y$.
+
+Feature selection helps to find an appropriate subset of features to consider when building a model. Only considering the relevant features for model fitting, one reduces overfitting; thus, the technique of feature selection is a regularization technique. There are two prominent ways to select features, the so-called forward search and backward search.
+
+\paragraph*{Forward search algorithm}
+\begin{enumerate}
+	\item Initialize the feature set $F$ as $F= \emptyset$.
+	\item Repeat the following tasks:
+	\begin{itemize}
+		\item[] For each feature $i = 1,\dots,n$ do the following:
+		\begin{itemize}
+			\item[] If $i \notin F$, let $F_i = F \cup \{i\}$. 
+			\item[] Train model using only features in $F_i$, estimate generalization error $\varepsilon_i$ using cross validation.
+		\end{itemize} 
+		\item[] Set $F$ to be the feature subset $F_j$ with smallest generalization error $\varepsilon_j$, i.e. pick $j = \arg\min_i(\varepsilon_i)$ and set $F \leftarrow F \cup \{j\}$.
+	\end{itemize}
+	\item Select and output the best feature subset evaluated in the search procedure.
+\end{enumerate}
+
+\paragraph*{Backward search algorithm}
+\begin{enumerate}
+	\item Initialize the feature set $F$ as $F= \{1,\dots,n\}$.
+	\item Repeat the following tasks:
+	\begin{itemize}
+		\item[] For each feature $i = 1,\dots,n$ do the following:
+		\begin{itemize}
+			\item[] If $i \in F$, let $F_i = F\backslash \{i\}$. 
+			\item[] Train model using only features in $F_i$, estimate generalization error $\varepsilon_i$ using cross validation.
+		\end{itemize} 
+		\item[] Set $F$ to be the feature subset $F_j$ with smallest generalization error $\varepsilon_j$, i.e. pick $j = \arg\min_i(\varepsilon_i)$ and set $F \leftarrow F \backslash \{j\}$.
+	\end{itemize}
+	\item Select and output the best feature subset evaluated in the search procedure.
+\end{enumerate} 
+
+The forward search algorithm should be employed, if one is confident that less than half $< n/2$ of the features are relevant for label prediction, whereas backward search can be used, if it seems more likely that more than half $>n/2$ of the features correlate to the labels.% Lecture 9
 }
 
 \Que{What is mutual information and why is it used as a score function? What happens, if the two input quantities to mutual information are independent?}
 \Ans{
-Text. % Lecture 9
+Mutual information is another way to prevent overfitting by selecting and using only those features for training, which seem relevant for label prediction. That is to say, mutual information can help at feature selection. In order to assess, if a feature $x_i$ of a feature vector $x \in \mathbb{R}^n$ is relevant te predict the label $y$, one can use mutual information defined as \begin{equation}
+	\text{MI}(x,y) = \sum_{x}\sum_{y} p(x,y)\ln\left(\frac{p(x,y)}{p(x)p(y)}\right) \overset{\text{$x,y$ are cont.}}{=} \int_\mathbb{R}\int_\mathbb{R}p(x,y)\ln\left(\frac{p(x,y)}{p(x)p(y)}\right)\,\mathrm{d}x\,\mathrm{d}y.
+\end{equation} By definition, mutual information is non-negative. Thus, for example, if some feature is completely irrelevant to predict $y$, then $p(x_i,y) = p(x_i)p(y)$ and thus \begin{equation}
+\text{MI}(x_i,y) = \sum_{x}\sum_{y} p(x_i)p(y)\ln\left(\frac{p(x_i)p(y)}{p(x_i)p(y)}\right) = 0.
+\end{equation} Thus, if another feature $x_j$ were correlated to $y$, then $\text{MI}(x_j,y) > 0$. 
+
+Using mutual information and an appropriate threshold $t$, one can thus consider only those features $x_j$ for training the model, whose mutual information $\text{MI}(x_j,y)$ is above the threshold $t$.
+}
+
+\Que{What is the relation of mutual information to the Kullback-Leibler divergence?}
+\Ans{
+Consider a random variable $x\in \mathbb{R}^n$ and two distinct densities $p(x)$ and $q(x)$ on $x$.
+
+The Kullback-Leibler divergence is a metric that quantifies the similarity of $p(x)$ to $q(x)$ and is accordingly defined as \begin{equation}
+	\text{KL}(p(x),q(x)) \doteq \text{KL}(p||q) = \sum_{x}p(x)\ln\left[\frac{p(x)}{q(x)}\right] \overset{\text{$x$, $y$ are cont.}}{=} \int_{\mathbb{R}} p(x)\ln\left[\frac{p(x)}{q(x)}\right]\,\mathrm{d}x.
+\end{equation} Consider now an additional random variable $y \in \mathbb{R}^k$ and a joint probability density $p(x,y)$. Then, one can see that the mutual information of $x$ and $y$ is the Kullback-Leibler divergence of the probability densities $p(x,y)$ and $p(x)p(y)$, namely \begin{equation}
+\text{MI}(x,y) = \text{KL}(p(x,y)||p(x)p(y)).
+\end{equation} Mutual information hence calculates a measure of similarity between the joint density $p(x,y)$ and the density product $p(x)p(y)$. If this similarity is large, the mutual information will be very low as the Kullback-Leibler divergence will be near zero. However, if the similarity is nearly not present, the Kullback-Leibler divergence will be very large.
+}
+
+\Que{How are Bayesian statistics used for regularization?}
+\Ans{
+Conceiving of the weights $\theta$ of a model not as being unknown and constant, but as being unknown and a random variable following the density $p(\theta)$, one can derive the optimal weights $\hat{\theta}$ as \begin{equation}
+	\hat{\theta} = \arg\max_\theta\left(\prod_{i=1}^{m}p(y^{(i)}|x^{(i)},\theta)p(\theta)\right)
+\end{equation} using Bayesian statistics. This technique is known as maximum a posteriori estimation. Compared to the maximum likelihood estimation technique, we have an added term $p(\theta)$ here, which takes care of regularization. Due to this term, the found weights using maximum a posteriori estimation will generally have a smaller norm than those of maximum likelihood estimation and are thus less sensitive to fluctuations in new data $x^{(k)}$, $y^{(k)}$; this means, that a model trained using maximum a posteriori estimation will generalize better than a maximum likelihood trained one.
 }
 
 \section{Unsupervised learning}
 \Que{What is unsupervised learning? What is the goal of unsupervised learning?}
 \Ans{
-Text. % Lecture 9
+Suppose that one has a dataset $\{x^{(i)}\}_{i=1,\dots,m}$ of feature vector $x\in\mathbb{R}^n$ samples. Unsupervised learning is about learning the parameters $\theta$ of a model that models a probability density $p(x; \theta)$. % Lecture 9
 }
 
 \subsection{Clustering and k-means} % Lecture 9
 \Que{How does the k-means algorithm work?}
-\Ans{Text.}
+\Ans{The k-means algorithm is an algorithm belonging to the group of unsupervised learning algorithms. That is to say, we have a training set $\{x^{(1)}, \dots, x^{(m)}\}$ of training samples without labels, where the feature vectors $x \in \mathbb{R}^n$. The k-means algorithm aims to cluster these samples into $k$ classes centered around mean values $\mu_1,\dots,\mu_k$ of those classes. Once trained, new samples $x^{(l)}$ are assigned the class label $c^{(l)}$ as \begin{equation}
+		  c^{(l)}  = \arg\min_i\left(\|x^{(l)}-\mu_i\|\right).
+	\end{equation}
+The algorithm works as follows:
+\begin{enumerate}
+	\item Initialize cluster centroids $\mu_1,\dots,\mu_k \in \mathbb{R}^n$ randomly.
+	\item Repeat until convergence:
+	\begin{itemize}
+		\item[(a)] For every $i \in \{1,\dots,m\}$ of training dataset indices set
+		$$ c^{(i)} = \arg\min_j\left(\|x^{(i)}-\mu_j\|\right). $$ This corresponds to assigning each sample $x^{(i)}$ to the class $j$ for which the distance $\|x^{(i)}-\mu_j\|$ is minimal.
+		\item[(b)] For each $j \in \{1,\dots,k\}$ of class indices set 
+		$$ \mu_j = \frac{\sum_{i=1}^{m}\mathbb{I}(c^{(i)}=j)x^{(i)}}{\sum_{i=1}^{m}\mathbb{I}(c^{(i)}=j)}. $$ This corresponds to updating the mean values of elements $x^{(i)}$ in cluster $j$.
+	\end{itemize}
+\end{enumerate}
+
+The k-means algorithm can be shown to converge in the sense that the distortion function given by \begin{equation}
+	J(c,\mu) = \sum_{i=1}^{m}\|x^{(i)} - \mu_{c^{(i)}}\|^2
+\end{equation} is minimized. The distortion function measures the sum of squared distances of samples $x^{(i)}$ from their respective class mean $\mu_{c^{(i)}}$.
+}
 
 \Que{How do Gaussian mixture models work?}
-\Ans{Text.} % Lecture 9/10
+\Ans{Gaussian mixture models (GMMs) are a probabilistic approach for clustering and density estimation in unsupervised learning. Suppose we have a dataset $\{x^{(i)}\}_{i=1,\dots,m}$ where each $x^{(i)} \in \mathbb{R}^n$ is a feature vector. GMM assumes that the data is generated from a mixture of $k$ Gaussian distributions, where each data point belongs to one of $k$ clusters with certain probabilities.
+	
+	To define GMM, we introduce latent variables $z^{(i)} \in \{1, \dots, k\}$, which indicate the cluster assignment of $x^{(i)}$. The model specifies:  
+	\begin{itemize}
+		\item The latent variables $z^{(i)}$ follow a multinomial distribution, where $\phi = \{\phi_1, \dots, \phi_k\}$ are the mixing proportions (probabilities of choosing each cluster) with $\phi_j \geq 0$ and $\sum_{j=1}^k \phi_j = 1$. Hence, we have $p(z^{(i)}=j;\phi) = \phi_j$. 
+		\item The probability $p(x^{(i)}| z^{(i)} = j;\mu,\Sigma)$ is chosen to follow a Gaussian distribution. Hence, we have $p(x^{(i)}| z^{(i)} = j;\mu,\Sigma) = \mathcal{N}(\mu_j, \Sigma_j)$, a Gaussian distribution with mean $\mu_j$ and covariance $\Sigma_j$.
+	\end{itemize}
+	
+	The function to maximize is the likelihood of the data $\{x^{(i)}\}_{i=1,\dots,m}$. Given the model parameters $\phi, \mu$ and $\Sigma$, that is to maximize the function \begin{equation}
+		f(\phi,\mu,\Sigma) = \sum_{i=1}^{m}p(x^{(i)};\phi,\mu,\Sigma)
+	\end{equation} with respect to the model parameters $\phi$, $\mu$ and $\Sigma$. Using marginalization $p(x) = \int p(x|z)p(z)\,\mathrm{d}z$ for any random variables $x$ and $z$, furthermore leveraging te IID assumption aswell as taking the natural logarithm, the function to maximize $l(\phi,\mu,\Sigma)$ reads as \begin{equation}
+	l(\phi,\mu,\Sigma) = \sum_{i=1}^m \ln \left( \sum_{j=1}^k p(x^{(i)} | z^{(i)} = j; \mu_j, \Sigma_j) p(z^{(i)} = j; \phi_j) \right).
+	\end{equation} Maximizing $l(\phi,\mu,\Sigma)$ is equivalent to maximizing $f(\phi,\mu,\Sigma)$ from above. Now, since the latent variables $z^{(i)}$ (which are a ``simulation of labels $y^{(i)}$'') are unobserved, directly maximizing the likelihood to estimate the parameters $(\phi, \mu, \Sigma)$ is not tractable. If the $z^{(i)}$ were known as in the case of $y^{(i)}$ in a supervised learning problem, the function to maximize would read \begin{equation}
+	\ell(\phi,\mu,\Sigma) = \sum_{i=1}^{m}\left(\ln\left[p(x^{(i)}|z^{(i)};\mu,\Sigma)\right] + \ln\left[p(z^{(i)};\phi)\right]\right),
+	\end{equation} leading to a closed form solution of the maximization culminating in the model parameters given by \begin{align}
+	\begin{aligned}
+		\phi_j &= \frac{1}{m}\sum_{i=1}^{m}\mathbb{I}\{z^{(i)} = j\}, \\
+		\mu_j &= \frac{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}x^{(i)}}{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)} = j\}}, \\
+		\Sigma_j &= \frac{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}(x^{(i)}-\mu_j)(x^{(i)}-\mu_j)^\top}{\sum_{i=1}^{m}\mathbb{I}\{z^{(i)}=j\}}.
+	\end{aligned}
+	\end{align}
+	
+	In expectation maximization however, this is not possible and there exists no closed-form solution to the maximization (minimization) problem. The expectation maximization (EM) algorithm consists therefore of an estimation (expectation, E) step and a maximization (M) step, which are repeated iteratively until convergence. It works as follows: 
+	\begin{enumerate}
+		\item \textbf{E-step}: Compute the posterior probabilities (soft assignments) of the latent variables by leveraging the Bayes theorem:  
+		\[
+		w^{(i)}_j = p(z^{(i)} = j | x^{(i)}; \phi, \mu, \Sigma) = \frac{p(x^{(i)} | z^{(i)} = j; \mu_j, \Sigma_j)p(z^{(i)} = j; \phi_j)}{\sum_{l=1}^k p(x^{(i)} | z^{(i)} = l; \mu_l, \Sigma_l)p(z^{(i)} = l; \phi_l)}.
+		\] 
+		\item \textbf{M-step}: Update the parameters using the soft assignments similar to using the indicator functions as in the supervised learning problem algorithms:  
+		\[
+		\phi_j = \frac{1}{m} \sum_{i=1}^m w^{(i)}_j, \quad \mu_j = \frac{\sum_{i=1}^m w^{(i)}_j x^{(i)}}{\sum_{i=1}^m w^{(i)}_j}, \quad \Sigma_j = \frac{\sum_{i=1}^m w^{(i)}_j (x^{(i)} - \mu_j)(x^{(i)} - \mu_j)^\top}{\sum_{i=1}^m w^{(i)}_j}.
+		\]  
+	\end{enumerate}
+	
+	This iterative process repeats until convergence, typically when the log-likelihood stops improving significantly. The EM algorithm guarantees that the log-likelihood increases with each iteration. GMMs can be seen as a soft version of the k-means algorithm, where the hard cluster assignments are replaced by probabilistic assignments.
+}
 
 \subsection{EM and factor analysis} % Lecture 10
-\Que{?}
-\Ans{Text.}
+\Que{What is Jensen's inequality (equality) and what is it used for?}
+\Ans{
+Jensen's inequality is a useful tool in the expectation maximization (EM) algorithm, as it gives a lower bound to a maximization problem. Let $f(x)$ be a function of a random variable. Then, \begin{equation}
+	\mathbb{E}[f(x)] \geq f(\mathbb{E}[x]) \quad \text{if} \quad \text{$f(x)$ is convex}
+\end{equation} holds, whereas \begin{equation}
+\mathbb{E}[f(x)] \leq f(\mathbb{E}[x]) \quad \text{if} \quad \text{$f(x)$ is concave}.
+\end{equation} Convexity and concavity of the function $f(x)$ are given by the second derivative, i.e. $f(x)$ is convex if $\nabla_x^2 f(x) > 0$, whereas $f(x)$ is called concave, if $\nabla_x^2 f(x) < 0$.
+
+There is a special case of Jensen's inequality, where it becomes an equality. Namely if the random variable $x$ is a constant, then one has \begin{equation}
+	\mathbb{E}[f(x)] = f(\mathbb{E}[x]) \quad \text{if} \quad \text{$x$ is a constant}.
+\end{equation}
+} 
+
+\Que{What is the intuition behind expectation maximization?}
+\Ans{
+Suppose, one has a training set $\{x^{(1)},\dots, x^{(m)}\}$ of unlabelled feature vectors $x \in \mathbb{R}^n$. Expectation maximization introduces a latent variable $z^{(i)} \in \{1,\dots,k\}$ for each sample, where $k$ is the number of assumed clusters. What one wants to learn with any unsupervised learning algorithm is the density $p(x;\theta))$, where $\theta$ are the model parameters. Expectation maximization exploits marginalization of $p(x;\theta)$ as \begin{equation}
+	p(x;\theta) = \sum_{z}p(x,z;\theta) = p(x|z;\theta)p(z;\theta),
+\end{equation} where one can make assumptions for both $p(x|z;\theta)$ and $p(z;\theta)$. For example, in Gaussian mixture models - which is a special case of an expectation maximization algorithm - one uses a Gaussian density for $p(x|z;\theta)$.
+}
+
+\Que{How is an expectation maximization method built?}
+\Ans{
+Suppose, one has a training set $\{x^{(1)},\dots, x^{(m)}\}$ of unlabelled feature vectors $x \in \mathbb{R}^n$.
+
+Now, let $Q_i(z)$ be a probability density over the latent variable $z$ for each sample $i \in \{1,\dots,m\}$. What one would like to maximize is the probability \begin{equation}
+	p(x^{(1)},\dots,x^{(m)};\theta) \overset{\text{I.I.D.}}{=} \prod_{i=1}^{m}p(x^{(i)};\theta).
+\end{equation} Maximizing this expression with respect to the model parameters $\theta$ is the same as maximizing the logarithm of the same expression, that is \begin{gather}\small\begin{gathered}
+\hat{\theta} = \arg\max_\theta\left(\prod_{i=1}^{m}p(x^{(i)};\theta)\right) = \arg\max_\theta\left(\ln\left[\prod_{i=1}^{m}p(x^{(i)};\theta)\right]\right) = \arg\max_\theta\left(\sum_{i=1}^{m}\ln\left[p(x^{(i)};\theta)\right]\right).
+\end{gathered}\end{gather} We can thus calculate \begin{align}
+	\begin{aligned}
+		\ell(\theta) \doteq  \sum_{i=1}^m \ln\left[p(x^{(i)};\theta)\right] &= \sum_{i=1}^{m}\ln\left[\sum_{j=1}^k p(x^{(i)},z^{(i)}=j; \theta)\right]\\
+		&= \sum_{i=1}^{m}\ln\left[\sum_{j=1}^k Q_i(z^{(i)}=j) \frac{p(x^{(i)},z^{(i)}=j; \theta)}{Q_i(z^{(i)}=j)}\right] \\
+		&\geq \sum_{i=1}^{m}\sum_{j=1}^{k}Q_i(z^{(i)}=j)\ln\left[\frac{p(x^{(i)},z^{(i)}=j;\theta)}{Q_i(z^{(i)}j)}\right].
+	\end{aligned}
+\end{align} In the last step, Jensen's inequality for the convex function of the natural logarithm was used, namely \begin{equation}
+\ln\left(\mathbb{E}_{z^{(i)}\sim Q_i}\left[\frac{p(x^{(i)},z^{(i)}=j;\theta)}{Q_i(z^{(i)}=j)}\right] \right) \geq \mathbb{E}_{z^{(i)}\sim Q_i}\left[\ln\left(\frac{p(x^{(i)},z^{(i)}=j;\theta)}{Q_i(z^{(i)}=j)}\right)\right],
+\end{equation} where
+\begin{equation}
+\mathbb{E}_{z^{(i)}\sim Q_i}\left[\frac{p(x^{(i)},z^{(i)}=j;\theta)}{Q_i(z^{(i)}=j)}\right] = \sum_{j=1}^k Q_i(z^{(i)}=j)\frac{p(x^{(i)},z^{(i)}=j;\theta)}{Q_i(z^{(i)}=j)}
+\end{equation} by definition of the expectation value with respect to $z^{(i)}$ drawn from $Q_i(z^{(i)})$. Equality holds per the Jensen inequality, if the random variable of which the expectation value is taken is constant. In the present case, that is if $p(x^{(i)},z^{(i)}=j;\theta)/Q_i(z^{(i)}=j)$ is a constant with respect to $z^{(i)}$. In this case we can write \begin{equation}
+Q_i(z^{(i)}=j) = c\cdot p(x^{(i)},z^{(i)}=j;\theta) = c\cdot p(z^{(i)}=j|x^{(i)};\theta)p(x^{(i)};\theta).
+\end{equation} Because $Q_i(z^{(i)}=j)$ is a probability, $\sum_{j=1}^kQ_i(z^{(i)}=j) = 1$ must hold and hence \begin{equation}
+c = \frac{1}{p(x^{(i)};\theta)} \quad \Rightarrow\quad Q_i(z^{(i)}=j) = p(z^{(i)}=j|x^{(i)};\theta).
+\end{equation} The lower bound for $\ell(\theta)$ is thus given by \begin{equation}
+\sum_{i=1}^{m}\sum_{j=1}^{k}p(x^{(i)},z^{(i)}=j;\theta)\ln\left( \frac{p(x^{(i)},z^{(i)}=j;\theta)}{p(z^{(i)}=j|x^{(i)};\theta)}\right).
+\end{equation} It can be shown from this and Jensen's inequality, that $\ell(\theta^{t=1}) \geq \ell(\theta^t)$ for any steps $t \rightarrow t+1$. Thus, the expectation maximization (EM) algorithm can be stated as \begin{equation}
+\theta^{t+1} = \arg\max_\theta\left(\sum_{i=1}^m\sum_{j=1}^k p(z^{(i)}=j|x^{(i)};\theta^t)\ln\left[\frac{p(x^{(i)}|z^{(i)}=j;\theta)p(z^{(i)}=j;\theta)}{p(z^{(i)}=j|x^{(i)};\theta^t)}\right]
+\right),
+\end{equation} where $p(x^{(i)}|z^{(i)}=j;\theta)$ and $p(z^{(i)}=j;\theta)$ are assumed to be simple probability densities, e.g. Gaussians.
+
+One can also express the update scheme as an E-step and an M-step, which are to be repeated until convergence:
+\begin{enumerate}
+	\item \textbf{E-step}: For each $i=1,\dots,m$, compute \begin{equation}
+		Q_i(z^{(i)}=j) \doteq p(z^{(i)}=j|x^{(i)};\theta^t)
+	\end{equation} for the current $\theta^t$ and all $j=1,\dots,k$.
+	\item \textbf{M-step}: Set the new $\theta^{t+1}$ as \begin{equation}
+		\theta^{t+1} \doteq \arg\max_\theta\left(\sum_{i=1}^{m}\sum_{j=1}^{k}Q_i(z^{(i)}=j)\ln\left[\frac{p(x^{(i)}|z^{(i)}=j;\theta)p(z^{(i)}=j;\theta)}{Q_i(z^{(i)}=j)}\right]\right).
+	\end{equation}
+\end{enumerate}
+}
+
+\Que{What is the intuition and the rationale for the factor analysis method?}
+\Ans{
+	Consider some training set $\{x^{(1)},\dots, x^{(m)}\}$ of unlabelled feature vectors $x \in \mathbb{R}^n$. I one would like to apply an EM algorithm, say a Gaussian mixture model, one would need to calculate covariance matrices \begin{equation}
+		\Sigma_j = \sum_{i=1}^{m}(x^{(i)}-\mu_j)(x^{(i)}-\mu_j)^\top.
+	\end{equation} There is no problem in doing that. But if we have the case $m < n$ or even $m \ll n$, meaning that the number of dimensions for the feature vectors (greatly) exceeds the sample size, one cannot calculate the inverses $\Sigma_j^{(-1)}$ anymore, as the matrices $\Sigma_j$ cannot be full rank by construction. This is because one can only have $m$ linearly independent vectors $x^{(i)} \in \mathbb{R}^n$ for a dataset of size $m$, thus forming a basis of the subspace $\mathbb{R}^m \subset \mathbb{R}^n$. Hence $m<n$, it can never be that the covariance matrix therefore is full rank. This is what makes it necessary to define an EM algorithm that also works for the case $m < n$.
+}
+
+\Que{How is factor analysis method built?}
+\Ans{Factor analysis is used, when the sample size $m$ for a dataset $\{x^{(1)},\dots,x^{(m)}\}$ is strictly smaller than the dimensionality of the feature vectors $x \in \mathbb{R}^n$, that is $m < n$.
+	
+	The goal of factor analysis is to model the data using fewer parameters while capturing the correlation structure between dimensions. This is achieved by assuming that the observed data $x \in \mathbb{R}^n$ is generated as a linear combination of a smaller set of latent variables $z \in \mathbb{R}^k$ with added noise. Specifically, the generative model for factor analysis is given by
+	\begin{align}
+		z &\sim N(0, I), \\
+		x|z &\sim N(\mu + \Lambda z, \Psi),
+	\end{align}
+	where $\mu \in \mathbb{R}^n$ is the mean vector, $\Lambda \in \mathbb{R}^{n \times k}$ is the factor loading matrix, and $\Psi \in \mathbb{R}^{n \times n}$ is a diagonal covariance matrix representing the noise. Here, $k < n$ is chosen to be smaller than the dimensionality of the data to ensure dimensionality reduction.
+	
+	Equivalently, this model can be expressed as
+	\begin{equation}
+		x = \mu + \Lambda z + \epsilon,
+	\end{equation}
+	where $z \sim N(0, I)$ and $\epsilon \sim N(0, \Psi)$ are independent.
+	
+	The joint distribution of $z$ and $x$ can then be written as
+	\begin{equation}
+		\begin{bmatrix}
+			z \\ x
+		\end{bmatrix} \sim N\left(
+		\begin{bmatrix}
+			0 \\ \mu
+		\end{bmatrix},
+		\begin{bmatrix}
+			I & \Lambda^\top \\
+			\Lambda & \Lambda \Lambda^\top + \Psi
+		\end{bmatrix}
+		\right).
+	\end{equation}
+	From this, the marginal distribution of $x$ is
+	\begin{equation}
+		x \sim N(\mu, \Lambda \Lambda^\top + \Psi).
+	\end{equation}
+	
+	To fit the model parameters $\mu$, $\Lambda$, and $\Psi$ using the training data, one maximizes the log-likelihood of the observed data. However, this maximization cannot be solved in closed form due to the marginalization over the latent variables $z$. Hence, the expectation maximization (EM) algorithm is used. The EM steps for factor analysis are as follows:
+	\begin{enumerate}
+		\item \textbf{E-step:} Compute the posterior distribution $p(z^{(i)}|x^{(i)}; \mu, \Lambda, \Psi)$ for each data point $i \in \{1, \dots, m\}$. Using the properties of Gaussian distributions, this is given by
+		\begin{align}
+			\mu_{z^{(i)}|x^{(i)}} &= \Lambda^\top (\Lambda \Lambda^\top + \Psi)^{-1}(x^{(i)} - \mu), \\
+			\Sigma_{z^{(i)}|x^{(i)}} &= I - \Lambda^\top (\Lambda \Lambda^\top + \Psi)^{-1} \Lambda.
+		\end{align}
+		\item \textbf{M-step:} Update the model parameters $\mu$, $\Lambda$, and $\Psi$ to maximize the expected complete-data log-likelihood. The updates are given by
+		\begin{align}
+			\mu &= \frac{1}{m} \sum_{i=1}^m x^{(i)}, \\
+			\Lambda &= \left( \sum_{i=1}^m (x^{(i)} - \mu) \mathbb{E}[z^{(i)}]^\top \right) \left( \sum_{i=1}^m \mathbb{E}[z^{(i)} z^{(i)\top}] \right)^{-1}, \\
+			\Psi &= \frac{1}{m} \sum_{i=1}^m \left[ (x^{(i)} - \mu)(x^{(i)} - \mu)^\top - \Lambda \mathbb{E}[z^{(i)}](x^{(i)} - \mu)^\top \right].
+		\end{align}
+		In the above, $\mathbb{E}[z^{(i)}] = \mu_{z^{(i)}|x^{(i)}}$ and $\mathbb{E}[z^{(i)} z^{(i)\top}] = \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}}^\top + \Sigma_{z^{(i)}|x^{(i)}}$ are the posterior expectations computed in the E-step.
+	\end{enumerate}
+	
+	The algorithm alternates between the E-step and M-step until convergence, iteratively refining the estimates of $\mu$, $\Lambda$, and $\Psi$ to maximize the likelihood of the data under the factor analysis model.}
+
 
 \subsection{PCA and ICA} % Lecture 11
-\Que{?}
-\Ans{Text.}
+\Que{What is the strategy of principal component analysis?}
+\Ans{
+	Consider some dataset feature vector sample $x^{(i)}$ given as \begin{equation}
+		x^{(i)} = \begin{pmatrix}
+			x_1^{(i)} \\ \vdots \\ x_n^{(i)}.
+		\end{pmatrix}
+	\end{equation} It could now be, that some of the components of $x^{(i)}$ were somehow related as say $x_j = 2x_k$. In that case, only one - either $x_j$ or $x_k$ - is to be considered a relevant feature. The strategy of principal component analysis is to eliminate all such redundancy and is thus a useful tool to preprocess data.
+}
+
+\Que{How does the principal component analysis (PCA) work?}
+\Ans{
+	The principal component analysis (PCA) works by identifying the subspace in which the data approximately lies, while preserving as much variance as possible in the data. Given a dataset $\{x^{(1)}, \dots, x^{(m)}\}$ of $m$ feature vectors $x^{(i)} \in \mathbb{R}^n$, PCA seeks to find a lower-dimensional representation of the data that captures the maximum variance.
+	
+	Before applying PCA, the data is typically pre-processed:
+	\begin{enumerate}
+		\item Subtract the mean $\mu = \frac{1}{m} \sum_{i=1}^m x^{(i)}$ from each $x^{(i)}$ to ensure zero mean.
+		\item Normalize each feature to have unit variance if the scales of the features differ significantly.
+	\end{enumerate}
+	
+	The PCA algorithm then works as follows:
+	\begin{enumerate}
+		\item Compute the covariance matrix of the data: 
+		\begin{equation}
+			\Sigma = \frac{1}{m} \sum_{i=1}^m x^{(i)} (x^{(i)})^\top.
+		\end{equation}
+		\item Perform eigenvalue decomposition of $\Sigma$ to find its eigenvectors and eigenvalues.
+		\item Select the top $k$ eigenvectors $\{u_1, \dots, u_k\}$ corresponding to the largest $k$ eigenvalues. These eigenvectors form the principal components of the data.
+		\item Project each $x^{(i)}$ onto the $k$-dimensional subspace spanned by $\{u_1, \dots, u_k\}$ to obtain the lower-dimensional representation:
+		\begin{equation}
+			y^{(i)} = \begin{pmatrix}
+				u_1^\top x^{(i)} \\
+				\vdots \\
+				u_k^\top x^{(i)}
+			\end{pmatrix} \in \mathbb{R}^k.
+		\end{equation}
+	\end{enumerate}
+	
+	This representation $y^{(i)}$ retains the maximum variance in the original data while reducing its dimensionality. PCA can be used for dimensionality reduction, noise reduction, and data visualization.}
+
+\Que{What is the strategy of independent component analysis?}
+\Ans{
+	The strategy of independent component analysis (ICA) is to decompose a set of observed mixed signals into a set of statistically independent source signals. ICA assumes that the observed data $x \in \mathbb{R}^n$ is a linear mixture of independent components $s \in \mathbb{R}^n$:
+	\begin{equation}
+		x = A s,
+	\end{equation}
+	where $A$ is an unknown mixing matrix. The goal of ICA is to estimate the unmixing matrix $W = A^{-1}$ such that the independent sources can be recovered as $s = Wx$.
+	
+	A key application of ICA is the "cocktail party problem," where overlapping sounds from multiple speakers are separated using recordings from multiple microphones. ICA exploits the statistical independence of the sources to achieve this separation.}
+
+\Que{How does the independent component analysis (ICA) work?}
+\Ans{
+	Independent component analysis (ICA) works by leveraging the assumption of statistical independence between the sources to estimate the unmixing matrix $W$. The algorithm can be summarized as follows:
+	\begin{enumerate}
+		\item Assume that the sources $s_i$ are independent and non-Gaussian, and their joint density can be written as:
+		\begin{equation}
+			p(s) = \prod_{i=1}^n p_s(s_i),
+		\end{equation}
+		where $p_s(s_i)$ is the probability density of the $i$-th source.
+		\item Model the observed data as $x = A s$, where $A$ is the unknown mixing matrix, and rewrite the density of $x$ as:
+		\begin{equation}
+			p(x) = \prod_{i=1}^n p_s\left(w_i^\top x\right) \det(W),
+		\end{equation}
+		where $W = A^{-1}$ is the unmixing matrix, and $w_i^\top$ is the $i$-th row of $W$. The matrix $W \in \mathbb{R}^{n \times n}$ can be written explicitly as:
+		\begin{equation}
+			W = \begin{pmatrix}
+				w_1^\top \\
+				w_2^\top \\
+				\vdots \\
+				w_n^\top
+			\end{pmatrix},
+		\end{equation}
+		where $w_i \in \mathbb{R}^n$ for each $i$.
+		\item Define a reasonable density function $p_s$ for the sources, such as the derivative of the sigmoid function $g(s) = \frac{1}{1 + e^{-s}}$ given by $f(s) = \frac{\mathrm{d}g(s)}{\mathrm{d}s} = g(s)(1-g(s))$.
+		\item Maximize the log-likelihood of the observed data to estimate $W$:
+		\begin{equation}
+			\ell(W) = \sum_{i=1}^m \left( \sum_{j=1}^n \ln\left[f\left(w_j^\top x^{(i)}\right)\right] + \ln\left[\det(W)\right] \right).
+		\end{equation}
+		\item Update $W$ iteratively using stochastic gradient ascent:
+		\begin{equation}
+			W \leftarrow W + \alpha \left( \left( 1 - 2 g\left(W x^{(i)}\right) \right) x^{(i)\top} + \left(W^\top\right)^{-1} \right),
+		\end{equation}
+		where $\alpha$ is the learning rate.
+	\end{enumerate}
+
+	Once $W$ converges, the independent components can be recovered as $s = Wx$. ICA is particularly useful for applications such as blind source separation, feature extraction, and signal processing.}
+
+
 
 \section{Reinforcement learning} % Lectures 12 and 13
-\Que{?}
-\Ans{Text.}
+\Que{What is the principle of reinforcement learning?}
+\Ans{
+	Text.
+	}
+
+\Que{What is the principle of Markov decision processes (MDPs)?}
+\Ans{
+	Text.
+}
+
+\Que{What is the objective in training Markov decision processes and how is it achieved?}
+\Ans{
+	Text.
+}
+
+%\section{Recapitulation}
+%- Key properties of probabilities: Positivity and total probability of 1.
+%- Bayes theorem
+%- Law of probability: $p(y|x) = p(x,y)p(x)$.
+%- Marginalization: $p(x) = \int p(x,y)\,\mathrm{d}y$.
+%- IID assumption: Identically and independently distributed. This makes $p(x^{(1)},\dots,x^{(m)})  = \prod_{i=1}^{m}p(x^{(i)})$.
+%- Maximum a posteriori optimization.
+%- Maximum likelihood optimization.
 
 \end{document}
