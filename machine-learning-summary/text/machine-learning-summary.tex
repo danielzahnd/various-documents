@@ -1288,8 +1288,8 @@ One can also express the update scheme as an E-step and an M-step, which are to 
 	
 	The goal of factor analysis is to model the data using fewer parameters while capturing the correlation structure between dimensions. This is achieved by assuming that the observed data $x \in \mathbb{R}^n$ is generated as a linear combination of a smaller set of latent variables $z \in \mathbb{R}^k$ with added noise. Specifically, the generative model for factor analysis is given by
 	\begin{align}
-		z &\sim N(0, I), \\
-		x|z &\sim N(\mu + \Lambda z, \Psi),
+		z &\sim \mathcal{N}(0, I), \\
+		x|z &\sim \mathcal{N}(\mu + \Lambda z, \Psi),
 	\end{align}
 	where $\mu \in \mathbb{R}^n$ is the mean vector, $\Lambda \in \mathbb{R}^{n \times k}$ is the factor loading matrix, and $\Psi \in \mathbb{R}^{n \times n}$ is a diagonal covariance matrix representing the noise. Here, $k < n$ is chosen to be smaller than the dimensionality of the data to ensure dimensionality reduction.
 	
@@ -1297,13 +1297,13 @@ One can also express the update scheme as an E-step and an M-step, which are to 
 	\begin{equation}
 		x = \mu + \Lambda z + \epsilon,
 	\end{equation}
-	where $z \sim N(0, I)$ and $\epsilon \sim N(0, \Psi)$ are independent.
+	where $z \sim \mathcal{N}(0, I)$ and $\epsilon \sim \mathcal{N}(0, \Psi)$ are independent.
 	
 	The joint distribution of $z$ and $x$ can then be written as
 	\begin{equation}
 		\begin{bmatrix}
 			z \\ x
-		\end{bmatrix} \sim N\left(
+		\end{bmatrix} \sim \mathcal{N}\left(
 		\begin{bmatrix}
 			0 \\ \mu
 		\end{bmatrix},
@@ -1315,7 +1315,7 @@ One can also express the update scheme as an E-step and an M-step, which are to 
 	\end{equation}
 	From this, the marginal distribution of $x$ is
 	\begin{equation}
-		x \sim N(\mu, \Lambda \Lambda^\top + \Psi).
+		x \sim \mathcal{N}(\mu, \Lambda \Lambda^\top + \Psi).
 	\end{equation}
 	
 	To fit the model parameters $\mu$, $\Lambda$, and $\Psi$ using the training data, one maximizes the log-likelihood of the observed data. However, this maximization cannot be solved in closed form due to the marginalization over the latent variables $z$. Hence, the expectation maximization (EM) algorithm is used. The EM steps for factor analysis are as follows:
@@ -1375,7 +1375,8 @@ One can also express the update scheme as an E-step and an M-step, which are to 
 		\end{equation}
 	\end{enumerate}
 	
-	This representation $y^{(i)}$ retains the maximum variance in the original data while reducing its dimensionality. PCA can be used for dimensionality reduction, noise reduction, and data visualization.}
+	This representation $y^{(i)}$ retains the maximum variance in the original data while reducing its dimensionality. PCA can be used for dimensionality reduction, noise reduction, and data visualization.
+	}
 
 \Que{What is the strategy of independent component analysis?}
 \Ans{
