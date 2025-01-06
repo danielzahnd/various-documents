@@ -1430,18 +1430,150 @@ One can also express the update scheme as an E-step and an M-step, which are to 
 \section{Reinforcement learning} % Lectures 12 and 13
 \Que{What is the principle of reinforcement learning?}
 \Ans{
-	Text.
-	}
+	Reinforcement learning (RL) is a framework for learning how to make sequential decisions by interacting with an environment. Unlike supervised learning, where the correct labels are provided for each input, RL provides feedback in the form of a reward signal. The principle of RL is to learn a policy that maps states to actions in order to maximize the cumulative reward over time. 
+	
+	For example, in a robot walking task, the robot receives positive rewards for moving forward and negative rewards for falling over. The RL algorithm's goal is to learn an action strategy that maximizes the total accumulated rewards. By trial and error, and using the reward signal as feedback, the learning agent discovers the actions that lead to desirable outcomes.
+}
 
 \Que{What is the principle of Markov decision processes (MDPs)?}
 \Ans{
-	Text.
+	Markov decision processes (MDPs) provide the mathematical formalism for reinforcement learning problems. An MDP is defined as a tuple $(S, A, \{P_{sa}\}, \gamma, R)$, where:
+	\begin{enumerate}
+		\item $S$ is the set of states.
+		\item $A$ is the set of actions.
+		\item $P_{sa}$ represents the state transition probabilities. Specifically, $P_{sa}(s')$ is the probability of transitioning to state $s'$ after taking action $a$ in state $s$.
+		\item $\gamma \in [0, 1)$ is the discount factor, which controls the importance of future rewards.
+		\item $R : S \to \mathbb{R}$ is the reward function, which specifies the immediate reward for each state (or $R : S \times A \to \mathbb{R}$ in the state-action reward formulation).
+	\end{enumerate}
+	
+	The dynamics of an MDP proceed as follows: Starting in an initial state $s_0$, the agent takes an action $a_0 \in A$. The environment transitions to a new state $s_1 \sim P_{s_0a_0}$, and the agent receives a reward $R(s_1)$. This process continues, generating a trajectory $s_0, a_0, s_1, a_1, \dots$. The principle of MDPs is to formalize this interaction to enable the agent to find an optimal policy $\pi : S \to A$ that maximizes the expected cumulative discounted rewards:
+	\begin{equation}
+		\mathbb{E}\left[R(s_0) + \gamma R(s_1) + \gamma^2 R(s_2) + \dots \right].
+	\end{equation}
 }
 
 \Que{What is the objective in training Markov decision processes and how is it achieved?}
 \Ans{
-	Text.
+	The objective in training Markov decision processes (MDPs) is to find an optimal policy $\pi^* : S \to A$ that maximizes the expected cumulative discounted rewards from any initial state $s$:
+	\begin{equation}
+		V^*(s) = \max_\pi \mathbb{E}\left[\sum_{t=0}^\infty \gamma^t R(s_t) \mid s_0 = s, \pi \right].
+	\end{equation}
+	Here, $V^*(s)$ is the optimal value function, which represents the maximum possible cumulative reward starting from state $s$.
+	
+	This is achieved by solving the Bellman optimality equation:
+	\begin{equation}
+		V^*(s) = R(s) + \max_{a \in A} \gamma \sum_{s' \in S} P_{sa}(s') V^*(s').
+	\end{equation}
+	The corresponding optimal policy $\pi^*$ is:
+	\begin{equation}
+		\pi^*(s) = \arg\max_{a \in A} \sum_{s' \in S} P_{sa}(s') V^*(s').
+	\end{equation}
+	
+	There are two standard algorithms to train MDPs:
+	\begin{enumerate}
+		\item \textbf{Value Iteration:} Iteratively update the value function until convergence using the Bellman optimality equation.
+		\item \textbf{Policy Iteration:} Alternate between policy evaluation (computing the value function for a fixed policy) and policy improvement (updating the policy to be greedy with respect to the current value function).
+	\end{enumerate}
+	
+	In practice, these algorithms are used to compute either the value function $V^*$ or directly the optimal policy $\pi^*$. When the state transition probabilities or rewards are unknown, model-based methods involve estimating these quantities from data before applying the above algorithms. Alternatively, model-free methods such as Q-learning or temporal-difference learning can be used to estimate the value function or policy directly through experience.
 }
+
+%\Que{What are the advantages of policy iteration and value iteration, and why is value iteration more commonly used in practice?}
+%\Ans{
+%	Policy iteration and value iteration are two standard algorithms for solving Markov decision processes (MDPs), each with its own advantages:
+%	\begin{enumerate}
+%		\item \textbf{Policy Iteration:} 
+%		\begin{itemize}
+%			\item Converges in a finite number of iterations for finite-state MDPs.
+%			\item Often requires fewer iterations to converge compared to value iteration because it evaluates the policy exactly at each step.
+%			\item Efficient for small state spaces where solving the set of linear equations for policy evaluation is computationally manageable.
+%		\end{itemize}
+%		\item \textbf{Value Iteration:}
+%		\begin{itemize}
+%			\item Does not require storing or updating an explicit policy during the computation, which reduces memory requirements.
+%			\item More straightforward to implement, as it avoids solving systems of linear equations for policy evaluation.
+%			\item Handles large state spaces better because it incrementally updates the value function without requiring exact policy evaluation.
+%		\end{itemize}
+%	\end{enumerate}
+%	
+%	In practice, value iteration is more commonly used due to its simplicity and scalability. For MDPs with large state spaces, solving the linear equations required for policy iteration becomes computationally expensive, as one has a set of $|S|$ linear equations to solve, where $S$ is the state space. Value iteration, on the other hand, incrementally updates the value function using the Bellman equation, making it more efficient for such problems. Additionally, value iteration allows for asynchronous updates, which can further accelerate convergence in large-scale or distributed systems.
+%	
+%	Another practical advantage of value iteration is its ability to provide an approximate solution early in the computation process, which can be useful in applications where exact convergence is not necessary. Policy iteration, by contrast, requires the exact computation of the value function for each policy, which can be costly for large problems.
+%}
+
+\Que{What are the advantages of policy iteration and value iteration, and why is value iteration more commonly used in practice?}
+\Ans{
+	Policy iteration converges in fewer iterations by exactly evaluating the policy at each step and works well for small state spaces where solving a set of $|S|$ linear equations is feasible. Value iteration, however, is simpler, avoids solving linear systems, and scales better to large state spaces by incrementally updating the value function using the Bellman equation. It also supports asynchronous updates, further accelerating convergence.
+	
+	In practice, value iteration is preferred for its simplicity, scalability, and ability to provide approximate solutions early in the computation, which is useful for large-scale problems. Policy iteration, by contrast, is computationally expensive for large MDPs due to the need for exact policy evaluation which involves solving a set of $|S|$ linear equations for every policy, where $S$ is the state space.}
+
+\Que{Which quantities making up the MDP are usually known, and how are the unknown variables estimated or assumed?}
+\Ans{
+	In most practical scenarios, the state space $S$, action space $A$, and discount factor $\gamma$ are known, as they are part of the problem definition. However, the state transition probabilities $P_{sa}(s')$ and reward function $R(s)$ (or $R(s, a)$) are often unknown and need to be estimated or assumed.
+	
+	\begin{enumerate}
+		\item \textbf{State Transition Probabilities:} These are usually estimated from experience by observing state-action transitions in the environment. For instance, the maximum likelihood estimate of $P_{sa}(s')$ can be computed as:
+		\begin{equation}
+			P_{sa}(s') = \frac{\text{Number of times action $a$ in state $s$ led to state $s'$}}{\text{Number of times action $a$ was taken in state $s$}}.
+		\end{equation}
+		If there is no prior experience for a state-action pair, $P_{sa}(s')$ is often initialized uniformly or using domain knowledge.
+		
+		\item \textbf{Reward Function:} The reward function $R(s)$ (or $R(s, a)$) is either explicitly specified by the designer (e.g., in a robotics task) or estimated as the average reward observed in each state or state-action pair during interactions with the environment.
+		
+		\item \textbf{Assumptions:} When direct estimation is not feasible, state transition probabilities and rewards may be assumed based on prior knowledge of the system or approximated using simulators or models of the environment.
+	\end{enumerate}
+	
+	Once estimates of $P_{sa}(s')$ and $R(s)$ are available, standard algorithms like value iteration or policy iteration can be applied to solve the MDP. Alternatively, if the environment model cannot be estimated, model-free reinforcement learning algorithms such as Q-learning are used to learn the policy directly from experience.}
+
+\newpage
+\Que{What is the main idea of discretization, and what are the advantages and disadvantages of discretization for continuous state MDPs?}
+\Ans{
+	Discretization approximates a continuous state space $S = \mathbb{R}^n$ by dividing it into a finite set of discrete states $S_d$ using a grid (see \cref{fig:discretization}). 
+	\begin{figure}[h]
+		\begin{center}
+		\begin{tikzpicture}[scale=1.0]
+			\draw[step=0.5, gray, very thin] (0,0) grid (3,3);
+			\draw[->] (0,0) -- (3.5,0) node[right] {$s_1$};
+			\draw[->] (0,0) -- (0,3.5) node[above] {$s_2$};
+		\end{tikzpicture}
+	\end{center}
+	\caption{Discretization for continuous state MDPs.}
+	\label{fig:discretization}
+	\end{figure}
+	
+	For example, a 2D state space $(s_1, s_2) \in \mathbb{R}^2$ is divided into grid cells, each representing a discrete state, allowing the application of standard MDP algorithms.
+	
+	\textbf{Advantages:}
+	\begin{itemize}
+		\item Simple to implement and effective for low-dimensional spaces ($n \leq 2$).
+		\item Enables direct use of algorithms like value iteration and policy iteration.
+	\end{itemize}
+	
+	\textbf{Disadvantages:}
+	\begin{itemize}
+		\item Suffers from the curse of dimensionality, as the number of states grows exponentially with $n$.
+		\item Poor approximation for smooth value functions unless grid cells are very small, which increases computational cost.
+	\end{itemize}
+	
+	Discretization is best suited for low-dimensional problems or when computational resources are not a limitation.
+}
+
+\Que{What is the main idea of value function approximation using a model or fitted value iteration?}
+\Ans{
+	Value function approximation replaces the need for discretization by representing the value function $V(s)$ as a parameterized function (e.g., linear or non-linear).
+	
+	\begin{itemize}
+		\item \textbf{Using a Model:} With a known model $P_{sa}$, approximate $V(s)$ as $V(s) = \theta^\top \phi(s)$ and learn parameters $\theta$ by minimizing errors between predicted and observed values.
+		\item \textbf{Fitted Value Iteration:} Iteratively refine $V(s)$ by sampling states $s^{(i)}$, computing target values $y^{(i)}$ using the Bellman equation, and fitting $V(s)$ to these targets via regression:
+		\begin{equation}
+			y^{(i)} = R(s^{(i)}) + \gamma \max_{a \in A} \mathbb{E}_{s' \sim P_{s^{(i)}a}}[V(s')].
+		\end{equation}
+	\end{itemize}
+	
+	This approach is well-suited for large, continuous state spaces where discretization becomes infeasible.
+}
+
+
 
 %\section{Recapitulation}
 %- Key properties of probabilities: Positivity and total probability of 1.
