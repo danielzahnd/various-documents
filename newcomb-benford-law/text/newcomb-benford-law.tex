@@ -32,7 +32,7 @@ Nowadays, Benford's law is used to detect frauds in various kinds of datasets. W
 
 
 \section{Derivation of the Newcomb-Benford law}
-Following \cite{Burgos2021}, Benford's law can be derived from scale invariance. Let $p(x)$ denote the probability density for the mantissa $x$ of some number $z = x\cdot 10^k$ with $k \in \mathbb{Z}$ to be in the interval $[1,10]$. Scale invariance for $p(x)$ then means, that the probability $p(x)\,\mathrm{d}x$ of $x \in [x, \mathrm{d}x]$ is equal to the probability $p(\lambda x)\,\mathrm{d}(\lambda x)$ of $\lambda x \in [\lambda x, \mathrm{d}(\lambda x)]$ for the scaled probability density $p(\lambda x)$. From the normalization condition \begin{align}\begin{aligned}\label{eq:normalizationcondition}
+Following \cite{Burgos2021}, Benford's law can be derived from scale invariance. Let $p(x)$ denote the probability density for the mantissa $x$ of some number $z = x\cdot 10^k$ with $k \in \mathbb{Z}$ to be in the interval $[1,10]$. Scale invariance for $p(x)$ then means, that the probability $p(x)\,\mathrm{d}x$ of $x \in [x, x+\mathrm{d}x]$ is equal to the probability $p(\lambda x)\,\mathrm{d}(\lambda x)$ of $\lambda x \in [\lambda x, \lambda x + \mathrm{d}(\lambda x)]$ for the scaled probability density $p(\lambda x)$. From the normalization condition \begin{align}\begin{aligned}\label{eq:normalizationcondition}
 	\int_{1}^{10} p(x)\,\mathrm{d}x =& \int_{1}^{10} p(\lambda x)\,\mathrm{d}(\lambda x) \\ =& \lambda \int_{1}^{10} p(\lambda x)\,\mathrm{d}x \overset{!}{=} 1
 	\end{aligned}\end{align}
 of probability densities, the relation \begin{equation}
