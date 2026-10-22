@@ -1,0 +1,27 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Special relativity}{1}{section.1}%
+\contentsline {section}{\numberline {2}Action principle and Noether's theorem}{6}{section.2}%
+\contentsline {section}{\numberline {3}Einstein equivalence principle: From gravity to geometry}{8}{section.3}%
+\contentsline {section}{\numberline {4}Metrics, geometry and geodesics}{12}{section.4}%
+\contentsline {section}{\numberline {5}Geodesics and motion in a gravitational field}{14}{section.5}%
+\contentsline {section}{\numberline {6}Physics in a gravitational field}{18}{section.6}%
+\contentsline {section}{\numberline {7}Tensor algebra}{26}{section.7}%
+\contentsline {paragraph}{Scalars}{26}{paragraph*.3}%
+\contentsline {paragraph}{Vectors}{26}{paragraph*.4}%
+\contentsline {paragraph}{Covector}{26}{paragraph*.5}%
+\contentsline {paragraph}{Covariant 2-tensors}{26}{paragraph*.6}%
+\contentsline {paragraph}{Contravariant 2-tensors}{26}{paragraph*.7}%
+\contentsline {paragraph}{pq-tensors}{27}{paragraph*.8}%
+\contentsline {section}{\numberline {8}Tensor analysis}{27}{section.8}%
+\contentsline {section}{\numberline {9}Schwarzschild metric}{32}{section.9}%
+\contentsline {section}{\numberline {10}Crossing the Schwarzschild radius $r_s$}{41}{section.10}%
+\contentsline {paragraph}{Painlevé-Gullstrand coordinates}{42}{paragraph*.9}%
+\contentsline {paragraph}{Eddington-Finkelstein coordinates}{42}{paragraph*.10}%
+\contentsline {section}{\numberline {11}Black holes}{44}{section.11}%
+\contentsline {section}{\numberline {12}Curvature}{44}{section.12}%
+\contentsline {section}{\numberline {13}Einstein field equations}{47}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Deriving the Schwarzschild metric as a solution to the Einstein field equations}{51}{subsection.13.1}%
+\contentsline {paragraph}{Calculation of the $\Gamma ^\sigma _{\mu \nu }$}{53}{paragraph*.14}%
+\contentsline {paragraph}{Calculation of the $R_{\mu \nu }$}{54}{paragraph*.16}%
+\contentsline {paragraph}{Calculation of the functions $A(r)$ and $B(r)$}{54}{paragraph*.17}%
+\contentsline {section}{\numberline {14}Cosmology}{56}{section.14}%
